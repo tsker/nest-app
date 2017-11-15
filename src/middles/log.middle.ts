@@ -6,7 +6,7 @@ export class LoggerMiddleware implements NestMiddleware {
         return (req, res, next) => {
             let url = req.baseUrl + req.url
             let message = `${req.method} ${url} ${moment().format()}`
-            console.log('Req Middle::', message,req);
+            console.log('Req Middle::', message);
             next();
         };
     }

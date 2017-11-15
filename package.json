@@ -7,8 +7,7 @@
     "author": "",
     "license": "ISC",
     "scripts": {
-        "start": "node index.js",
-        "uuid": "uuid v4"
+        "start": "node index.js"
     },
     "dependencies": {
         "body-parser": "^1.18.2",
@@ -32,6 +31,6 @@
         "@types/body-parser": "^1.16.8",
         "@types/passport": "^0.4.1",
         "@types/passport-jwt": "^3.0.0",
-        "nodemon": "^1.12.1"
+        "typescript": "^2.6.1"
     }
 }

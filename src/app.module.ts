@@ -10,11 +10,11 @@ import { AdminModule } from './modules/admin/admin.module';
 import { LoggerMiddleware } from './middles/log.middle';
 
 @Module({
-	modules: [ RootModule, AuthModule, AdminModule, TestModule, WeightModule ]
+	modules: [ AuthModule, AdminModule, TestModule, WeightModule, RootModule ]
 })
 export class ApplicationModule implements NestModule {
 	configure(consumer: MiddlewaresConsumer): void {
-		consumer.apply(LoggerMiddleware).forRoutes({
+		consumer.apply([ LoggerMiddleware ]).forRoutes({
 			path: '*',
 			method: RequestMethod.ALL
 		});

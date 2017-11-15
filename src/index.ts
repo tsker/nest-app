@@ -6,7 +6,7 @@ import * as multiparty from 'connect-multiparty';
 import { port, datebase } from './utils/config';
 
 import { ApplicationModule } from './app.module';
-import { HttpCatchFilter } from './middles/catch.filter';
+import { HttpCatchFilter } from './middles/http-catch.filter';
 
 async function bootstrap() {
 	const app = express();
