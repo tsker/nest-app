@@ -10,12 +10,15 @@ import { HttpCatchFilter } from './middles/http-catch.filter';
 
 async function bootstrap() {
 	const app = express();
-	const nest = await NestFactory.create(ApplicationModule, app);
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'pug')
+	app.use(express.static(__dirname + '/public'));
 
+
+	const nest = await NestFactory.create(ApplicationModule, app);
 	nest.use(multiparty());
 	nest.use(bodyParser.urlencoded({ extended: true }));
 	nest.use(bodyParser.json());
-
 	nest.useGlobalFilters(new HttpCatchFilter());
 
 	await nest.listen(port);

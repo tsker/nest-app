@@ -1,0 +1,31 @@
+extends layout.pug
+
+block __content
+    ul(id='ul')
+        each item in list
+            li #{item.date} - #{item.value}
+
+    input(id='input')
+    button(onclick="add()") 添加
+
+block __scripts
+    script.
+        function li(item){
+            return `<li>${item.date} - ${item.value}</li>`;
+        }
+        function add(){
+            let input = document.getElementById('input')
+            let ul = document.getElementById('ul')
+            let value = input.value
+            if(value)
+                fetch('/weight', {
+                    method:'post',
+                    headers:{
+                        'content-type':'application/json'
+                    },
+                    body: JSON.stringify({value})
+                }).then(e=> e.json()).then(function(data){
+                    ul.innerHTML = data.map(li).join('')
+                    input.value = ''
+                })
+        }
