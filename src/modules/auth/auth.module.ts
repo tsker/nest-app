@@ -13,7 +13,8 @@ export class AuthModule implements NestModule {
 		consumer
 			.apply(passport.authenticate('jwt', { session: false }))
 			.forRoutes(
-				{ path: '/admin/*', method: RequestMethod.ALL }
+				{ path: '/admin/*', method: RequestMethod.ALL },
+				{ path: '/weight', method: RequestMethod.POST }
 			);
 	}
 }

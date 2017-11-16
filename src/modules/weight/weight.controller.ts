@@ -22,7 +22,7 @@ export class WeightController {
     constructor(private weightService: WeightService) {}
 
     @Get()
-    async test(@Res() res) {
+    async index(@Res() res) {
         let list = await this.weightService.get();
         res.render('weight', { list });
     }
