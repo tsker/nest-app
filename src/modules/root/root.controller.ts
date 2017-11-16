@@ -1,10 +1,11 @@
-import { Controller, Get, Post ,All} from '@nestjs/common';
+import { Controller, Get,Res, Post ,All} from '@nestjs/common';
 
 @Controller('/')
 export class RootController {
     @Get()
-    index() {
-        return '<h1>Home</h1>'
+    index(@Res() res) {
+        res.render('home')
+
     }
 
     @Get('*')

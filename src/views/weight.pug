@@ -2,7 +2,7 @@ extends layout.pug
 block __styles
     style.
         input,button{
-            height:300px;
+            height:55px;
         }
 
 block __content
@@ -13,20 +13,25 @@ block __content
 
 block __scripts
     script(src="https://unpkg.com/frappe-charts@0.0.6/dist/frappe-charts.min.iife.js")
+    script(src='https://unpkg.com/lodash@4.17.4/lodash.min.js')
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
 
     script.
         let list = !{JSON.stringify(list)}
         let input = document.getElementById('input')
+
+        function emptyInput(){
+            input.value = ''
+        }
+
         function add(){
             let value = input.value
             if(value)
                 axios.post('/weight',{value})
-                    .then(addPoint)
-                    .then(emptyInput)
+                    .then(_.flow(addPoint, emptyInput))
+                    .catch(er => alert(er.message))
         }
-        function emptyInput(){
-            input.value = ''
-        }
+
         function addPoint({data}){
             chart.add_data_point([data.value],data.date);
         }
@@ -44,7 +49,5 @@ block __scripts
             parent: "#chart", // or a DOM element
             data: data,
             type: 'line', // or 'line', 'scatter', 'pie', 'percentage'
-            height: 250,
-            format_tooltip_x: d => (d + '').toUpperCase(),
             format_tooltip_y: d => d + ' kg'
-        });
+        })

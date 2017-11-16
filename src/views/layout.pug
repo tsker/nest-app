@@ -1,6 +1,7 @@
 doctype html
 html
     head
+        meta(name="viewport" content="width=320,maximum-scale=1.3,user-scalable=no")
         title #{title || 'nest - app'}
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css")
         block __styles
@@ -8,5 +9,4 @@ html
         block __content
         block __foot
 
-        script(src="https://unpkg.com/axios/dist/axios.min.js")
         block __scripts

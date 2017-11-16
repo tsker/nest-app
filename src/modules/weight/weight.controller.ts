@@ -1,5 +1,5 @@
 import { HttpException } from '@nestjs/core';
-import { Controller, Get, Post, HttpStatus, Res, Req, Body, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Res, Req,Param, Body, UsePipes } from '@nestjs/common';
 import * as moment from 'moment';
 
 import { ValidationPipe } from '../../middles/validation.pipe';
@@ -12,9 +12,9 @@ const li = function(item) {
 export class WeightController {
 	constructor(private weightService: WeightService) {}
 
-	@Get()
-	async index(@Res() res) {
-		let list = await this.weightService.get();
+	@Get(':month?')
+	async index(@Res() res,@Param() param) {
+		let list = await this.weightService.get(param);
 		res.render('weight', { list });
 	}
 
