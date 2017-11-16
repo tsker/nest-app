@@ -1,31 +1,47 @@
 extends layout.pug
 
 block __content
-    ul(id='ul')
-        each item in list
-            li #{item.date} - #{item.value}
-
     input(id='input')
     button(onclick="add()") 添加
 
+    h1 Chart
+    #chart
+
 block __scripts
+    script(src="https://unpkg.com/frappe-charts@0.0.6/dist/frappe-charts.min.iife.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
     script.
-        function li(item){
-            return `<li>${item.date} - ${item.value}</li>`;
-        }
+        let list = !{JSON.stringify(list)}
+        let input = document.getElementById('input')
         function add(){
-            let input = document.getElementById('input')
-            let ul = document.getElementById('ul')
             let value = input.value
             if(value)
-                fetch('/weight', {
-                    method:'post',
-                    headers:{
-                        'content-type':'application/json'
-                    },
-                    body: JSON.stringify({value})
-                }).then(e=> e.json()).then(function(data){
-                    ul.innerHTML = data.map(li).join('')
-                    input.value = ''
-                })
+                axios.post('/weight',{value})
+                    .then(addPoint)
+                    .then(emptyInput)
         }
+        function emptyInput(){
+            input.value = ''
+        }
+        function addPoint({data}){
+            chart.add_data_point([data.value],data.date);
+        }
+
+        let data = {
+            labels: list.map(item => item.date.split(' ')[0]),
+            datasets: [
+                {
+                    values:list.map(item => item.value)
+                }
+            ]
+        };
+
+        let chart = new Chart({
+            parent: "#chart", // or a DOM element
+            title: "weight chart",
+            data: data,
+            type: 'line', // or 'line', 'scatter', 'pie', 'percentage'
+            height: 250,
+            format_tooltip_x: d => (d + '').toUpperCase(),
+            format_tooltip_y: d => d + ' kg'
+        });

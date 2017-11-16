@@ -16,7 +16,7 @@ export class WeightService {
 			let data = this.get();
 			data.push(w);
 			fs.writeFile(this.filename, JSON.stringify(data, null, 4), 'utf-8', function(){
-				ok(data)
+				ok(w)
 			});
 		});
 	}
