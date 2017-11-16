@@ -1,15 +1,19 @@
 extends layout.pug
+block __styles
+    style.
+        input,button{
+            height:300px;
+        }
 
 block __content
     input(id='input')
     button(onclick="add()") 添加
 
-    h1 Chart
     #chart
 
 block __scripts
     script(src="https://unpkg.com/frappe-charts@0.0.6/dist/frappe-charts.min.iife.js")
-    script(src="https://unpkg.com/axios/dist/axios.min.js")
+
     script.
         let list = !{JSON.stringify(list)}
         let input = document.getElementById('input')
@@ -38,7 +42,6 @@ block __scripts
 
         let chart = new Chart({
             parent: "#chart", // or a DOM element
-            title: "weight chart",
             data: data,
             type: 'line', // or 'line', 'scatter', 'pie', 'percentage'
             height: 250,
