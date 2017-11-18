@@ -9,8 +9,8 @@ export class RootController {
     }
 
     @Get('*')
-    notFound(){
-        return 'not page'
+    notFound(@Res() res){
+        res.render('not-found')
     }
 
     @All('*')
