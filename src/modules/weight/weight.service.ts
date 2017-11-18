@@ -1,9 +1,9 @@
 import { Component } from '@nestjs/common';
-import { IsNumberString } from 'class-validator';
+import { isEffNumber } from "../../middles/customer.validate";
 import * as fs from 'fs';
 
 export class WeightModel {
-    @IsNumberString() value: number;
+    @isEffNumber() value: number;
 
     date: string;
 }

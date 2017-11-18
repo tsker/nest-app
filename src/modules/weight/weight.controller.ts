@@ -5,9 +5,6 @@ import * as moment from 'moment';
 import { ValidationPipe } from '../../middles/validation.pipe';
 import { WeightService, WeightModel } from './weight.service';
 
-const li = function(item) {
-	return `<li>${JSON.stringify(item)}</li>`;
-};
 @Controller('weight')
 export class WeightController {
 	constructor(private weightService: WeightService) {}

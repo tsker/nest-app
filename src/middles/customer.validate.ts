@@ -25,5 +25,12 @@ function makeValidationDec(cb) {
 }
 
 export const IsAge = makeValidationDec(
-	(value) => typeof value === 'string' && /[1-9][0-9]?[0-9]?/.test(value)
+	(value) => +value > 0 && +value < 120
+);
+
+
+export const isEffNumber = makeValidationDec(
+	(value) => {
+		return typeof value  === 'number' || /^[0-9]+(.[0-9]+)?$/.test(value)
+	}
 );
