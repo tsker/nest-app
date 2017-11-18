@@ -8,7 +8,8 @@ export class AuthService {
 		const token = jwt.sign(user, secretOrKey, { expiresIn: jwtExpires });
 		return {
 			expires_in: jwtExpires,
-			access_token: token
+			access_token: token,
+			name: user.username
 		};
 	}
 

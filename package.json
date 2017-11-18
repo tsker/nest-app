@@ -7,7 +7,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "server:prod": "tsc && yarn movfile",
+    "movfile": "sh ./scripts/movfile.sh"
   },
   "dependencies": {
     "@nestjs/common": "^4.2.1",

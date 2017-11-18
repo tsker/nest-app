@@ -1,0 +1,14 @@
+
+mixin loadjs(...list)
+    -
+        var jsCdnList = {
+            chart:'https://unpkg.com/frappe-charts@0.0.6/dist/frappe-charts.min.iife.js',
+            lodash:'https://unpkg.com/lodash@4.17.4/lodash.min.js',
+            axios:'https://unpkg.com/axios/dist/axios.min.js'
+        }
+    each js in list
+        script(src=jsCdnList[js])
+
+        if js === 'axios'
+            script.
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' +sessionStorage.access_token;
