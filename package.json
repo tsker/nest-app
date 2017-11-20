@@ -19,6 +19,8 @@
     "@nestjs/microservices": "^4.2.1",
     "@nestjs/testing": "^4.2.1",
     "@nestjs/websockets": "^4.2.1",
+    "@types/react": "^16.0.25",
+    "@types/react-dom": "^16.0.3",
     "body-parser": "^1.18.2",
     "class-transformer": "^0.1.8",
     "class-validator": "^0.7.3",
@@ -45,7 +47,6 @@
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
     "@types/typescript": "^2.0.0",
-    "@types/webpack": "^3.8.1",
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1",
     "webpack": "^3.8.1"
