@@ -1,2 +1,2 @@
-cp -r src/views dist
-cp -r src/static dist
+cp -r src/server/views dist/server
+cp -r src/server/static dist/server
