@@ -31,11 +31,11 @@ block __scripts
         }
 
         function addPoint({data}){
-            chart.add_data_point([data.value],data.date);
+            chart.add_data_point([data.value],data.created_at.split('T')[0]);
         }
 
         let data = {
-            labels: list.map(item => item.date.split(' ')[0]),
+            labels: list.map(item => item.created_at.split('T')[0]),
             datasets: [
                 {
                     values:list.map(item => item.value)

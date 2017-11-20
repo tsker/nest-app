@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "start": "node index.js",
-    "server:prod": "tsc && yarn movfile",
+    "server:prod": "yarn && tsc && yarn movfile",
     "movfile": "sh ./scripts/movfile.sh"
   },
   "dependencies": {
@@ -23,6 +23,8 @@
     "connect-multiparty": "^2.1.0",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.19.1",
+    "mongorito": "^3.0.4",
+    "mongorito-timestamps": "^1.0.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "pug": "^2.0.0-rc.4",
