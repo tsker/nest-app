@@ -12,7 +12,7 @@ async function bootstrap() {
 	const app = express();
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'pug');
-	app.use(express.static(__dirname + '/public'));
+	app.use(express.static(__dirname + '/static'));
 
 	const nest = await NestFactory.create(ApplicationModule, app);
 	nest.use(multiparty());
