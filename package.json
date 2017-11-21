@@ -7,8 +7,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "node index.js",
-    "server:prod": "yarn && yarn server:build && yarn server:static",
+    "dev": "cross-env NODE_ENV=development node index.js",
+    "server:prod": "cross-env NODE_ENV=production yarn && yarn server:build && yarn server:static",
     "server:build": "cd src/server && tsc",
     "server:static": "sh ./scripts/movfile.sh",
     "client:prod": "webpack --config scripts/webpack.client.prod.js"
@@ -47,8 +47,15 @@
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
     "@types/typescript": "^2.0.0",
+    "cross-env": "^5.1.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "fork-ts-checker-webpack-plugin": "^0.2.8",
+    "html-webpack-plugin": "^2.30.1",
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1",
-    "webpack": "^3.8.1"
+    "uglifyjs-webpack-plugin": "^1.1.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-hot-middleware": "^2.20.0"
   }
 }

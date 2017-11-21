@@ -1,4 +1,5 @@
 import { Controller, Get,Res, Post ,All} from '@nestjs/common';
+import * as path from 'path'
 
 @Controller('/')
 export class RootController {
@@ -10,7 +11,8 @@ export class RootController {
 
     @Get('*')
     notFound(@Res() res){
-        res.render('not-found')
+        let index = path.resolve(__dirname, '../../../client/index.html')
+        res.sendFile(index)
     }
 
     @All('*')
