@@ -24,4 +24,5 @@ export async function bootstrap(cb = bootstrapBackcall) {
 
 	await cb(app, nest);
 	await nest.listen(port);
+	console.log('start::[env]',process.env.NODE_ENV, '[port]', port)
 }

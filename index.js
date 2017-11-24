@@ -5,5 +5,5 @@ require('ts-node').register({
 if (process.env.NODE_ENV === 'development') {
 	require('./src/server/index.dev');
 } else {
-	require('./src/server/index')();
+	require('./src/server/index').bootstrap();
 }

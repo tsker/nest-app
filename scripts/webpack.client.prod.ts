@@ -7,7 +7,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 let clientDevPath = `${__dirname}/../src/client`;
 let tsconfigFile = `${clientDevPath}/tsconfig.json`;
 
-module.exports = {
+const config: any = {
 	entry: {
 		main: `${clientDevPath}/main.tsx`,
 		vendor: [ 'react', 'react-dom' ]
@@ -74,3 +74,6 @@ module.exports = {
 		})
 	]
 };
+
+
+export default config
