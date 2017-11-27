@@ -2,25 +2,13 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { App } from './app';
 
-render(<App />, document.getElementById('main'));
+let mainNode = document.getElementById('main');
+render(<App />, mainNode);
 
-
-
-
-
-
-
-
-
-
-
-declare const module: {
-	hot: any;
-};
 if (module.hot) {
 	module.hot.accept('./app', function() {
-		import('./app').then(({App}) =>{
-			render(<App />, document.getElementById('main'));
-		})
+		import('./app').then(({ App }) => {
+			render(<App />, mainNode);
+		});
 	});
 }

@@ -1,59 +1,73 @@
-const webpack = require('webpack');
-const Html = require('html-webpack-plugin');
-const Uglify = require('uglifyjs-webpack-plugin');
-const Extract = require('extract-text-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+import * as webpack from 'webpack';
+import * as Html from 'html-webpack-plugin';
+import * as Uglify from 'uglifyjs-webpack-plugin';
+import * as Extract from 'extract-text-webpack-plugin';
+import * as ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
+console.log('webpack env::', process.env.NODE_ENV);
 let clientDevPath = `${__dirname}/../src/client`;
 let tsconfigFile = `${clientDevPath}/tsconfig.json`;
+
+const loaders = {
+	ts: {
+		loader: 'ts-loader',
+		options: {
+			configFile: tsconfigFile
+		}
+	},
+	lazy: 'bundle-loader?lazy'
+};
 
 const config: any = {
 	entry: {
 		main: `${clientDevPath}/main.tsx`,
-		vendor: [ 'react', 'react-dom' ]
+		vendor: [ 'react', 'react-dom', 'react-router-dom', 'redux', 'react-redux' ]
 	},
 	output: {
 		path: `${__dirname}/../dist/client`,
-		filename: 'js/[name].js',
+		filename: 'js/[name].[chunkhash].js',
 		publicPath: '/',
-		chunkFilename: 'js/[name].js'
+		chunkFilename: 'js/[name].[chunkhash].js'
 	},
 	module: {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: [
-					{
-						loader: 'ts-loader',
-						options: {
-							configFile: tsconfigFile
-						}
-					}
-				]
+				use: [ loaders.ts ],
+				exclude: /node_modules/
+			},
+			{
+				test: /\.async\.tsx?$/,
+				use: [ loaders.lazy, loaders.ts ],
+				exclude: /node_modules/
 			}
 		]
 	},
 	resolve: {
 		alias: {
-			components: `${clientDevPath}/@components`
+			components: `${clientDevPath}/components`,
+			pages: `${clientDevPath}/pages`
 		},
 		extensions: [ '.ts', '.tsx', '.js', 'jsx', '.less', '.css' ]
 	},
 	externals: {
 		react: 'window.React',
-		'react-dom': 'window.ReactDOM'
+		redux: 'window.Redux',
+		'react-dom': 'window.ReactDOM',
+		'react-redux': 'window.ReactRedux',
+		'react-router-dom': 'window.ReactRouterDOM'
 	},
 	plugins: [
-		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+		new webpack.EnvironmentPlugin({
+			NODE_ENV: process.env.NODE_ENV
 		}),
-		new webpack.optimize.CommonsChunkPlugin('vendor'),
-		new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
-		new webpack.HashedModuleIdsPlugin(),
-		new webpack.optimize.OccurrenceOrderPlugin(),
 		new ForkTsCheckerWebpackPlugin({
 			tsconfig: tsconfigFile
 		}),
+		new webpack.HashedModuleIdsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin(false),
+		new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
+		new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
 		new Uglify({
 			uglifyOptions: {
 				compress: { warnings: false },
@@ -75,5 +89,4 @@ const config: any = {
 	]
 };
 
-
-export default config
+export default config;
