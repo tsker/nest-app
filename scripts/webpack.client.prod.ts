@@ -45,8 +45,9 @@ const config: any = {
 	},
 	resolve: {
 		alias: {
-			components: `${clientDevPath}/components`,
-			pages: `${clientDevPath}/pages`
+			'@components': `${clientDevPath}/@components`,
+			'@pages': `${clientDevPath}/@pages`,
+			'@store': `${clientDevPath}/@store`,
 		},
 		extensions: [ '.ts', '.tsx', '.js', 'jsx', '.less', '.css' ]
 	},
