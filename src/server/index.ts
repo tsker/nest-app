@@ -8,7 +8,9 @@ import { port } from './utils/config';
 import { ApplicationModule } from './app.module';
 import { HttpCatchFilter } from './middles/http-catch.filter';
 
-async function bootstrap() {
+function bootstrapBackcall(...e): any {}
+
+export async function bootstrap(cb = bootstrapBackcall) {
 	const app = express();
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'pug');
@@ -20,7 +22,7 @@ async function bootstrap() {
 	nest.use(bodyParser.json());
 	nest.useGlobalFilters(new HttpCatchFilter());
 
+	await cb(app, nest);
 	await nest.listen(port);
+	console.log('start::[env]',process.env.NODE_ENV, '[port]', port)
 }
-
-bootstrap();

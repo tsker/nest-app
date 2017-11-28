@@ -1,11 +1,23 @@
-import * as React from "react";
-import {render} from 'react-dom'
+import * as React from 'react';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
+import { generateAsyncComponent } from './@components/async-component';
+import HomePage from './@pages/home';
+import * as TestPage from './@pages/test/index.async';
 
-class App extends React.Component{
-    render(){
-        return <h1>react app</h1>
-    }
+export class App extends React.Component<any, any> {
+	render() {
+		return (
+			<BrowserRouter>
+				<div id="app">
+					<nav>
+						<Link to="/">home</Link>
+						<Link to="/test">test</Link>
+					</nav>
+					<Route exact path="/" component={HomePage} />
+					<Route  path="/test" component={generateAsyncComponent(TestPage)} />
+				</div>
+			</BrowserRouter>
+		);
+	}
 }
-
-render(<App/>, document.getElementById('main'))
