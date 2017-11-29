@@ -1,7 +1,10 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
 
-import reducers from './modules/reducers';
+import { reducers, epics } from './modules';
 
 export default function create(data = {}) {
-	return createStore(reducers, data);
+    const middles = [createEpicMiddleware(epics)];
+
+    return createStore(reducers, data, applyMiddleware(...middles));
 }
