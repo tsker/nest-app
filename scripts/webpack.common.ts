@@ -29,6 +29,7 @@ export const commonConfig =  {
 			'@components': `${clientDevPath}/@components`,
 			'@pages': `${clientDevPath}/@pages`,
 			'@store': `${clientDevPath}/@store`,
+			'@servers': `${clientDevPath}/@servers`,
 		},
 		extensions: [ '.ts', '.tsx', '.js', 'jsx', '.less', '.css' ]
 	},
@@ -39,25 +40,25 @@ export const commonConfig =  {
 		'react-redux': 'window.ReactRedux',
 		'react-router-dom': 'window.ReactRouterDOM'
 	},
+	plugins:[
+		new webpack.EnvironmentPlugin({
+			NODE_ENV: process.env.NODE_ENV
+		}),
+		new ForkTsCheckerWebpackPlugin({
+			tsconfig: paths.tsconfigFile
+		}),
+		new Html({
+			template: `${paths.clientDevPath}/index.html`,
+			filename: 'index.html', //output
+			inject: 'body',
+			minify: {
+				minifyCSS: true,
+				minifyJS: true,
+				collapseInlineTagWhitespace: true,
+				collapseWhitespace: true
+			},
+			chunksSortMode: 'dependency'
+		})
+	]
 }
 
-export const plugins = [
-    new webpack.EnvironmentPlugin({
-        NODE_ENV: process.env.NODE_ENV
-    }),
-    new ForkTsCheckerWebpackPlugin({
-        tsconfig: paths.tsconfigFile
-    }),
-    new Html({
-        template: `${paths.clientDevPath}/index.html`,
-        filename: 'index.html', //output
-        inject: 'body',
-        minify: {
-            minifyCSS: true,
-            minifyJS: true,
-            collapseInlineTagWhitespace: true,
-            collapseWhitespace: true
-        },
-        chunksSortMode: 'dependency'
-    })
-]

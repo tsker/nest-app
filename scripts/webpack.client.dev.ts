@@ -1,6 +1,7 @@
 import * as webpack from 'webpack';
+import * as merge from 'webpack-merge';
 
-import { paths, loaders, commonConfig, plugins } from './webpack.common';
+import { paths, loaders, commonConfig } from './webpack.common';
 
 const config: any = {
     devtool: 'source-map',
@@ -33,8 +34,7 @@ const config: any = {
     },
     plugins: [
 		new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-		...plugins
+        new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
         hot: true,
@@ -42,4 +42,5 @@ const config: any = {
     }
 };
 
-export default Object.assign(commonConfig,config);
+
+export default merge(commonConfig,config);

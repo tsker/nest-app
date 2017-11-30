@@ -1,9 +1,11 @@
 import * as webpack from 'webpack';
 import * as Html from 'html-webpack-plugin';
 import * as Extract from 'extract-text-webpack-plugin';
+import * as merge from 'webpack-merge';
+
 const Uglify = require('uglifyjs-webpack-plugin')
 
-import { paths, loaders, commonConfig,plugins } from './webpack.common';
+import { paths, loaders, commonConfig } from './webpack.common';
 
 
 const config: any = {
@@ -39,7 +41,6 @@ const config: any = {
     },
 
     plugins: [
-        ...plugins,
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(false),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
@@ -53,4 +54,5 @@ const config: any = {
     ]
 };
 
-export default Object.assign(commonConfig,config);
+export default merge(commonConfig,config);
+
