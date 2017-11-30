@@ -20,6 +20,7 @@
     "@nestjs/microservices": "^4.2.1",
     "@nestjs/testing": "^4.2.1",
     "@nestjs/websockets": "^4.2.1",
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "class-transformer": "^0.1.8",
     "class-validator": "^0.7.3",
@@ -36,6 +37,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-observable": "^0.17.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.2",
     "tslib": "^1.8.0",
@@ -51,11 +53,11 @@
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
     "@types/react-hot-loader": "^3.0.5",
-    "@types/react-router-dom": "^4.2.2",
+    "@types/react-redux": "^5.0.14",
+    "@types/react-router-dom": "^4.2.3",
     "@types/redux": "^3.6.0",
     "@types/typescript": "^2.0.0",
-    "@types/webpack-dev-middleware": "^1.9.4",
-    "@types/webpack-hot-middleware": "^2.16.2",
+    "@types/webpack": "^3.8.1",
     "bundle-loader": "^0.5.5",
     "cross-env": "^5.1.1",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -67,6 +69,7 @@
     "uglifyjs-webpack-plugin": "^1.1.0",
     "webpack": "^3.8.1",
     "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.20.0"
+    "webpack-hot-middleware": "^2.20.0",
+    "webpack-merge": "^4.1.1"
   }
 }
