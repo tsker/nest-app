@@ -1,3 +1,4 @@
+import * as path from 'path';
 import * as webpack from 'webpack';
 import * as merge from 'webpack-merge';
 
@@ -8,8 +9,8 @@ const config: any = {
     entry: {
         main: [
             'react-hot-loader/patch',
-            `${paths.clientDevPath}/main.tsx`,
-            'webpack-hot-middleware/client?timeout=2000&overlay=false'
+            'webpack-hot-middleware/client?timeout=2000&overlay=false',
+            paths.clientPath('main.tsx')
         ]
     },
     output: {
@@ -33,6 +34,7 @@ const config: any = {
         ]
     },
     plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),
 		new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
