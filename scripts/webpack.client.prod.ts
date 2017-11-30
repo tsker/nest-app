@@ -16,7 +16,9 @@ const config: any = {
             'react-dom',
             'react-router-dom',
             'redux',
-            'react-redux'
+            'react-redux',
+            'axios',
+            'redux-observable'
         ]
     },
     output: {

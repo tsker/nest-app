@@ -38,17 +38,15 @@ export const actions = {
 	}
 };
 
-const asyncIncEpic = (action$) => action$.ofType(ASYNC_INC).delay(1000).map((e) => ({ type: INC }));
+const asyncIncEpic = (action$) => action$.ofType(ASYNC_INC).delay(1000).map(actions.inc);
 
-const asyncDecEpic = (action$) => action$.ofType(ASYNC_DEC).delay(1000).map((e) => ({ type: DEC }));
+const asyncDecEpic = (action$) => action$.ofType(ASYNC_DEC).delay(1000).map(actions.dec);
 
 const intervalIncEpic = (action$) =>
 	action$
 		.ofType(INTERVAL_INC)
 		.mergeMap((e) =>
-			Observable.interval(1000)
-				.takeUntil(action$.ofType(ASYNC_DEC, DEC))
-				.map(() => ({ type: INC }))
+			Observable.interval(1000).takeUntil(action$.ofType(ASYNC_DEC, DEC)).map(actions.inc)
 		);
 
 export const epics = [ asyncIncEpic, asyncDecEpic, intervalIncEpic ];
