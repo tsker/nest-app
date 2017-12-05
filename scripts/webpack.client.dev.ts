@@ -14,7 +14,7 @@ const config: any = {
         ]
     },
     output: {
-        path: `${__dirname}/../dist/client`,
+        path: paths.dist,
         filename: 'js/[name].js',
         publicPath: '/',
         chunkFilename: 'js/[name].js'

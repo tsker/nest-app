@@ -2,10 +2,13 @@ import * as webpack from 'webpack';
 import * as Html from 'html-webpack-plugin';
 import * as Extract from 'extract-text-webpack-plugin';
 import * as merge from 'webpack-merge';
+import { exec } from 'child_process';
 
 const Uglify = require('uglifyjs-webpack-plugin');
 
 import { paths, loaders, commonConfig } from './webpack.common';
+
+exec(`rm -r ${paths.dist}`);
 
 const config: any = {
 	entry: {
@@ -21,7 +24,7 @@ const config: any = {
 		]
 	},
 	output: {
-		path: `${__dirname}/../dist/client`,
+		path: paths.dist,
 		filename: 'js/[name].[chunkhash].js',
 		publicPath: '/',
 		chunkFilename: 'js/[name].[chunkhash].js'

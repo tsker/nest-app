@@ -10,7 +10,7 @@
     "dev": "cross-env NODE_ENV=development node index.js",
     "============================== server =========================": "",
     "server:prod": "yarn &&cross-env NODE_ENV=production  yarn server:build && yarn server:static",
-    "server:build": "cd src/server && tsc",
+    "server:build": "tsc -p src/server",
     "server:static": "sh ./scripts/movfile.sh",
     "============================== client =========================": "",
     "client:prod": "yarn &&cross-env NODE_ENV=production  yarn client:build",

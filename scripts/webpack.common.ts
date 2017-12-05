@@ -9,7 +9,8 @@ let tsconfigFile = path.resolve(clientDevPath, 'tsconfig.json');
 console.log('webpack env::', process.env.NODE_ENV);
 
 export const paths = {
-	clientPath: (p) => path.resolve(clientDevPath, p)
+	clientPath: (p) => path.resolve(clientDevPath, p),
+	dist:`${__dirname}/../dist/client`
 };
 
 export const loaders = {
@@ -29,6 +30,7 @@ export const commonConfig = {
 			'@components': paths.clientPath('@components'),
 			'@pages': paths.clientPath('@pages'),
 			'@store': paths.clientPath('@store'),
+			'@util': paths.clientPath('@util'),
 			'@servers': paths.clientPath('@servers')
 		},
 		extensions: [ '.ts', '.tsx', '.js', 'jsx', '.less', '.css' ]

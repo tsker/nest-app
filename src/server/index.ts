@@ -15,6 +15,7 @@ export async function bootstrap(cb = bootstrapBackcall) {
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'pug');
 	app.use(express.static(__dirname + '/static'));
+	// app.use(express.static(__dirname + '/../client'));
 
 	const nest = await NestFactory.create(ApplicationModule, app);
 	nest.use(multiparty());
