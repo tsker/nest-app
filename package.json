@@ -14,7 +14,7 @@
     "server:static": "sh ./scripts/movfile.sh",
     "============================== client =========================": "",
     "client:prod": "yarn &&cross-env NODE_ENV=production  yarn client:build",
-    "client:build": "webpack --config scripts/webpack.client.prod.ts"
+    "client:build": "webpack --config scripts/webpack.client.ts"
   },
   "dependencies": {
     "@nestjs/common": "^4.2.1",
