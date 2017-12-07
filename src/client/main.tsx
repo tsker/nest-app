@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import './@servers';
 
 import createStore from './@store';
-import { App } from './app';
+import {App} from './app';
 
 const store = createStore(window['__redux_data__']);
 const mainNode = document.getElementById('main');
 
-function bootstrap() {
+function bootstrap(Component) {
 	let app = (
 		<Provider store={store}>
-			<App />
+			<Component />
 		</Provider>
 	);
 
@@ -22,7 +22,7 @@ function bootstrap() {
 		app = (
 			<AppContainer warnings={false}>
 				<Provider store={store}>
-					<App />
+					<Component />
 				</Provider>
 			</AppContainer>
 		);
@@ -31,9 +31,12 @@ function bootstrap() {
 	render(app, mainNode);
 }
 
-if (process.env.NODE_ENV === 'development') {
-	module.hot.accept('./app', () => import('./app').then(bootstrap));
+if (module.hot) {
+	module.hot.accept('./app', () =>
+		import('./app').then((a) => {
+			bootstrap(a.App);
+		})
+	);
 }
 
-
-bootstrap()
+bootstrap(App);

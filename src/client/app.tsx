@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { BrowserRouter,HashRouter , Route, Link } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Link } from 'react-router-dom';
 
-import { generateAsyncComponent } from './@components/async-component';
+import { generateAsyncComponent as am } from './@components/async-component';
 import HomePage from './@pages/home';
 import * as TestPage from './@pages/test/index.async';
 import * as CounterPage from './@pages/counter/index.async';
@@ -19,9 +19,9 @@ export class App extends React.Component<any, any> {
 						<Link to="/github-users">github-users</Link>
 					</nav>
 					<Route exact path="/" component={HomePage} />
-					<Route path="/test" component={generateAsyncComponent(TestPage)} />
-					<Route path="/counter" component={generateAsyncComponent(CounterPage)} />
-					<Route path="/github-users" component={generateAsyncComponent(GithubUsersPage)} />
+					<Route path="/test" component={am(TestPage)} />
+					<Route path="/counter" component={am(CounterPage)} />
+					<Route path="/github-users" component={am(GithubUsersPage)} />
 				</div>
 			</HashRouter>
 		);

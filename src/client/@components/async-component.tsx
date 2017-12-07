@@ -6,7 +6,7 @@ export  class AsyncComponent extends React.Component<any, any> {
 		Mod: () => <span />
 	};
 
-	componentDidMount() {
+	componentWillMount() {
 		this.load();
 	}
 

@@ -14,42 +14,39 @@ const resolve = (p) => path.resolve(clientDevPath, p);
 const loaders = {
 	ts: {
 		loader: 'ts-loader',
-		options: {
-			configFile: tsconfigFile
-		}
+		options: { configFile: tsconfigFile }
 	},
 	lazy: 'bundle-loader?lazy',
 	hot: 'react-hot-loader/webpack'
 };
-// <script src="https://unpkg.com/react@16.1.1/umd/react.production.min.js"></script>
-// <script src="https://unpkg.com/react-dom@16.1.1/umd/react-dom.production.min.js"></script>
-// <script src='https://unpkg.com/react-router-dom@4.2.2/umd/react-router-dom.min.js'></script>
-// <script src="https://unpkg.com/redux@3.7.2/dist/redux.min.js"></script>
-// <script src="https://unpkg.com/react-redux@5.0.6/dist/react-redux.min.js"></script>
+const injectJss = `
+<script src="https://unpkg.com/react@16.1.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16.1.1/umd/react-dom.production.min.js"></script>
+<script src='https://unpkg.com/react-router-dom@4.2.2/umd/react-router-dom.min.js'></script>
+<script src="https://unpkg.com/redux@3.7.2/dist/redux.min.js"></script>
+<script src="https://unpkg.com/react-redux@5.0.6/dist/react-redux.min.js"></script>
+`;
+
+const vendor = [
+	'react',
+	'react-dom',
+	'react-router-dom',
+	'redux',
+	'react-redux',
+	'axios',
+	'redux-observable'
+];
+
+const main = development
+	? [ 'react-hot-loader/patch', 'webpack-hot-middleware/client', resolve('main.tsx') ]
+	: resolve('main.tsx');
 
 console.log('webpack env::', process.env.NODE_ENV);
 exec(`rm -r ${distPath}`);
 
 const config: any = {
 	devtool: 'source-map',
-	entry: {
-		main: development
-			? [
-					'react-hot-loader/patch',
-					'webpack-hot-middleware/client?timeout=2000&overlay=false',
-					resolve('main.tsx')
-				]
-			: resolve('main.tsx'),
-		vendor: [
-			'react',
-			'react-dom',
-			'react-router-dom',
-			'redux',
-			'react-redux',
-			'axios',
-			'redux-observable'
-		]
-	},
+	entry: development ? { main } : { main, vendor },
 	output: {
 		path: distPath,
 		filename: development ? 'js/[name].js' : 'js/[name].[chunkhash].js',
@@ -90,16 +87,13 @@ const config: any = {
 		]
 	},
 	plugins: [
-		new webpack.EnvironmentPlugin({
-			NODE_ENV: process.env.NODE_ENV
-		}),
-		new ForkTsCheckerWebpackPlugin({
-			tsconfig: tsconfigFile
-		}),
+		new webpack.EnvironmentPlugin({ NODE_ENV: process.env.NODE_ENV }),
+		new ForkTsCheckerWebpackPlugin({ tsconfig: tsconfigFile }),
 		new Html({
 			template: resolve('index.html'),
 			filename: 'index.html', //output
 			inject: 'body',
+			__js: development ? '' : injectJss,
 			minify: {
 				minifyCSS: true,
 				minifyJS: true,
@@ -112,11 +106,13 @@ const config: any = {
 		development ? new webpack.optimize.ModuleConcatenationPlugin() : null,
 		development ? new webpack.NamedModulesPlugin() : null,
 		development ? new webpack.HotModuleReplacementPlugin() : null,
+		development ? new webpack.NoEmitOnErrorsPlugin() : null,
 
 		development ? null : new webpack.HashedModuleIdsPlugin(),
 		development ? null : new webpack.optimize.OccurrenceOrderPlugin(false),
 		development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
 		development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
+		development ? null : new webpack.optimize.ModuleConcatenationPlugin(),
 		development
 			? null
 			: new Uglify({
@@ -126,12 +122,7 @@ const config: any = {
 					}
 				})
 	].filter(Boolean),
-	devServer: development
-		? {
-				hot: true,
-				historyApiFallback: true
-			}
-		: {}
+	devServer: development ? { hot: true, historyApiFallback: true } : {}
 };
 
 export default config;
