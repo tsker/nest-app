@@ -4,13 +4,20 @@ import { fetchSearchUsers } from '@servers/github';
 const SEARCH_USERS = `GITHUB/SEARCH_USERS`;
 const RECEIVE_USERS = `GITHUB/RECEIVE_USERS`;
 
-const init = [ 'adf' ];
+const init = {
+	users: []
+};
 
 export function reducer(state = init, action) {
 	let { type, payload } = action;
 	switch (type) {
 		case RECEIVE_USERS:
-			return payload.users;
+			return { ...payload };
+		case SEARCH_USERS:
+			return {
+				...state,
+				loading: true
+			};
 		default:
 			return state;
 	}
