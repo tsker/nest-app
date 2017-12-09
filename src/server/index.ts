@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as multiparty from 'connect-multiparty';
@@ -12,10 +13,17 @@ function bootstrapBackcall(...e): any {}
 
 export async function bootstrap(cb = bootstrapBackcall) {
 	const app = express();
+	const { NODE_ENV = '', PORT = port } = process.env;
+
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'pug');
-	app.use(express.static(__dirname + '/static'));
-	// app.use(express.static(__dirname + '/../client'));
+	app.use(express.static(path.resolve(__dirname, 'static')));
+
+	// 映射prod版前端react目录
+	const clientDistRelativePath = NODE_ENV.match('development')
+		? '../../dist/client'
+		: '../client';
+	app.use(express.static(path.resolve(__dirname, clientDistRelativePath)));
 
 	const nest = await NestFactory.create(ApplicationModule, app);
 	nest.use(multiparty());
@@ -24,6 +32,6 @@ export async function bootstrap(cb = bootstrapBackcall) {
 	nest.useGlobalFilters(new HttpCatchFilter());
 
 	await cb(app, nest);
-	await nest.listen(port);
-	console.log('start::[env]',process.env.NODE_ENV, '[port]', port)
+	await nest.listen(+PORT);
+	console.log('start::[env]', process.env.NODE_ENV, '[port]', PORT);
 }

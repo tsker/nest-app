@@ -91,7 +91,7 @@ const config: any = {
 		new ForkTsCheckerWebpackPlugin({ tsconfig: tsconfigFile }),
 		new Html({
 			template: resolve('index.html'),
-			filename: 'index.html', //output
+			filename: development ? 'index.html' : 'app/index.html', //output
 			inject: 'body',
 			__js: development ? '' : injectJss,
 			minify: {

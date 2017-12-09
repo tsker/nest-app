@@ -15,6 +15,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node index.js",
+    "dev:server": "cross-env NODE_ENV=server-development node index.js",
     "============================== server =========================": "",
     "server:prod": "yarn &&cross-env NODE_ENV=production  yarn server:build && yarn server:static",
     "server:build": "tsc -p src/server",
