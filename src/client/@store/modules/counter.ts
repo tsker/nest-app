@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { setInterval } from 'timers';
 
 const INC = `COUNTER/INC`;
 const DEC = `COUNTER/DEC`;
@@ -45,7 +44,7 @@ const asyncDecEpic = (action$) => action$.ofType(ASYNC_DEC).delay(1000).map(acti
 const intervalIncEpic = (action$) =>
 	action$
 		.ofType(INTERVAL_INC)
-		.mergeMap((e) =>
+		.switchMap((e) =>
 			Observable.interval(1000).takeUntil(action$.ofType(ASYNC_DEC, DEC)).map(actions.inc)
 		);
 

@@ -8,18 +8,19 @@ class GithubUsersPage extends React.Component<any, any> {
 	};
 
 	render() {
-		let { githubUsers } = this.props;
+		let { users, loading } = this.props;
 		return (
 			<div>
 				<input onChange={this.handleChange} />
-				{githubUsers.map((e) => <h1>{e.login || e}</h1>)}
+				{loading && <h1>loading...</h1>}
+				{users.map((e) => <h1>{e.login || e}</h1>)}
 			</div>
 		);
 	}
 }
 
 function mapStateToProps({ githubUsers }) {
-	return { githubUsers };
+	return { ...githubUsers };
 }
 
 export default connect(mapStateToProps, actions)(GithubUsersPage);
