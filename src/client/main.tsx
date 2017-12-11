@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import './@servers';
 
 import createStore from './@store';
-import {App} from './app';
+import App from './app';
 
 const store = createStore(window['__redux_data__']);
 const mainNode = document.getElementById('main');
@@ -34,7 +34,7 @@ function bootstrap(Component) {
 if (module.hot) {
 	module.hot.accept('./app', () =>
 		import('./app').then((a) => {
-			bootstrap(a.App);
+			bootstrap(a.default);
 		})
 	);
 }

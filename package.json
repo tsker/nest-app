@@ -36,6 +36,7 @@
     "class-validator": "^0.7.3",
     "connect-multiparty": "^2.1.0",
     "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "mongorito": "^3.0.4",
     "mongorito-timestamps": "^1.0.1",
