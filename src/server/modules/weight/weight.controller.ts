@@ -2,8 +2,8 @@ import { HttpException } from '@nestjs/core';
 import { Controller, Get, Post, HttpStatus, Res, Req, Param, Body, UsePipes } from '@nestjs/common';
 import * as moment from 'moment';
 
-import { ValidationPipe } from '../../middles/validation.pipe';
-import { WeightService, WeightModel } from './weight.service';
+import { ValidationPipe } from '../common/pipes/validation.pipe';
+import { WeightService, Weight } from './weight.service';
 
 @Controller('weight')
 export class WeightController {
@@ -16,10 +16,7 @@ export class WeightController {
 	}
 
 	@Post()
-	post(
-		@Body('', new ValidationPipe())
-		body: WeightModel
-	) {
+	post(@Body() body: Weight) {
 		return this.weightService.add(body);
 	}
 }
