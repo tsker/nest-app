@@ -42,7 +42,7 @@ const main = development
 	: resolve('main.tsx');
 
 console.log('webpack env::', process.env.NODE_ENV);
-exec(`rm -r ${distPath}`);
+!development && exec(`rm -r ${distPath}`);
 
 const config: any = {
 	devtool: 'source-map',
