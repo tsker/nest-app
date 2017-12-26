@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Input, Button, Select, Checkbox, CheckboxGroup } from '@components';
+import { Radio, RadioGroup } from '@components';
 
 export default class extends React.Component<any, any> {
     state = {
         on: false,
-        selects: ['value1']
+        selects: 'value1'
     };
     handleChange = e => {
         this.setState({ on: e.target.checked });
@@ -18,24 +18,23 @@ export default class extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <h1>Checkbox:{this.state.on ? 'on' : 'off'}</h1>
-                <Checkbox
-                    defaultChecked={true}
+                <h1>Radio:{this.state.on ? 'on' : 'off'}</h1>
+                <Radio
                     onChange={this.handleChange2}
                     children="adf"
                 />
-                <Checkbox checked={this.state.on} onChange={this.handleChange}>
+                <Radio checked={this.state.on} onChange={this.handleChange}>
                     check2
-                </Checkbox>
-                <CheckboxGroup
-                    defaultValue={['value1']}
+                </Radio>
+                <RadioGroup
+                    defaultValue='value1'
                     options={[
                         { value: 'value1', text: 'value1' },
                         { value: 'value2', text: 'value2' }
                     ]}
                     onChange={this.handleChange3}
                 />
-                <CheckboxGroup
+                <RadioGroup
                     value={this.state.selects}
                     onChange={this.handleChange3}
                     options={[

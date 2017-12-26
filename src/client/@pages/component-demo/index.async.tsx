@@ -4,6 +4,8 @@ import InputDemo from './input.demo';
 import ButtonDemo from './button.demo';
 import SelectDemo from './select.demo';
 import CheckboxDemo from './checkbox.demo';
+import RadioDemo from './radio.demo';
+import ModalDemo from './modal.demo';
 
 export default class ComponentnsPage extends React.Component<any, any> {
 	render() {
@@ -13,6 +15,8 @@ export default class ComponentnsPage extends React.Component<any, any> {
 				<ButtonDemo />
 				<SelectDemo />
 				<CheckboxDemo />
+				<RadioDemo />
+				<ModalDemo/>
 			</div>
 		);
 	}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as cls from 'classnames';
 import './index.less';
+import { renderSafeOptions } from '@components/util';
 
 interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
 	options?: any[] | Object;
@@ -8,36 +9,25 @@ interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
 
 export class Select extends React.Component<SelectProps> {
 	renderOption(props) {
-		let { text, value } = props;
+		let { text, value, ...rest } = props;
 		if (typeof props !== 'object') {
 			text = value = props;
 		}
 
 		return (
-			<option value={value} key={value}>
+			<option value={value} key={value} {...rest}>
 				{text}
 			</option>
 		);
 	}
 
-	getSafeOptions(options){
-		let type = Object.prototype.toString.call(options)
-		if(type=== '[object Object]') {
-			return Object.keys(options).map(value =>{
-				return this.renderOption({text:options[value], value})
-			})
-		}else{
-			return options.map(this.renderOption)
-		}
-	}
-
 	render() {
-		let { className, options } = this.props;
+		let { className, options, ...rest } = this.props;
 		let props: any = {};
 		if (options) {
-			props.children = this.getSafeOptions(options);
+			props.children = renderSafeOptions(this.renderOption, options);
 		}
 
-		return <select {...this.props} {...props} className={cls('select', className)} />;
+		return <select {...rest} {...props} className={cls('select', className)} />;
 	}
 }
