@@ -3,7 +3,7 @@ import * as cls from 'classnames';
 import './index.less';
 
 interface SelectProps extends React.HTMLProps<HTMLSelectElement> {
-	options: any[] | Object;
+	options?: any[] | Object;
 }
 
 export class Select extends React.Component<SelectProps> {
