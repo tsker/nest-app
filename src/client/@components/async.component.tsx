@@ -1,5 +1,4 @@
 import * as React from 'react';
-const h = React.createElement;
 
 export  class AsyncComponent extends React.Component<any, any> {
 	state = {
