@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { fetchSearchUsers } from '@servers/github';
 
-const SEARCH_USERS = `GITHUB/SEARCH_USERS`;
-const RECEIVE_USERS = `GITHUB/RECEIVE_USERS`;
+const SEARCH_USERS = `GITHUB-USER/SEARCH_USERS`;
+const RECEIVE_USERS = `GITHUB-USER/RECEIVE_USERS`;
 
 const init = {
 	users: []

@@ -1,1 +1,3 @@
-export function noop(){}
+export function alway(o) {
+    return () => o;
+}
