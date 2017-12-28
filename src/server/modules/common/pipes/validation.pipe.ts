@@ -1,7 +1,5 @@
 import { HttpException } from '@nestjs/core';
 import { PipeTransform, Pipe, ArgumentMetadata, HttpStatus } from '@nestjs/common';
-import { validate } from 'class-validator';
-import { plainToClass } from 'class-transformer';
 
 @Pipe()
 export class ValidationPipe implements PipeTransform<any> {

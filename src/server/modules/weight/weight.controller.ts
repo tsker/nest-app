@@ -3,7 +3,7 @@ import { Controller, Get, Post, HttpStatus, Res, Req, Param, Body, UsePipes } fr
 import * as moment from 'moment';
 
 import { ValidationPipe } from '../common/pipes/validation.pipe';
-import { WeightService, Weight } from './weight.service';
+import { WeightService } from './weight.service';
 
 @Controller('weight')
 export class WeightController {
@@ -16,7 +16,7 @@ export class WeightController {
 	}
 
 	@Post()
-	post(@Body() body: Weight) {
+	post(@Body() body) {
 		return this.weightService.add(body);
 	}
 }

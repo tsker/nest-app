@@ -5,6 +5,7 @@ import * as Html from 'html-webpack-plugin';
 import { exec } from 'child_process';
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const Uglify = require('uglifyjs-webpack-plugin');
+const Extract = require('extract-text-webpack-plugin');
 
 const development = process.env.NODE_ENV === 'development';
 const clientDevPath = path.resolve(__dirname, '../src/client');
@@ -17,7 +18,10 @@ const loaders = {
 		options: { configFile: tsconfigFile }
 	},
 	lazy: 'bundle-loader?lazy',
-	hot: 'react-hot-loader/webpack'
+	hot: 'react-hot-loader/webpack',
+	less: 'less-loader',
+	css: 'css-loader',
+	style: 'style-loader'
 };
 const injectJss = `
 <script src="https://unpkg.com/react@16.1.1/umd/react.production.min.js"></script>
@@ -42,7 +46,7 @@ const main = development
 	: resolve('main.tsx');
 
 console.log('webpack env::', process.env.NODE_ENV);
-exec(`rm -r ${distPath}`);
+!development && exec(`rm -r ${distPath}`);
 
 const config: any = {
 	devtool: 'source-map',
@@ -83,6 +87,15 @@ const config: any = {
 				test: /\.async\.tsx?$/,
 				use: [ loaders.lazy, loaders.ts ],
 				exclude: /node_modules/
+			},
+			{
+				test: /\.less$/,
+				use: development
+					? [ loaders.style, loaders.css, loaders.less ]
+					: Extract.extract({
+							use: [ 'css-loader', 'less-loader' ],
+							fallback: 'style-loader'
+						})
 			}
 		]
 	},
@@ -113,6 +126,13 @@ const config: any = {
 		development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
 		development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
 		development ? null : new webpack.optimize.ModuleConcatenationPlugin(),
+		development
+			? null
+			: new Extract({
+					filename: 'index-[chunkhash:8].css',
+					disable: false,
+					allChunks: true
+				}),
 		development
 			? null
 			: new Uglify({
