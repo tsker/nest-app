@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { actions } from '@store/modules/github-users';
+import { injectModule } from '@store';
+import * as githubUsers from './github-users';
 
+injectModule('githubUsers', githubUsers);
 class GithubUsersPage extends React.Component<any, any> {
 	handleChange = (e) => {
 		this.props.searchUsers(e.target.value);
@@ -23,4 +25,4 @@ function mapStateToProps({ githubUsers }) {
 	return { ...githubUsers };
 }
 
-export default connect(mapStateToProps, actions)(GithubUsersPage);
+export default connect(mapStateToProps, githubUsers.actions)(GithubUsersPage);

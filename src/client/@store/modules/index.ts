@@ -1,6 +1,4 @@
 import * as auth from './auth';
-import * as counter from './counter';
-import * as githubUsers from './github-users';
 
 function combineModule(modules) {
 	let epics = [];
@@ -13,4 +11,4 @@ function combineModule(modules) {
 	return { epics, reducers };
 }
 
-export default combineModule({ auth, counter, githubUsers });
+export default combineModule({ auth });

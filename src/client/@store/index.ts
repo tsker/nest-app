@@ -10,6 +10,7 @@ export function injectModule(key, { reducer, epics }, dep = {}) {
 
 	if (reducers[key]) return console.warn(`${key} mod exist!!!`);
 
+	console.group(`${key} module is loaded!`);
 	if (reducer) {
 		reducers[key] = reducer;
 		globalStore.replaceReducer(combineReducers(reducers));
@@ -17,11 +18,10 @@ export function injectModule(key, { reducer, epics }, dep = {}) {
 	}
 
 	if (epics) {
-		epics$.next(epics);
+		epics.map((epic) => epics$.next(epic));
 		console.log(`${key} Epic is loaded!`);
 	}
-
-	console.log(`${key} module is loaded!`);
+	console.groupEnd()
 }
 
 interface LifeStore extends Store<{}> {

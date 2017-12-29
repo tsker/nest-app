@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { actions } from '@store/modules/counter';
+import { injectModule } from '@store';
+import * as mod from './counter.module'
 
+injectModule('counter', mod)
 class CounterPage extends React.Component<any, any> {
     render() {
         return <div>
@@ -19,4 +21,4 @@ function mapStateToProps({ counter }) {
     return { counter };
 }
 
-export default connect(mapStateToProps, actions)(CounterPage);
+export default connect(mapStateToProps, mod.actions)(CounterPage);
