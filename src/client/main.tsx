@@ -6,37 +6,37 @@ import './@servers';
 import createStore from './@store';
 import App from './app';
 
-const store = createStore(window['__redux_data__']);
+const store = createStore({ ...window['__redux_data__'], auth: localStorage.auth && JSON.parse(localStorage.auth) });
 const mainNode = document.getElementById('main');
 
 function bootstrap(Component) {
-	let app = (
-		<Provider store={store}>
-			<Component />
-		</Provider>
-	);
+    let app = (
+        <Provider store={store}>
+            <Component />
+        </Provider>
+    );
 
-	// =================== dev ================
-	if (process.env.NODE_ENV === 'development') {
-		let { AppContainer } = require('react-hot-loader');
-		app = (
-			<AppContainer warnings={false}>
-				<Provider store={store}>
-					<Component />
-				</Provider>
-			</AppContainer>
-		);
-	}
+    // =================== dev ================
+    if (process.env.NODE_ENV === 'development') {
+        let { AppContainer } = require('react-hot-loader');
+        app = (
+            <AppContainer warnings={false}>
+                <Provider store={store}>
+                    <Component />
+                </Provider>
+            </AppContainer>
+        );
+    }
 
-	render(app, mainNode);
+    render(app, mainNode);
 }
 
 if (module.hot) {
-	module.hot.accept('./app', () =>
-		import('./app').then((a) => {
-			bootstrap(a.default);
-		})
-	);
+    module.hot.accept('./app', () =>
+        import('./app').then(a => {
+            bootstrap(a.default);
+        })
+    );
 }
 
 bootstrap(App);

@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs';
 import { login } from '@servers/auth';
+import { compose } from 'redux';
+import { emptyActon } from '@store/common/actions';
 
 const LOGIN = `AUTH/LOGIN`;
 const LOGIN_SUCCESS = `AUTH/LOGIN_SUCCESS`;
@@ -55,11 +57,29 @@ export const actions = {
     }
 };
 
+const effect = {
+    cacheAuth(user) {
+        localStorage.auth = JSON.stringify({ user, logined: true });
+        return user;
+    },
+    clearAuth(arg) {
+        localStorage.removeItem('auth');
+        return arg;
+    }
+};
+
 const loginEpic = (action$, store) =>
     action$.ofType(LOGIN).switchMap(act =>
         Observable.fromPromise(login(act.payload.user))
+            .map(effect.cacheAuth)
             .map(actions.loginSuccess)
-            .catch(err => Observable.of(actions.loginFaild(err)))
+            .catch(compose((err: any) => Observable.of(actions.loginFaild(err)), effect.clearAuth))
     );
 
-export const epics = [loginEpic];
+const logoutEpic = action$ =>
+    action$
+        .ofType(LOGOUT)
+        .map(effect.clearAuth)
+        .map(emptyActon);
+
+export const epics = [loginEpic, logoutEpic];
