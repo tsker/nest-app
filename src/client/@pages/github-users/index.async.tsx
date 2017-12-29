@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { injectModule } from '@store';
-import * as githubUsers from './github-users';
+import * as githubUsers from './github-users.module';
 
 injectModule('githubUsers', githubUsers);
 class GithubUsersPage extends React.Component<any, any> {

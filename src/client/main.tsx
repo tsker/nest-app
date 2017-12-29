@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { combineReducers } from 'redux';
 import './@servers';
 
 import createStore from './@store';
@@ -36,7 +37,11 @@ if (module.hot) {
         import('./app').then(a => {
             bootstrap(a.default);
         })
-    );
+    );module.hot.accept('./@store/modules', () =>
+    import('./@store/modules').then(a => {
+        store.replaceReducer(combineReducers(store.injectReducers))
+    })
+);
 }
 
 bootstrap(App);
