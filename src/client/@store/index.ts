@@ -46,11 +46,13 @@ export default function create(data = {}): LifeStore {
 
 
 export function injectModule(key, { reducer, epics }, dep = {}) {
-	let { injectReducers: reducers, epics$ } = globalStore;
+	let { injectReducers: reducers, epics$, epicsDep } = globalStore;
 
 	if (reducers[key]) return console.warn(`${key} mod exist!!!`);
 
 	console.group(`${key} module is loaded!`);
+	epicsDep = Object.assign(dep, epicsDep)
+
 	if (reducer) {
 		reducers[key] = reducer;
 		globalStore.replaceReducer(combineReducers(reducers));
