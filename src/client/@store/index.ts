@@ -1,15 +1,64 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
-import { reducers, epics } from './modules';
+import { createStore, applyMiddleware, compose, Store, combineReducers } from 'redux';
+import { createEpicMiddleware, combineEpics } from 'redux-observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-export default function create(data = {}) {
-	let devtool = () => (v) => v;
-	if (process.env.NODE_ENV !== 'production') {
-		devtool = window['__REDUX_DEVTOOLS_EXTENSION__'] || devtool;
+import modules from './modules';
+let globalStore: LifeStore;
+
+export function injectModule(key, { reducer, epics }, dep = {}) {
+	let { injectReducers: reducers, epics$ } = globalStore;
+
+	if (reducers[key]) return console.warn(`${key} mod exist!!!`);
+
+	if (reducer) {
+		reducers[key] = reducer;
+		globalStore.replaceReducer(combineReducers(reducers));
+		console.log(`${key} reducer is loaded!`);
 	}
 
-	const middles = [ createEpicMiddleware(epics) ];
-	const enhanncers = [ applyMiddleware(...middles), devtool() ];
+	if (epics) {
+		epics$.next(epics);
+		console.log(`${key} Epic is loaded!`);
+	}
 
-	return createStore(reducers, data, compose(...enhanncers));
+	console.log(`${key} module is loaded!`);
+}
+
+interface LifeStore extends Store<{}> {
+	injectReducers?: any;
+	epics$?: any;
+	epicsDep?: any;
+}
+export default function create(data = {}): LifeStore {
+	if (globalStore) return globalStore;
+
+	// combine
+	let rootEpics = combineEpics(...modules.epics);
+	let rootReducers = combineReducers(modules.reducers);
+
+	// epics middle
+	let behaviorEpics$ = new BehaviorSubject(rootEpics);
+	let rootEpics$ = (actions$, store) => behaviorEpics$.mergeMap((epic) => epic(actions$, store, {}));
+	let epicMiddle = createEpicMiddleware(rootEpics$);
+
+	// middles & enhancers
+	const middles = [ epicMiddle ];
+	const enhanncers = [ applyMiddleware(...middles) ];
+
+	// devtool
+	let composeEnhancers = compose;
+	if (process.env.NODE_ENV !== 'production') {
+		composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose;
+	}
+
+	// create store
+	globalStore = createStore(rootReducers, data, composeEnhancers(...enhanncers));
+
+	// cache store
+	globalStore.injectReducers = { ...modules.reducers };
+	globalStore.epics$ = behaviorEpics$;
+	globalStore.epicsDep = {};
+
+	// return
+	return globalStore;
 }

@@ -20,7 +20,7 @@ class MainLayout extends React.Component<any, any> {
 					<Link to="/test">test</Link> |
 					<Link to="/counter">counter</Link> |
 					<Link to="/github-users">github-users</Link> |
-					<Link to="/componnets">componnets</Link>
+					<Link to="/componnets">componnets</Link> |
 					<Link to="/ucenter">ucenter</Link>
 				</nav>
 				<Route exact path="/" component={HomePage} />
