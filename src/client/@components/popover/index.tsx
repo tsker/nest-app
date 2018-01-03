@@ -30,7 +30,7 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 	timeout: any;
 	events: any;
 	public static defaultProps: Partial<PopoverProps> = {
-		placement: 'top-start',
+		placement: 'top',
 		delay: 100,
 		trigger: 'hover',
 		arrowVisible: true,

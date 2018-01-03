@@ -1,0 +1,17 @@
+@tooltip-color: rgba(0, 0, 0, .9);
+.tooltip-border-color(@align) {
+	&[data-placement^="@{align}"] .popover-arrow {
+		border-@{align}-color: @tooltip-color;
+	}
+}
+.tooltip {
+	border-color: @tooltip-color;
+	background: @tooltip-color;
+	color: #fff;
+	padding: 2px 8px 5px;
+	border-radius: 3px;
+	.tooltip-border-color(left);
+	.tooltip-border-color(right);
+	.tooltip-border-color(top);
+	.tooltip-border-color(bottom);
+}
