@@ -1,0 +1,8 @@
+export const port = 3000;
+export const database = 'localhost/blog';
+
+export const secretOrKey = '1fc431c9-6ee7-46a5-be47-71e0ff1c4920';
+export const jwtExpires = 60 * 60;
+
+export const databaseConnectToken = 'databaseConnectToken'
+export const weightCollectToken = 'weightCollectToken'

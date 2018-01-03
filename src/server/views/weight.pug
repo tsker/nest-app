@@ -1,0 +1,51 @@
+extends layout.pug
+block __styles
+    style.
+        input,button{
+            height:55px;
+        }
+
+block __content
+    input(id='input')
+    button(onclick="add()") 添加
+
+    #chart
+
+block __scripts
+    +loadjs('chart', 'lodash', 'axios')
+
+    script.
+        let list = !{JSON.stringify(list)}
+        let input = document.getElementById('input')
+
+        function emptyInput(){
+            input.value = ''
+        }
+
+        function add(){
+            let value = input.value
+            if(value)
+                axios.post('/weight',{value})
+                    .then(_.flow(addPoint, emptyInput))
+                    .catch(er => alert(er.message))
+        }
+
+        function addPoint({data}){
+            chart.add_data_point([data.value],data.created_at.split('T')[0]);
+        }
+
+        let data = {
+            labels: list.map(item => item.created_at.split('T')[0]),
+            datasets: [
+                {
+                    values:list.map(item => item.value)
+                }
+            ]
+        };
+
+        let chart = new Chart({
+            parent: "#chart", // or a DOM element
+            data: data,
+            type: 'line', // or 'line', 'scatter', 'pie', 'percentage'
+            format_tooltip_y: d => d + ' kg'
+        })

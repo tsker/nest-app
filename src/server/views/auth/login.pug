@@ -1,0 +1,34 @@
+extends ../layout.pug
+
+block __content
+    form#form
+        p username, <input name='username' />
+        p password, <input type='password' name='password' />
+        button login
+
+
+block __scripts
+    +loadjs('axios')
+    script.
+        var form = document.getElementById('form')
+        if(sessionStorage.access_token)
+            loginSuccess()
+
+        form.onsubmit = function (e){
+            e.preventDefault()
+
+            let formData = new FormData(this)
+            let username = form.username.value.trim()
+            let password = form.password.value.trim()
+
+            if(!username) return alert('请填写用户名')
+            if(!password) return alert('请填写密码')
+
+            axios.post('/auth/token',formData).then(({data}) =>{
+                sessionStorage.access_token = data.access_token
+                loginSuccess()
+            })
+        }
+        function loginSuccess(){
+            form.innerHTML = '登录成功，到别的地方去看看'
+        }

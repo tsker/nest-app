@@ -1,0 +1,15 @@
+block __styles
+    style.
+        p{
+            color:#eee;
+            font-size:12px;
+            margin:0
+        }
+
+block __content
+    - var n = 0
+    - var msg = '页面找不到了，你们看不到我..............'
+
+    while n < msg.length
+        p #{(n++,msg.substr(n-1))}
+
