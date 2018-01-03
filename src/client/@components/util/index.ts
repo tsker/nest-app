@@ -1,8 +1,7 @@
 import * as pick from 'lodash/pick';
 
 export function renderSafeOptions(component, options) {
-	let type = Object.prototype.toString.call(options);
-	if (type === '[object Object]') {
+	if (toType(options) === 'object') {
 		return Object.keys(options).map((value) => {
 			return component({ text: options[value], value });
 		});
