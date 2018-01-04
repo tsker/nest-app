@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as cls from 'classnames';
-import { toType, eachBind } from '@components/util';
+import { toType, eachBind } from '../util';
 import { Button } from '../';
 
 export interface ModalProps {
@@ -19,7 +19,7 @@ interface ModalState {
 	loading: boolean;
 }
 
-export class Modal extends React.Component<ModalProps, ModalState> {
+export class Modal extends React.PureComponent<ModalProps, ModalState> {
 	public static defaultProps = {
 		mask: true
 	};

@@ -1,0 +1,59 @@
+@import '../util/styles/consts.less';
+
+@calendar-day-width: 36px;
+@body-padding: 12px;
+.calendar {
+	width: @calendar-day-width * 7 + 7*2+@body-padding*2;
+	border: 1px solid #ccc;
+	font-size: 14px;
+
+	.header {
+		display: flex;
+		padding: @body-padding;
+		padding-bottom: 0;
+		.selects {
+			flex: 1;
+			display: flex;
+		}
+	}
+	.footer {
+		padding: @body-padding;
+		padding-top: 0;
+	}
+
+	.body {
+		padding: @body-padding;
+		ul {
+			display: flex;
+			flex-wrap: wrap;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		.weeks li {
+			width: @calendar-day-width+2;
+			line-height: @calendar-day-width;
+			text-align: center;
+		}
+		span {
+			display: block;
+			text-align: center;
+			width: @calendar-day-width;
+			line-height: @calendar-day-width;
+			border: 1px solid #fff;
+			cursor: pointer;
+			&:hover {
+				background: #eee;
+			}
+		}
+		.current,
+		.current:hover {
+			background: @primary-color;
+			color: #fff;
+		}
+		.today,
+		.today:hover {
+			border-color: @primary-color;
+		}
+	}
+}

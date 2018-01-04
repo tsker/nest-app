@@ -3,7 +3,7 @@ import * as cls from 'classnames';
 
 interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
 
-export class Checkbox extends React.Component<CheckboxProps> {
+export class Checkbox extends React.PureComponent<CheckboxProps> {
     render() {
         let { className, children, ...props } = this.props;
         return (

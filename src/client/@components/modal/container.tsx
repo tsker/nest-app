@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { createPortal, render } from 'react-dom';
 import * as cls from 'classnames';
-import { createNode, toType, eachBind } from '@components/util';
+import { createNode, toType, eachBind } from '../util';
 import { Modal } from './modal';
 
-export class ModalContainer extends React.Component {
+export class ModalContainer extends React.PureComponent {
 	constructor(p) {
 		super(p);
 	}

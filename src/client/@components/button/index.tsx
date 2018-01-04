@@ -7,7 +7,7 @@ interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
 	skin?: 'default' | 'blue' | 'red';
 }
 
-export class Button extends React.Component<ButtonProps> {
+export class Button extends React.PureComponent<ButtonProps> {
 	public static defaultProps = {
 		type: 'button',
 		skin: 'default'

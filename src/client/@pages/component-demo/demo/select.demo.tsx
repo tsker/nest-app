@@ -7,7 +7,7 @@ export default class extends React.Component<any, any> {
         this.setState({ value: e.target.value });
     };
     render() {
-        let options1 = ['1', '2', '3'];
+        let options1 = ['1', '2', '3','4'];
         let options2 = [
             { text: 'text1', value: '1' },
             { text: 'text2', value: '2' }

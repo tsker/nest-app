@@ -8,11 +8,15 @@ import RadioDemo from './demo/radio.demo';
 import ModalDemo from './demo/modal.demo';
 import PopoverDemo from './demo/popover.demo';
 import TooltipDemo from './demo/tooltip.demo';
+import CalendarDemo from './demo/calendar.demo';
+import TimerDemo from './demo/timer.demo';
 
 export default class ComponentnsPage extends React.Component<any, any> {
 	render() {
 		return (
-			<div style={{ width: 900, border: '1px solid #222', padding: 40}}>
+			<div style={{ width: 900, border: '1px solid #222', padding: 40 }}>
+				<TimerDemo />
+				<CalendarDemo />
 				<PopoverDemo />
 				<TooltipDemo />
 				<InputDemo />

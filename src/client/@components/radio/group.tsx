@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as cls from 'classnames';
 import { Radio } from './radio';
-import { renderSafeOptions, eachBind } from '@components/util';
+import { renderSafeOptions, eachBind, hasValue } from '../util';
 
 interface RadioGroupProps {
 	options?: any[] | Object;
@@ -13,7 +13,7 @@ interface RadioGroupProps {
 interface RadioGroupState {
 	value: string;
 }
-export class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
+export class RadioGroup extends React.PureComponent<RadioGroupProps, RadioGroupState> {
 	public static defaultProps = {
 		defaultValue: ''
 	};
@@ -27,7 +27,7 @@ export class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState
 	}
 
 	componentWillReceiveProps({ value }) {
-		if (value !== undefined && value !== this.state.value) {
+		if (hasValue(this.props) && value !== this.state.value) {
 			this.setState({ value });
 		}
 	}
@@ -36,8 +36,7 @@ export class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState
 		let { checked, value } = e.target;
 		let { onChange } = this.props;
 
-		let hasValueInProps = 'value' in this.props;
-		if (!hasValueInProps) {
+		if (!hasValue(this.props)) {
 			this.setState({ value });
 		}
 		onChange && onChange(value);

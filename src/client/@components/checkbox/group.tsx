@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as cls from 'classnames';
 import { Checkbox } from './checkbox';
-import { renderSafeOptions, eachBind } from '@components/util';
+import { renderSafeOptions, eachBind, hasValue } from '../util';
 
 interface CheckboxGroupProps {
 	options?: any[] | Object;
@@ -13,7 +13,7 @@ interface CheckboxGroupProps {
 interface CheckboxGroupState {
 	value: string[];
 }
-export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxGroupState> {
+export class CheckboxGroup extends React.PureComponent<CheckboxGroupProps, CheckboxGroupState> {
 	public static defaultProps = {
 		defaultValue: []
 	};
@@ -28,7 +28,7 @@ export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxG
 	}
 
 	componentWillReceiveProps({ value }) {
-		if (value !== undefined && value.toString() !== this.state.value.toString()) {
+		if (hasValue(this.props) && value.toString() !== this.state.value.toString()) {
 			this.setState({ value });
 		}
 	}
@@ -44,8 +44,7 @@ export class CheckboxGroup extends React.Component<CheckboxGroupProps, CheckboxG
 			selects.splice(index, 1);
 		}
 
-		let hasValueInProps = 'value' in this.props;
-		if (!hasValueInProps) {
+		if (!hasValue(this.props)) {
 			this.setState({ value: selects });
 		}
 		onChange && onChange(selects);

@@ -3,7 +3,7 @@ import * as cls from 'classnames';
 
 interface RadioProps extends React.HTMLProps<HTMLInputElement> {}
 
-export class Radio extends React.Component<RadioProps> {
+export class Radio extends React.PureComponent<RadioProps> {
     render() {
         let { className, children, ...props } = this.props;
         return (

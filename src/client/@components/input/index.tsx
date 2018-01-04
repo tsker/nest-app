@@ -4,7 +4,7 @@ import './index.less';
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {}
 
-export class Input extends React.Component<InputProps> {
+export class Input extends React.PureComponent<InputProps> {
 	render() {
 		let { className } = this.props;
 
