@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export class AsyncComponent extends React.Component<any, any> {
+export class AsyncComponent extends React.PureComponent<any, any> {
     state = {
         Mod: () => <span />
     };

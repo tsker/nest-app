@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { createPortal, render } from 'react-dom';
 import * as cls from 'classnames';
-import { createNode, toType, eachBind, nextUid } from '@components/util';
+import { createNode, toType, eachBind, nextUid } from '../util';
 import { Modal, ModalProps } from './modal';
 import { ModalContainer } from './container';
 import './index.less';
 
 let node, container
 
-class ModalPortal extends React.Component<ModalProps> {
+class ModalPortal extends React.PureComponent<ModalProps> {
 	node: HTMLElement = createNode();
 	public static open (options) {
         if (!node) {

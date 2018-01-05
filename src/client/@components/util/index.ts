@@ -1,4 +1,6 @@
 import * as pick from 'lodash/pick';
+import * as curry from 'lodash/curry';
+import * as moment from 'moment';
 
 export function renderSafeOptions(component, options) {
 	if (toType(options) === 'object') {
@@ -40,4 +42,16 @@ export function compareObjWithKey(o1: object, o2: object, keys: string[]) {
 		if (o1[key] !== o2[key]) return false;
 	}
 	return true;
+}
+
+export function hasKey(key: string, o: object) {
+	return key in o;
+}
+
+export const hasValue: (o: object) => boolean = curry(hasKey)('value');
+
+export function safeMoment(o) {
+	if (moment.isMoment(o)) return o;
+	if (moment.isDate(o)) return moment(o);
+	return moment(new Date(o));
 }
