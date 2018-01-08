@@ -3,23 +3,27 @@ import * as cls from 'classnames';
 import * as range from 'lodash/range';
 import * as noop from 'lodash/noop';
 import * as upperFirst from 'lodash/upperFirst';
+import * as difference from 'lodash/difference';
+
 import * as moment from 'moment';
 import { safeMoment, eachBind, hasValue } from '../util';
 import { Select } from '..';
+
+import { DateTypes } from '../util/types';
 import './index.less';
 
-type TimerList = string[] | number[];
 export interface TimerProps {
-	format?: string;
+	value?: DateTypes;
+	defaultValue?: DateTypes;
+
 	className?: string;
-	value?: moment.Moment;
-	defaultValue?: moment.Moment;
 	onChange?: any;
 	disabled?: boolean;
+	hiddenDisable?: boolean;
 
-	hours?: TimerList | false;
-	minutes?: TimerList | false;
-	seconds?: TimerList | false;
+	hours?: string[] | number[] | false;
+	minutes?: string[] | number[] | false;
+	seconds?: string[] | number[] | false;
 	disabledHours?: any[];
 	disabledMinutes?: any[];
 	disabledSeconds?: any[];
@@ -30,16 +34,14 @@ interface TimerState {
 
 export class Timer extends React.PureComponent<TimerProps, TimerState> {
 	public static defaultProps = {
-		format: 'HH:mm:ss',
-		defaultValue: moment(),
 		hours: range(0, 24),
-		minutes: range(0, 60),
-		seconds: range(0, 60),
+		minutes: range(0, 60, 5),
+		seconds: false,
 		onChange: noop
 	};
 	constructor(p) {
 		super(p);
-		let value = safeMoment(p.value || p.defaultValue);
+		let value = safeMoment(p.value || p.defaultValue || moment());
 		this.state = { value };
 		eachBind([ 'handleChange' ], this);
 	}
@@ -66,17 +68,20 @@ export class Timer extends React.PureComponent<TimerProps, TimerState> {
 		let { props } = this;
 		let { value } = this.state;
 
-		let options = props[type];
+		let options = props[type],
+			disableds = props['disabled' + upperFirst(type)];
 		if (!options) {
 			return null;
 		}
+
+		options = props.hiddenDisable ? { options: difference(options, disableds) } : { options, disableds };
+
 		return (
 			<Select
-				disabled={props.disabled}
+				{...options}
 				name={type}
-				options={options}
 				value={value[type]()}
-				disableds={props['disabled' + upperFirst(type)]}
+				disabled={props.disabled}
 				onChange={this.handleChange}
 			/>
 		);
