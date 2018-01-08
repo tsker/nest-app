@@ -18,7 +18,18 @@ export const main = development
     ? ['react-hot-loader/patch', 'webpack-hot-middleware/client', resolve('main.tsx')]
     : resolve('main.tsx');
 
-export const vendor = ['react', 'react-dom', 'react-router-dom', 'redux', 'react-redux', 'axios', 'redux-observable'];
+export const vendor = [
+    'react',
+    'react-dom',
+    'react-router-dom',
+    'redux',
+    'react-redux',
+    'axios',
+    'redux-observable',
+    'moment',
+    'lodash',
+    'rxjs'
+];
 
 export const jsFilename = development ? 'js/[name].js' : 'js/[name].[chunkhash].js';
 
@@ -32,10 +43,12 @@ export const loaders = {
     less: 'less-loader',
     css: 'css-loader',
     style: 'style-loader',
-    url: 'url-loader',
+    url: 'url-loader'
 };
 
 let packageDep = {
+    // moment: { map: 'window.moment', url: 'https://unpkg.com/moment@2.20.1/min/moment.min.js' },
+    // momentlocale: { map: 'window.momentlocale', url: 'https://unpkg.com/moment@2.20.1/locale/zh-cn.js' },
     react: { map: 'window.React', url: 'https://unpkg.com/react@16.1.1/umd/react.production.min.js' },
     redux: { map: 'window.Redux', url: 'https://unpkg.com/redux@3.7.2/dist/redux.min.js' },
     'react-dom': { map: 'window.ReactDOM', url: 'https://unpkg.com/react-dom@16.1.1/umd/react-dom.production.min.js' },
