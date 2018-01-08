@@ -1,5 +1,5 @@
-import axios from 'axios'
+import { Api } from '@servers';
 
 export function login(user){
-    return axios.post('/auth/token', user)
+    return Api.post('/auth/token', user)
 }

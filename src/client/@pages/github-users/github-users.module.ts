@@ -36,7 +36,7 @@ const searchUsersEpic = (action$) =>
 	action$
 		.ofType(SEARCH_USERS)
 		.map((act) => act.payload.query)
-		.filter((q) => !!q)
+		.filter(Boolean)
 		.switchMap((q) =>
 			Observable.timer(800)
 				.mergeMap(() => fetchSearchUsers(q))
