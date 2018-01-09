@@ -3,58 +3,92 @@
 @calendar-day-width: 36px;
 @body-padding: 12px;
 .calendar {
-	width: @calendar-day-width * 7 + 7*2+@body-padding*2;
-	border: 1px solid #ccc;
-	font-size: 14px;
+    width: @calendar-day-width * 7 + @body-padding * 2;
+    border: 1px solid #ddd;
+    font-size: 14px;
 
-	.header {
-		display: flex;
-		padding: @body-padding;
-		padding-bottom: 0;
-		.selects {
-			flex: 1;
-			display: flex;
-		}
-	}
+    .header {
+        display: flex;
+        padding: @body-padding;
+        padding-bottom: 0;
+        .selects {
+            flex: 1;
+            display: flex;
+        }
+    }
 
-	.footer {
-		padding: @body-padding;
-		padding-top: 0;
-	}
+    .footer {
+        padding: @body-padding;
+        padding-top: 0;
+    }
 
-	.body {
-		padding: @body-padding;
-		ul {
-			display: flex;
-			flex-wrap: wrap;
-			margin: 0;
-			padding: 0;
-			list-style: none;
-		}
-		.weeks li {
-			width: @calendar-day-width+2;
-			line-height: @calendar-day-width;
-			text-align: center;
-		}
-		span {
-			display: block;
-			text-align: center;
-			width: @calendar-day-width;
-			line-height: @calendar-day-width;
-			border: 1px solid #fff;
-			cursor: pointer;
-			&:hover {
-				background: #eee;
+    .body {
+        padding: @body-padding;
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    }
+    .weeks li {
+        width: @calendar-day-width;
+        line-height: @calendar-day-width;
+        text-align: center;
+    }
+    .days {
+        li {
+            text-align: center;
+            width: @calendar-day-width;
+            line-height: @calendar-day-width;
+            cursor: pointer;
+            &:hover {
+				background: #eaeaea;
+            }
+        }
+        span {
+            display: block;
+        }
+        .empty{height: 0}
+
+        .today {
+            span {
+                border-radius: 100%;
+				color: @primary-color;
+                font-weight: 600;
+                line-height: @calendar-day-width - 2;
+                border: 1px solid @primary-color;
+            }
+            &:hover {
+                background: rgba(0,0,0,0);
+                span{
+                    background: #eaeaea
+                }
+            }
+        }
+        .disabled{
+            cursor: not-allowed;
+            opacity: .4;
+        }
+
+		.current{
+			&,&:hover,&.today:hover span{
+				color: #fff;
+				background: @primary-color;
+			}
+			span{
+				color: #fff;
 			}
 		}
-		.current,
-		.current:hover {
-			background: @primary-color;
-			color: #fff;
-		}
-		.today,
-		.today:hover {
-			border-color: @primary-color;
-		}
-	}
+
+		.selected {
+            &,&.today:hover{
+				background: #f4f4f4;
+			}
+			&.today:hover span{
+				background: #eaeaea;
+			}
+        }
+    }
 }

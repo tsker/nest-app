@@ -7,12 +7,11 @@ import * as upperFirst from 'lodash/upperFirst';
 import * as difference from 'lodash/difference';
 import { eachBind, hasValue } from '../util';
 import { Select } from '..';
-import { DateTypes } from '../util/types';
 import './index.less';
 
 export interface TimerProps {
-	value?: DateTypes;
-	defaultValue?: DateTypes;
+	value?: moment.Moment;
+	defaultValue?: moment.Moment;
 
 	className?: string;
 	onChange?: any;

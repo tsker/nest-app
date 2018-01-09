@@ -49,3 +49,9 @@ export function hasKey(key: string, o: object) {
 }
 
 export const hasValue: (o: object) => boolean = curry(hasKey)('value');
+
+export function exchangeMoment(l: moment.Moment, r: moment.Moment, sort?) {
+	if(!r) return [];
+	let result = sort ? l.isAfter(r) : l.isBefore(r);
+	return result ? [ l, r ] : [ r, l ];
+}
