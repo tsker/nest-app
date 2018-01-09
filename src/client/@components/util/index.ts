@@ -49,9 +49,3 @@ export function hasKey(key: string, o: object) {
 }
 
 export const hasValue: (o: object) => boolean = curry(hasKey)('value');
-
-export function safeMoment(o) {
-	if (moment.isMoment(o)) return o;
-	if (moment.isDate(o)) return moment(o);
-	return moment(new Date(o));
-}

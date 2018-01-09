@@ -1,14 +1,12 @@
 import * as React from 'react';
 import * as cls from 'classnames';
+import * as moment from 'moment';
 import * as range from 'lodash/range';
 import * as noop from 'lodash/noop';
 import * as upperFirst from 'lodash/upperFirst';
 import * as difference from 'lodash/difference';
-
-import * as moment from 'moment';
-import { safeMoment, eachBind, hasValue } from '../util';
+import { eachBind, hasValue } from '../util';
 import { Select } from '..';
-
 import { DateTypes } from '../util/types';
 import './index.less';
 
@@ -37,20 +35,19 @@ export class Timer extends React.PureComponent<TimerProps, TimerState> {
 		hours: range(0, 24),
 		minutes: range(0, 60, 5),
 		seconds: false,
+		defaultValue: moment(),
 		onChange: noop
 	};
 	constructor(p) {
 		super(p);
-		let value = safeMoment(p.value || p.defaultValue || moment());
+		let value = p.value || p.defaultValue;
 		this.state = { value };
 		eachBind([ 'handleChange' ], this);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (hasValue(nextProps)) {
-			this.setState({
-				value: safeMoment(nextProps.value)
-			});
+			this.setState({ value: nextProps.value });
 		}
 	}
 
