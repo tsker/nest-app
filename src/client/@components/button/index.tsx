@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as cls from 'classnames';
 import './index.less';
+import { Icon } from '..';
 
 interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
 	loading?: boolean;
@@ -13,14 +14,14 @@ export class Button extends React.PureComponent<ButtonProps> {
 		skin: 'default'
 	};
 	render() {
-		let { className, loading, disabled, skin, ...rest } = this.props;
+		let { className, loading, disabled, skin,children, ...rest } = this.props;
 
 		return (
 			<button
 				{...rest}
 				className={cls('button button-' + skin, { 'button-loading': loading }, className)}
 				disabled={disabled || loading}
-			/>
+			>{loading&&<Icon type='loading' className='icon-rotate'/>}{children}</button>
 		);
 	}
 }

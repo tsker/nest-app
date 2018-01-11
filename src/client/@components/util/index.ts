@@ -51,7 +51,24 @@ export function hasKey(key: string, o: object) {
 export const hasValue: (o: object) => boolean = curry(hasKey)('value');
 
 export function exchangeMoment(l: moment.Moment, r: moment.Moment, sort?) {
-	if(!r) return [];
+	if (!r) return [];
 	let result = sort ? l.isAfter(r) : l.isBefore(r);
 	return result ? [ l, r ] : [ r, l ];
+}
+
+function promiseThen(cb?) {
+	return (data) => {
+		cb && cb();
+		return data;
+	};
+}
+function promiseCatch(cb?) {
+	return (err) => {
+		cb && cb();
+		throw new Error(err);
+	};
+}
+
+export function wrapPromise(cb, promise) {
+	return promise.then(promiseThen(cb)).catch(promiseCatch(cb));
 }

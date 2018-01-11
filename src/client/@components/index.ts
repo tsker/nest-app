@@ -1,4 +1,4 @@
-import './util/styles/reset.less';
+import './util/styles/main.less';
 
 export * from './icon';
 export * from './async.component';

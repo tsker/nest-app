@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Input, Button, Select, Checkbox } from '@components';
 import { Modal } from '@components';
+import { delay } from '@util';
 
 let index = 0;
 function moreModal() {
@@ -43,7 +44,7 @@ export default class extends React.Component<any, any> {
 						Modal.confirm(
 							'confirm msg',
 							'confirm',
-							confirm.bind(null, 'modal confirm')
+							() => Promise.resolve(delay(2e3))
 						)}
 				>
 					confirm
