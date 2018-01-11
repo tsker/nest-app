@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as cls from 'classnames';
 import { toType, eachBind } from '../util';
-import { Button } from '../';
+import { Button, Icon } from '../';
 
 export interface ModalProps {
 	visible: boolean;
@@ -102,9 +102,7 @@ export class Modal extends React.PureComponent<ModalProps, ModalState> {
 							确认
 						</Button>
 					</div>
-					<div className="modal-close" onClick={this.close}>
-						x
-					</div>
+					<Icon type='close' className="modal-close" onClick={this.close}/>
 				</div>
 				{mask && <div className="modal-mask" onClick={this.clickawayClose} />}
 			</div>

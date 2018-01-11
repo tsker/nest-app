@@ -1,5 +1,6 @@
 import './util/styles/reset.less';
 
+export * from './icon';
 export * from './async.component';
 export * from './button';
 export * from './input';

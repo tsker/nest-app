@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import * as range from 'lodash/range';
 import * as noop from 'lodash/noop';
 import { eachBind, toType, hasValue, exchangeMoment } from '../util';
-import { Select, Timer, TimerProps } from '..';
+import { Select, Icon, Timer, TimerProps } from '..';
 
 import './calendar.less';
 
@@ -19,7 +19,7 @@ export interface CalendarProps {
 	onChange?: any;
 	disabledDate?: any;
 
-	timerOption?: TimerProps;
+	timerOption?: boolean | TimerProps;
 
 	rightArrow?: boolean;
 	leftArrow?: boolean;
@@ -31,7 +31,7 @@ interface DateRangeCalendarProps {
 	onHover?: any;
 	onViewChange?: any;
 }
-'';
+
 interface CalendarState {
 	value: moment.Moment;
 	view: moment.Moment;
@@ -178,17 +178,11 @@ export class Calendar extends React.PureComponent<CalendarProps & DateRangeCalen
 		return (
 			<div className={cls('calendar', className)}>
 				<div className="header">
-					{leftArrow && (
-						<span data-name="month" data-step="-1" onClick={this.handleViewChange}>
-							&lt;
-						</span>
-					)}
+					{leftArrow && <Icon type="left" data-name="month" data-step="-1" onClick={this.handleViewChange} />}
 					<Select name="year" options={this.years} value={view.year()} onChange={this.handleViewChange} />
 					{this.renderMonths()}
 					{rightArrow && (
-						<span data-name="month" data-step="1" onClick={this.handleViewChange}>
-							&gt;
-						</span>
+						<Icon type="right" data-name="month" data-step="1" onClick={this.handleViewChange} />
 					)}
 				</div>
 				<div className="body">
@@ -198,9 +192,11 @@ export class Calendar extends React.PureComponent<CalendarProps & DateRangeCalen
 						{this.renderDay()}
 					</ul>
 				</div>
-				<div className="footer">
-					<Timer {...timerOption} value={value} onChange={this.handleTimerChange} />
-				</div>
+				{timerOption && (
+					<div className="footer">
+						<Timer {...timerOption} value={value} onChange={this.handleTimerChange} />
+					</div>
+				)}
 			</div>
 		);
 	}

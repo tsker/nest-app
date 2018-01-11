@@ -10,11 +10,13 @@ import PopoverDemo from './demo/popover.demo';
 import TooltipDemo from './demo/tooltip.demo';
 import CalendarDemo from './demo/calendar.demo';
 import TimerDemo from './demo/timer.demo';
+import IconDemo from './demo/icon.demo';
 
 export default class ComponentnsPage extends React.Component<any, any> {
 	render() {
 		return (
 			<div style={{ width: 900, border: '1px solid #222', padding: 40 }}>
+			<IconDemo/>
 				<TimerDemo />
 				<CalendarDemo />
 				<PopoverDemo />
