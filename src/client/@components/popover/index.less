@@ -1,47 +1,67 @@
 .popover-align(@l, @r, @m,@n) {
-    &[data-placement^='@{l}'] {
-        margin-@{r}: @arrow-size;
-    }
-    &[data-placement^='@{l}'] &-arrow {
-        border-@{l}-color: @border-color;
-        @{r}: -@arrow-size;
-        border-@{r}: 0;
-        margin-@{m}: @arrow-size;
-        margin-@{n}: @arrow-size;
+	&[data-placement^='@{l}'] {
+		margin-@{r}: @arrow-size + 2;
+	}
+	&[data-placement^='@{l}'] &-arrow {
+		@{r}: 0;
+		margin-@{m}: @arrow-size;
+		margin-@{n}: @arrow-size;
+	}
+
+    &[data-placement^='@{l}'] &-arrow{
+        &:before {
+            @{r}:  -@arrow-size - 1;
+            border-@{r}: 0;
+            border-@{l}-color: #ddd ;
+        }
+        &:after {
+            @{r}: -@arrow-size;
+            border-@{r}: 0;
+            border-@{l}-color: #fff;
+        }
     }
 }
 
 .popover {
-    @arrow-size: 6px;
-    @border-color: #fff;
+	@arrow-size: 6px;
+	@border-color: #fff;
 
-    display: none;
-    background: #fff;
-    border: 1px solid @border-color;
+	display: none;
+	background: #fff;
+	border: 1px solid @border-color;
+	z-index: 9;
 
-    box-shadow: 0 2px 6px rgba(0,0,0,.16), 0 3px 20px rgba(0,0,0,.16);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .16), 0 3px 20px rgba(0, 0, 0, .16);
 
-    &-wrap {
-        position: relative;
-    }
+	&-wrap {
+		position: relative;
+	}
 
-    &-show {
-        display: block;
-    }
+	&-show {
+		display: block;
+	}
 
-    &-arrow {
-        width: 0;
-        height: 0;
-        border: @arrow-size solid transparent;
+	&-arrow {
         position: absolute;
-    }
+        width:12px;
+        height: 12px;
+		&:after,
+		&:before {
+			content: '';
+			display: block;
+			width: 0;
+			height: 0;
+			border: @arrow-size solid transparent;
+			position: absolute;
+		}
+	}
 
-    &-inner {
-        padding: 8px
-    }
+	&-inner {
+		padding: 8px;
+	}
 
-    .popover-align(left,right,top,bottom);
-    .popover-align(right,left,top,bottom);
-    .popover-align(top,bottom,right,left);
-    .popover-align(bottom,top,right,left);
+	.popover-align(left,right,top,bottom);
+	.popover-align(right,left,top,bottom);
+	.popover-align(top,bottom,right,left);
+	.popover-align(bottom,top,right,left);
 }

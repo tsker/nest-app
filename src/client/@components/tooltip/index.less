@@ -1,12 +1,14 @@
 @tooltip-color: #222;
 .tooltip-border-color(@align) {
     &[data-placement^='@{align}'] .popover-arrow {
-        border-@{align}-color: @tooltip-color;
+        &:before, &:after{
+            border-@{align}-color: @tooltip-color;
+        }
     }
 }
 .tooltip {
-    border: 0;
     font-size: 12px;
+    border: 1px solid @tooltip-color;
     background: @tooltip-color;
     color: #fff;
     border-radius: 3px;
@@ -17,7 +19,7 @@
         display: table;
     }
     .popover-inner {
-        padding: 2px 8px 4px;
+        padding: 6px 12px 7px;
     }
 
     .tooltip-border-color(left);
