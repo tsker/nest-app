@@ -1,34 +1,37 @@
 import * as React from 'react';
+import { Route, Link } from 'react-router-dom';
 
-import InputDemo from './demo/input.demo';
-import ButtonDemo from './demo/button.demo';
-import SelectDemo from './demo/select.demo';
-import CheckboxDemo from './demo/checkbox.demo';
-import RadioDemo from './demo/radio.demo';
-import ModalDemo from './demo/modal.demo';
-import PopoverDemo from './demo/popover.demo';
-import TooltipDemo from './demo/tooltip.demo';
-import CalendarDemo from './demo/calendar.demo';
-import TimerDemo from './demo/timer.demo';
-import IconDemo from './demo/icon.demo';
-import DropdownDemo from './demo/dropdown.demo';
+import * as demos from './demo';
 
 export default class ComponentnsPage extends React.Component<any, any> {
 	render() {
+		let list = [
+			'Icon',
+			'Tag',
+			'Input',
+			'Button',
+			'Select',
+			'Checkbox',
+			'Radio',
+			'Modal',
+			'Popover',
+			'Tooltip',
+			'Calendar',
+			'Timer',
+			'Menu',
+			'Dropdown'
+		];
 		return (
-			<div style={{ width: 900, border: '1px solid #222', padding: 40 }}>
-			<DropdownDemo/>
-			<IconDemo/>
-				<TimerDemo />
-				<CalendarDemo />
-				<PopoverDemo />
-				<TooltipDemo />
-				<InputDemo />
-				<ButtonDemo />
-				<SelectDemo />
-				<CheckboxDemo />
-				<RadioDemo />
-				<ModalDemo />
+			<div>
+				<nav>
+					{list.map((k) => (
+						<span key={k}>
+							<Link to={'/components/' + k}>{k}</Link> |{' '}
+						</span>
+					))}
+				</nav>
+				<Route exact path={'/components'} component={demos['Input']} />
+				{list.map((k) => <Route key={k} path={'/components/' + k} component={demos[k]} />)}
 			</div>
 		);
 	}

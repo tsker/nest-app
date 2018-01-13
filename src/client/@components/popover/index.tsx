@@ -10,13 +10,15 @@ import Popper from 'popper.js';
 import './index.less';
 
 export interface PopoverProps extends Popper.PopperOptions {
-	visible?: boolean;
-	trigger?: 'hover' | 'click';
-	content?: React.ReactElement<any> | React.ReactNode| string;
-	children: React.ReactElement<any>;
 	className?: string;
+	style?: React.CSSProperties;
+	visible?: boolean;
+	trigger?: 'hover' | 'click' | false;
+	content?: React.ReactElement<any> | React.ReactNode | string;
+	children: React.ReactElement<any>;
 	delay?: string | number;
 	arrowVisible?: boolean;
+	prefix?: string;
 
 	onHide?: Function;
 	onShow?: Function;
@@ -59,7 +61,8 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 
 	applyReactStyle(data) {
 		let { styles, visible } = this.state;
-		if (!styles.position || (visible && !compareObjWithKey(styles, data.styles, [ 'transform' ]))) {
+		if (!compareObjWithKey(styles, data.styles, [ 'transform' ])) {
+			console.log('update');
 			this.setState(pick(data, [ 'styles', 'placement', 'arrowStyles' ]));
 		}
 
@@ -91,29 +94,32 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 	}
 
 	handleBodyClick(e) {
-		if (!containerNode(this.refs.wrap, e.target)) this.handleHide();
+		if (this.state.visible && !containerNode(this.refs.wrap, e.target)) this.handleHide();
 	}
 
 	componentWillUnmount() {
-		document.body.removeEventListener('click', this.handleBodyClick);
+		document.removeEventListener('click', this.handleBodyClick);
 		this.instance.destroy();
 	}
 
 	getEventsProps() {
 		let { trigger } = this.props;
-		let props: any = {};
+		let events: any = {};
+
 		if (trigger === 'hover') {
-			props.onMouseEnter = this.handleShow;
-			props.onMouseLeave = this.handleHide;
-		} else {
-			props.onClick = this.handleShow;
-			document.body.addEventListener('click', this.handleBodyClick);
+			events.onMouseEnter = this.handleShow;
+			events.onMouseLeave = this.handleHide;
+		} else if (trigger === 'click') {
+			events.onClick = this.handleShow;
 		}
 
-		return props;
+		document.addEventListener('click', this.handleBodyClick);
+
+		return events;
 	}
 
 	handleShow() {
+		if (this.state.visible) return;
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => {
 			this.setState({ visible: true }, this.update);
@@ -131,16 +137,19 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 	}
 
 	render() {
-		let { children, content, className, arrowVisible } = this.props;
+		let { children, content, className, style, arrowVisible, prefix } = this.props;
 		let { visible, styles, placement, arrowStyles } = this.state;
-		let popoverClass = cls('popover', { 'popover-show': visible }, className);
+		let popoverClass = cls('popover', { 'popover-show': visible }, prefix && prefix + '-popover');
+		let wrapClass = cls('popover-wrap', prefix && prefix + '-popover-wrap', className);
+		let arrowClass = cls('popover-arrow', prefix && prefix + '-popover-arrow');
+		let innerClass = cls('popover-inner', prefix && prefix + '-popover-inner');
 
 		return (
-			<span {...this.events} className="popover-wrap" ref="wrap">
+			<span {...this.events} className={wrapClass} ref="wrap" style={style}>
 				{React.cloneElement(children, { ref: 'target' })}
 				<div ref="popover" className={popoverClass} style={styles} data-placement={placement.split('-')[0]}>
-					{arrowVisible && <div className="popover-arrow" ref="arrow" style={arrowStyles} />}
-					<div className="popover-inner">{content}</div>
+					{arrowVisible && <div className={arrowClass} ref="arrow" style={arrowStyles} />}
+					<div className={innerClass}>{content}</div>
 				</div>
 			</span>
 		);

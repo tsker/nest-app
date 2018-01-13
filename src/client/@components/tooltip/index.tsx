@@ -4,9 +4,10 @@ import { Popover, PopoverProps } from '..';
 import './index.less';
 
 interface TooltipProps extends PopoverProps {
-    content: string
+	content: string;
 }
 
 export function Tooltip({ className, ...props }: TooltipProps) {
-    return <Popover {...props} className={cls('tooltip', className)} />;
+	let prefix = 'tooltip';
+	return <Popover {...props} className={cls(prefix, className)} prefix={prefix} />;
 }

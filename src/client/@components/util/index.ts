@@ -12,6 +12,36 @@ export function renderSafeOptions(component, options) {
 	}
 }
 
+export function transformOptions(o, k?): any[] {
+	switch (toType(o)) {
+		case 'object':
+			return Object.keys(o).map((value) => {
+				return { value, text: o[value] };
+			});
+		case 'array':
+			if (o.length && toType(o[0]) !== 'object') {
+				return o.map((value) => {
+					return { value, text: value };
+				});
+			}
+			return o;
+
+		default:
+			return [];
+	}
+}
+
+export function updateArr(o: any[], val): any[] {
+	let arr = o.slice();
+	let index = arr.indexOf(val);
+	if (index > -1) {
+		arr.splice(index, 1);
+	} else {
+		arr = arr.concat(val);
+	}
+	return arr;
+}
+
 export function createNode(tag: string = 'div'): HTMLElement {
 	let node = document.createElement(tag);
 	document.body.appendChild(node);

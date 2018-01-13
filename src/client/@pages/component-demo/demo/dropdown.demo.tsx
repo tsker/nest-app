@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Input, Button, Select, Checkbox, Modal, Dropdown } from '@components';
+import {  Dropdown } from '@components';
+import { Link } from 'react-router-dom';
 
 export default class extends React.Component<any, any> {
 	state = {
@@ -13,15 +14,12 @@ export default class extends React.Component<any, any> {
 		return (
 			<div>
 				<h1>Dropdown</h1>
-				<Dropdown
-					placement="bottom-start"
-					content={
-						<ul>
-							<li>asdf</li>
-						</ul>
-					}
-				>
-					<button>asdf</button>
+				<Dropdown placement="bottom-start" target={<button>asdf</button>}>
+					<Link to='/components/Input'>input</Link>
+					<p onClick={() => console.log('click')}>aasdf</p>
+					asdf
+					&nbsp;
+					asdf &nbsp;
 				</Dropdown>
 			</div>
 		);

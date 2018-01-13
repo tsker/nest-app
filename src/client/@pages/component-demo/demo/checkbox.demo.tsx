@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Input, Button, Select, Checkbox, CheckboxGroup } from '@components';
+import { Input, Button, Checkbox, CheckboxGroup } from '@components';
 
 export default class extends React.Component<any, any> {
     state = {

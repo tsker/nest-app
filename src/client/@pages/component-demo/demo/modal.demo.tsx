@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { Input, Button, Select, Checkbox } from '@components';
+import { Input, Button, Checkbox } from '@components';
 import { Modal } from '@components';
 import { delay } from '@util';
 
 let index = 0;
 function moreModal() {
 	let options = {
-        title:'modal title ' + index,
+		title: 'modal title ' + index,
 		content: (
 			<div>
 				<span onClick={moreModal}>click me {index++}, </span>
-				{Array(index).fill('').map((e, i) => <p>{'string '.repeat(i*5)}</p>)}
+				{Array(index).fill('').map((e, i) => <p>{'string '.repeat(i * 5)}</p>)}
 			</div>
 		)
 	};
@@ -39,14 +39,7 @@ export default class extends React.Component<any, any> {
 				<h1>Modal:{this.state.open ? 'on' : 'off'}</h1>
 				<span onClick={this.handleClick}>modal</span> |
 				<span onClick={() => Modal.alert('alert msg', 'alet title')}>alert</span> |
-				<span
-					onClick={() =>
-						Modal.confirm(
-							'confirm msg',
-							'confirm',
-							() => Promise.resolve(delay(2e3))
-						)}
-				>
+				<span onClick={() => Modal.confirm('confirm msg', 'confirm', () => Promise.resolve(delay(2e3)))}>
 					confirm
 				</span>
 				|

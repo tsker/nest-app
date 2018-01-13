@@ -1,0 +1,40 @@
+@import './consts.less';
+
+.disabled{
+    opacity: .4;
+    cursor: not-allowed!important
+}
+
+
+.skin-primary{
+    border: 1px solid @primary-color;
+    background:@primary-color ;
+    color: #fff;
+}
+
+.skin-primary-line{
+    border: 1px solid lighten(@primary-color, 20%);
+    background:lighten(@primary-color, 37%);
+    color: @primary-color
+}
+
+.skin-color(@type, @border, @backg){
+    .skin-@{type}{
+        border: 1px solid @@type;
+        background:@@type ;
+        color: #fff;
+    }
+
+    .skin-@{type}-line{
+        border: 1px solid lighten(@@type, @border);
+        background:lighten(@@type, @backg);
+        color: @@type
+    }
+}
+
+.skin-color(yellow, 20%, 46%);
+.skin-color(green, 20%, 52%);
+.skin-color(blue, 20%, 36%);
+.skin-color(red, 20%, 40%);
+.skin-color(black, 20%, 80%);
+.skin-color(gray, 20%, 80%);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Input, Button, Select, Checkbox } from '@components';
+import { Input, Button, Checkbox } from '@components';
 import { Modal } from '@components/modal';
 
 export default class extends React.Component<any, any> {

@@ -1,9 +1,24 @@
+// https://github.com/daneden/animate.css/blob/master/source/zooming_exits/zoomOut.css
+// exp:  animation: f-rotate 1s infinite linear;
+
 @keyframes f-rotate {
-    0% {
-        transform: rotate(0deg)
+	0% {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(1turn);
+	}
+}
+
+@keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translate3d(100%, 0, 0);
     }
 
     to {
-        transform: rotate(1turn)
+      opacity: 1;
+      transform: none;
     }
-}
+  }

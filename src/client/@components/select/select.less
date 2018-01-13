@@ -1,0 +1,73 @@
+@import '../util/styles/fn.less';
+.select {
+	&-target {
+		display: flex;
+		line-height: 36px;
+		flex: 1;
+		border: 1px solid #ddd;
+		min-width: 200px;
+		padding-left: 10px;
+		cursor: pointer;
+
+		.tag{
+			margin:6px 6px 0 0;
+			vertical-align: top;
+		}
+
+		input{
+			display: block;
+			flex: 1;
+			line-height: 36px;
+			width: 100%;
+			border: 0;
+			outline: none;
+		}
+	}
+
+	&-multiple &-label{
+		white-space: normal;
+	}
+
+	&-label {
+		flex: 1;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	&-more-icon {
+		position: relative;
+		width: 20px;
+		color: #888;
+		.icon-up,
+		.icon-down {
+			position: absolute;
+			left: 0;
+		}
+		.icon-up {
+			top: -4px;
+		}
+		.icon-down {
+			bottom: -4px;
+		}
+	}
+
+	&-popover {
+		& {
+			width: 100%;
+			margin-top: 2px;
+		}
+		&-wrap {
+			display: flex;
+			user-select: none;
+		}
+		&-inner {
+			padding: 0;
+			border: 0;
+			max-height: 250px;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+		.popover-margin(top,bottom, 1px);
+		.popover-margin(bottom,top, 1px);
+	}
+}

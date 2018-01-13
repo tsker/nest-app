@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Input, Button, Select, Checkbox, Popover } from '@components';
+import { Input, Button,  Checkbox, Popover } from '@components';
 import { Modal } from '@components/modal';
 let img = require('@static/img/img.jpg');
 

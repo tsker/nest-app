@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import * as range from 'lodash/range';
 import * as noop from 'lodash/noop';
 import { eachBind, toType, hasValue, exchangeMoment } from '../util';
-import { Select, Icon, Timer, TimerProps } from '..';
+import { Icon, Timer, TimerProps,SelectNative } from '..';
 
 import './calendar.less';
 
@@ -168,7 +168,7 @@ export class Calendar extends React.PureComponent<CalendarProps & DateRangeCalen
 				disabled: disabledDate(view.month(month))
 			};
 		});
-		return <Select name="month" options={options} value={currentMonth} onChange={this.handleViewChange} />;
+		return <SelectNative name="month" options={options} value={currentMonth} onChange={this.handleViewChange} />;
 	}
 
 	render() {
@@ -179,7 +179,7 @@ export class Calendar extends React.PureComponent<CalendarProps & DateRangeCalen
 			<div className={cls('calendar', className)}>
 				<div className="header">
 					{leftArrow && <Icon type="left" data-name="month" data-step="-1" onClick={this.handleViewChange} />}
-					<Select name="year" options={this.years} value={view.year()} onChange={this.handleViewChange} />
+					<SelectNative name="year" options={this.years} value={view.year()} onChange={this.handleViewChange} />
 					{this.renderMonths()}
 					{rightArrow && (
 						<Icon type="right" data-name="month" data-step="1" onClick={this.handleViewChange} />

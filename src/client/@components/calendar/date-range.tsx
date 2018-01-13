@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import * as range from 'lodash/range';
 import * as noop from 'lodash/noop';
 import { eachBind, toType, hasValue, exchangeMoment } from '../util';
-import { Select, Timer, TimerProps } from '..';
+import { Timer, TimerProps } from '..';
 import { Calendar } from './calendar';
 import { now } from './util';
 import './date-range.less';

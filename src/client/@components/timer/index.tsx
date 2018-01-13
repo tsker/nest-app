@@ -6,7 +6,7 @@ import * as noop from 'lodash/noop';
 import * as upperFirst from 'lodash/upperFirst';
 import * as difference from 'lodash/difference';
 import { eachBind, hasValue } from '../util';
-import { Select } from '..';
+import { SelectNative } from '..';
 import './index.less';
 
 export interface TimerProps {
@@ -73,7 +73,7 @@ export class Timer extends React.PureComponent<TimerProps, TimerState> {
 		options = props.hiddenDisable ? { options: difference(options, disableds) } : { options, disableds };
 
 		return (
-			<Select
+			<SelectNative
 				{...options}
 				name={type}
 				value={value[type]()}
