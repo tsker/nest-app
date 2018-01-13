@@ -12,7 +12,7 @@ import './index.less';
 export interface PopoverProps extends Popper.PopperOptions {
 	visible?: boolean;
 	trigger?: 'hover' | 'click';
-	content?: React.ReactElement<any> | string;
+	content?: React.ReactElement<any> | React.ReactNode| string;
 	children: React.ReactElement<any>;
 	className?: string;
 	delay?: string | number;
