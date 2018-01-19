@@ -31,9 +31,6 @@ interface PopoverState {
 	placement: Popper.Placement;
 }
 export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
-	instance: Popper;
-	timeout: any;
-	events: any;
 	public static defaultProps: Partial<PopoverProps> = {
 		placement: 'auto',
 		delay: 100,
@@ -45,6 +42,10 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 		onShow: noop
 	};
 
+	instance: Popper;
+	timeout: any;
+	events: any;
+	shouldShow: boolean;
 	constructor(p) {
 		super(p);
 
@@ -56,13 +57,13 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 		};
 
 		eachBind([ 'handleBodyClick', 'applyReactStyle', 'handleShow', 'handleHide' ], this);
+		this.shouldShow = p.visible;
 		this.events = this.getEventsProps();
 	}
 
 	applyReactStyle(data) {
 		let { styles, visible } = this.state;
 		if (!compareObjWithKey(styles, data.styles, [ 'transform' ])) {
-			console.log('update');
 			this.setState(pick(data, [ 'styles', 'placement', 'arrowStyles' ]));
 		}
 
@@ -70,21 +71,27 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 	}
 
 	componentDidMount() {
-		let { wrap, target, popover, ...refs } = this.refs;
-		let { placement, onCreate, onUpdate, arrowVisible } = this.props;
+		this.initInstance();
+	}
 
-		let arrow = arrowVisible ? { element: findDOMNode(refs.arrow) } : {};
+	initInstance() {
+		if (this.state.visible && !this.instance) {
 
-		this.instance = new Popper(findDOMNode(target), findDOMNode(popover), {
-			placement,
-			modifiers: {
-				arrow,
-				applyStyle: { enabled: false },
-				applyReactStyle: { enabled: true, fn: throttle(this.applyReactStyle, 200), order: 900 }
-			},
-			onCreate,
-			onUpdate
-		});
+			let { wrap, target, popover, ...refs } = this.refs;
+			let { placement, onCreate, onUpdate, arrowVisible } = this.props;
+			let arrow = arrowVisible ? { element: findDOMNode(refs.arrow) } : {};
+
+			this.instance = new Popper(findDOMNode(target), findDOMNode(popover), {
+				placement,
+				modifiers: {
+					arrow,
+					applyStyle: { enabled: false },
+					applyReactStyle: { enabled: true, fn: throttle(this.applyReactStyle, 200), order: 900 }
+				},
+				onCreate,
+				onUpdate
+			});
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -99,7 +106,7 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 
 	componentWillUnmount() {
 		document.removeEventListener('click', this.handleBodyClick);
-		this.instance.destroy();
+		this.instance && this.instance.destroy();
 	}
 
 	getEventsProps() {
@@ -121,11 +128,13 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 	handleShow() {
 		if (this.state.visible) return;
 		clearTimeout(this.timeout);
+		this.shouldShow = true
 		this.timeout = setTimeout(() => {
 			this.setState({ visible: true }, this.update);
 		}, this.props.delay);
 	}
 	handleHide() {
+		if (!this.state.visible) return;
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => {
 			this.setState({ visible: false });
@@ -133,6 +142,7 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 	}
 
 	update() {
+		this.initInstance();
 		this.instance.update();
 	}
 
@@ -147,10 +157,12 @@ export class Popover extends React.PureComponent<PopoverProps, PopoverState> {
 		return (
 			<span {...this.events} className={wrapClass} ref="wrap" style={style}>
 				{React.cloneElement(children, { ref: 'target' })}
-				<div ref="popover" className={popoverClass} style={styles} data-placement={placement.split('-')[0]}>
-					{arrowVisible && <div className={arrowClass} ref="arrow" style={arrowStyles} />}
-					<div className={innerClass}>{content}</div>
-				</div>
+				{this.shouldShow && (
+					<div ref="popover" className={popoverClass} style={styles} data-placement={placement.split('-')[0]}>
+						{arrowVisible && <div className={arrowClass} ref="arrow" style={arrowStyles} />}
+						<div className={innerClass}>{content}</div>
+					</div>
+				)}
 			</span>
 		);
 	}

@@ -16,9 +16,9 @@ export class Tag extends React.PureComponent<TagProps> {
 		let { className, children, skin, close, ...props } = this.props;
 
 		return (
-			<div className={cls('tag', { 'tag-close': close }, 'skin-' + skin, className)} {...props}>
+			<span className={cls('tag', { 'tag-close': close }, 'skin-' + skin, className)} {...props}>
 				{children}
-			</div>
+			</span>
 		);
 	}
 }

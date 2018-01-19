@@ -12,11 +12,11 @@ interface OptionProps extends BaseElement {
     text?: any;
 }
 
-export function Option({ text, children, disabled, checked, className, onClick }: OptionProps) {
+export function Option({children, disabled, checked, className, onClick }: OptionProps) {
     let classname = cls('select-option', { disabled }, { checked }, className);
     return (
         <div className={classname} onClick={onClick}>
-            <div className="label">{children || text}</div>
+            <div className="label">{children}</div>
             {checked && <Icon type="duihao" />}
         </div>
     );

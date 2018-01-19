@@ -15,11 +15,11 @@ export default class extends React.Component<any, any> {
 			<div>
 				<h1>Dropdown</h1>
 				<Dropdown placement="bottom-start" target={<button>asdf</button>}>
-					<Link to='/components/Input'>input</Link>
+					{/* <Link to='/components/Input'>input</Link>
 					<p onClick={() => console.log('click')}>aasdf</p>
 					asdf
 					&nbsp;
-					asdf &nbsp;
+					asdf &nbsp; */}
 				</Dropdown>
 			</div>
 		);

@@ -1,23 +1,64 @@
-input
-:not(input[type="checkbox"])
-:not(input[type="checkbox"]){
-    width: 100%;
+@import '../util/styles/fn.less';
+
+input {
+	box-sizing: border-box;
 }
 
-.input
-{
-    display: inline-block;
-    height: 25px;
-    padding: 1px 8px;
-    border-radius: 1px;
-    border: 1px solid #d9d9d9;
-    border-top: 1px solid #c0c0c0;
+.input-label {
+	display: flex;
+	position: relative;
 
-    &:focus{
-        box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
-        border: 1px solid #4d90fe;
-        outline: none;
-    }
+	.iconfont {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+.input-icon-left {
+	.iconfont {
+		margin-left: 6px;
+	}
+	.input {
+		padding-left: 25px;
+	}
+}
+.input-icon-right {
+	.iconfont {
+		right: 0;
+		margin-right: 6px;
+	}
+	.input {
+		padding-right: 25px;
+	}
+}
+.input {
+	display: block;
+	height: 36px;
+	width: 100%;
+	padding: 0 8px;
+	border-radius: 1px;
+	border: 1px solid #d9d9d9;
+	border-top: 1px solid #c0c0c0;
 
+	&:focus {
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+		border: 1px solid #4d90fe;
+		outline: none;
+	}
 
+	&-popover {
+		& {
+			width: 100%;
+			margin-top: 2px;
+		}
+		&-wrap {
+			display: block;
+			user-select: none;
+		}
+		&-inner {
+			padding: 0;
+		}
+		.popover-margin(top,bottom, 1px);
+		.popover-margin(bottom,top, 1px);
+	}
 }

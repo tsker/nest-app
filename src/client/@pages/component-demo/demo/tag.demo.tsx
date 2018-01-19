@@ -6,7 +6,7 @@ export default class extends React.Component<any, any> {
 	render() {
 		return (
 			<div>
-				<h1>Icon</h1>
+				<h1>Tag</h1>
 
 				<Tag skin='primary'>好吧</Tag>
 				<Tag skin='primary-line'>好吧</Tag>

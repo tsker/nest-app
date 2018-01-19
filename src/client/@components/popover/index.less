@@ -3,7 +3,8 @@
 .popover {
 	@arrow-size: 6px;
 
-	display: none;
+	position: absolute;
+	visibility: hidden;
 	z-index: 9;
 
 	&-wrap {
@@ -11,7 +12,7 @@
 	}
 
 	&-show {
-		display: block;
+		visibility: visible
 	}
 	&-inner {
 		border: 1px solid @border-color;

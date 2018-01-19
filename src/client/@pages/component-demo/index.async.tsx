@@ -18,7 +18,6 @@ export default class ComponentnsPage extends React.Component<any, any> {
 			'Tooltip',
 			'Calendar',
 			'Timer',
-			'Menu',
 			'Dropdown'
 		];
 		return (

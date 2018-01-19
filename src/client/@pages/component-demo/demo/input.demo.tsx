@@ -25,6 +25,11 @@ export default class extends React.Component<any, any> {
 					onFocus={this.handleMsg('激活')}
 					onBlur={this.handleMsg('取焦')}
 				/>
+
+				<Input
+				suffix
+					options={['@aaa', '@bbbb']}
+				/>
 			</div>
 		);
 	}

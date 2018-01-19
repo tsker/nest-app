@@ -10,12 +10,16 @@
     border: 1px solid @primary-color;
     background:@primary-color ;
     color: #fff;
-}
 
-.skin-primary-line{
-    border: 1px solid lighten(@primary-color, 20%);
-    background:lighten(@primary-color, 37%);
-    color: @primary-color
+    &-line{
+        border: 1px solid lighten(@primary-color, 20%);
+        background:lighten(@primary-color, 37%);
+        color: @primary-color;
+
+        &:hover{
+            border-color:@primary-color
+        }
+    }
 }
 
 .skin-color(@type, @border, @backg){
@@ -28,7 +32,11 @@
     .skin-@{type}-line{
         border: 1px solid lighten(@@type, @border);
         background:lighten(@@type, @backg);
-        color: @@type
+        color: @@type;
+
+        &:hover{
+            border-color: @@type;
+        }
     }
 }
 

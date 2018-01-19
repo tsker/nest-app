@@ -1,6 +1,7 @@
 import * as pick from 'lodash/pick';
 import * as curry from 'lodash/curry';
 import * as moment from 'moment';
+import { clearTimeout } from 'timers';
 
 export function renderSafeOptions(component, options) {
 	if (toType(options) === 'object') {

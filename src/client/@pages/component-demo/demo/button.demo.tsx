@@ -15,6 +15,8 @@ export default class extends React.Component<any, any> {
 			<div>
 				<h1>Button:{this.state.count}</h1>
 				<Button onClick={this.handleClick}>fdf</Button>
+				<Button onClick={this.handleClick}>fdf</Button>
+				<Button onClick={this.handleClick}>fdf</Button>
 				<Button disabled={true}>fdf</Button>
 				<Button loading={true}>fdf</Button>
 			</div>

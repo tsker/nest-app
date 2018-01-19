@@ -8,6 +8,5 @@ interface TooltipProps extends PopoverProps {
 }
 
 export function Tooltip({ className, ...props }: TooltipProps) {
-	let prefix = 'tooltip';
-	return <Popover {...props} className={cls(prefix, className)} prefix={prefix} />;
+	return <Popover {...props} className={className} prefix='tooltip' />;
 }
