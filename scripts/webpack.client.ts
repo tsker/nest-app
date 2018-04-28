@@ -1,7 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as webpack from 'webpack';
-import * as merge from 'webpack-merge';
 import * as Html from 'html-webpack-plugin';
 import { exec } from 'child_process';
 import { compose } from 'redux';
@@ -28,6 +27,7 @@ console.log('webpack env::', process.env.NODE_ENV);
 !development && exec(`rm -r ${distPath}`);
 
 const config: any = {
+    mode:'development',
     devtool: 'source-map',
     entry: development ? { main } : { main, vendor },
     output: {
