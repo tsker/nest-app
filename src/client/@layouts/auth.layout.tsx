@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Route, Link } from 'react-router-dom';
 
-import { generateAsyncComponent as am } from '@components';
+import { generateAsyncComponent as am } from './components/async.component';
 import * as LoginPage from '@pages/auth/login/index.async';
 
-class MainLayout extends React.Component<any, any> {
+class AuthLayout extends React.Component<any, any> {
 	render() {
 		return (
 			<div id="app">
@@ -14,4 +14,4 @@ class MainLayout extends React.Component<any, any> {
 	}
 }
 
-export default MainLayout;
+export default AuthLayout;

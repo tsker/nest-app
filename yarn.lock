@@ -3335,10 +3335,6 @@ pluralize@^3.0.0:
   version "3.1.0"
   resolved "http://registry.npm.taobao.org/pluralize/download/pluralize-3.1.0.tgz#84213d0a12356069daa84060c559242633161368"
 
-popper.js@^1.12.9:
-  version "1.12.9"
-  resolved "http://registry.npm.taobao.org/popper.js/download/popper.js-1.12.9.tgz#0dfbc2dff96c451bb332edcfcfaaf566d331d5b3"
-
 postcss-calc@^5.2.0:
   version "5.3.1"
   resolved "http://registry.npm.taobao.org/postcss-calc/download/postcss-calc-5.3.1.tgz#77bae7ca928ad85716e2fda42f261bf7c1d65b5e"

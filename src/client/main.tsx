@@ -17,7 +17,6 @@ function bootstrap(Component) {
         </Provider>
     );
 
-    // =================== dev ================
     if (process.env.NODE_ENV === 'development') {
         let { AppContainer } = require('react-hot-loader');
         app = (
