@@ -98,12 +98,13 @@ const config: any = {
 
         development ? null : new webpack.HashedModuleIdsPlugin(),
         development ? null : new webpack.optimize.OccurrenceOrderPlugin(false),
-        development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
-        development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }),
-        development ? null : new webpack.optimize.ModuleConcatenationPlugin(),
+        // development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }), // webpack 4 delete
+        // development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'manifest' }), // webpack 4 delete
+        // development ? null : new webpack.optimize.ModuleConcatenationPlugin(), // webpack 4 defualt exist
         development ? null : new BundleAnalyzerPlugin(),
         development
             ? null
+            // 在 4.x 版本之前，用的是 extract-text-webpack-plugin，不过 webpack@4.3.0 不支持使用。
             : new Extract({
                   filename: 'index-[chunkhash:8].css',
                   disable: false,
@@ -111,6 +112,7 @@ const config: any = {
               }),
         development
             ? null
+            // webpack 4 默认提供？？？
             : new Uglify({
                   uglifyOptions: {
                       compress: { warnings: false },

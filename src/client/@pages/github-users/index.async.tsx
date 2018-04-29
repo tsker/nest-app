@@ -15,7 +15,7 @@ class GithubUsersPage extends React.Component<any, any> {
 			<div>
 				<input onChange={this.handleChange} />
 				{loading && <h1>loading...</h1>}
-				{users.map((e) => <h1>{e.login || e}</h1>)}
+				{users && users.map((e) => <h1>{e.login || e}</h1>)}
 			</div>
 		);
 	}

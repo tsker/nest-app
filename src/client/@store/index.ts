@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose, Store, combineReducers } from 'redux';
+import { mergeMap } from 'rxjs/operators';
 import { createEpicMiddleware, combineEpics } from 'redux-observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import modules from './modules';
@@ -19,7 +20,7 @@ export default function create(data = {}): LifeStore {
 
 	// epics middle
 	let behaviorEpics$ = new BehaviorSubject(rootEpics);
-	let rootEpics$ = (actions$, store) => behaviorEpics$.mergeMap((epic) => epic(actions$, store, {}));
+	let rootEpics$ = (actions$, store) => behaviorEpics$.pipe(mergeMap((epic) => epic(actions$, store, {})));
 	let epicMiddle = createEpicMiddleware(rootEpics$);
 
 	// middles & enhancers

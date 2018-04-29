@@ -1,5 +1,6 @@
-import { Observable } from 'rxjs';
+import { timer } from 'rxjs';
 import { fetchSearchUsers } from '@servers/github';
+import { mergeMap, map, filter, switchMap } from 'rxjs/operators';
 
 const SEARCH_USERS = `GITHUB-USER/SEARCH_USERS`;
 const RECEIVE_USERS = `GITHUB-USER/RECEIVE_USERS`;
@@ -35,13 +36,16 @@ export const actions = {
 const searchUsersEpic = (action$) =>
 	action$
 		.ofType(SEARCH_USERS)
-		.map((act) => act.payload.query)
-		.filter(Boolean)
-		.switchMap((q) =>
-			Observable.timer(800)
-				.mergeMap(() => fetchSearchUsers(q))
-				.map((data) => data['items'])
-				.map(actions.receiveUsers)
+		.pipe(
+			map((act: any) => act.payload.query),
+			filter(Boolean),
+			switchMap((q) =>
+				timer(800).pipe(
+					mergeMap(() => fetchSearchUsers(q)),
+					map((data) => data['items']),
+					map(actions.receiveUsers)
+				)
+			)
 		);
 
 export const epics = [ searchUsersEpic ];

@@ -25,7 +25,7 @@ export async function bootstrap(cb = bootstrapBackcall) {
 		: '../client';
 	app.use(express.static(path.resolve(__dirname, clientDistRelativePath)));
 
-	const nest = await NestFactory.create(ApplicationModule, app);
+	const nest = await NestFactory.create(ApplicationModule, app, { cors: true });
 	nest.use(multiparty());
 	nest.use(bodyParser.urlencoded({ extended: true }));
 	nest.use(bodyParser.json());

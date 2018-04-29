@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { interval } from 'rxjs';
+import { takeUntil, map, delay, switchMap } from 'rxjs/operators';
 
 const INC = `COUNTER/INC`;
 const DEC = `COUNTER/DEC`;
@@ -37,15 +38,17 @@ export const actions = {
 	}
 };
 
-const asyncIncEpic = (action$) => action$.ofType(ASYNC_INC).delay(1000).map(actions.inc);
+const asyncIncEpic = (action$) => action$.ofType(ASYNC_INC).pipe(delay(1000), map(actions.inc));
 
-const asyncDecEpic = (action$) => action$.ofType(ASYNC_DEC).delay(1000).map(actions.dec);
+const asyncDecEpic = (action$) => action$.ofType(ASYNC_DEC).pipe(delay(1000), map(actions.dec));
 
 const intervalIncEpic = (action$) =>
 	action$
 		.ofType(INTERVAL_INC)
-		.switchMap((e) =>
-			Observable.interval(1000).takeUntil(action$.ofType(ASYNC_DEC, DEC)).map(actions.inc)
+		.pipe(
+			switchMap((e) =>
+				interval(1000).pipe(takeUntil(action$.ofType(ASYNC_DEC, DEC)), map(actions.inc))
+			)
 		);
 
 export const epics = [ asyncIncEpic, asyncDecEpic, intervalIncEpic ];
