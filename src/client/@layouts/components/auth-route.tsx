@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, RouteProps, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { pick } from 'lodash';
+import pick from 'lodash-es/pick'
 
 interface LoginedProps {
 	logined: boolean;

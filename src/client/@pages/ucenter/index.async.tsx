@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as pick from 'lodash/pick';
+import pick from 'lodash-es/pick'
+
 import { actions } from '@store/modules/auth';
 import { alway } from '@util';
 

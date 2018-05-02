@@ -3,6 +3,7 @@ import { BrowserRouter, HashRouter as Router, Switch, Route, Link } from 'react-
 
 import MainLayout from './@layouts/main.layout';
 import AuthLayout from './@layouts/auth.layout';
+import './app.less'
 
 export default props => {
     return (

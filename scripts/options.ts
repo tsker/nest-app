@@ -18,19 +18,6 @@ export const main = development
     ? ['react-hot-loader/patch', 'webpack-hot-middleware/client', resolve('main.tsx')]
     : resolve('main.tsx');
 
-export const vendor = [
-    'react',
-    'react-dom',
-    'react-router-dom',
-    'redux',
-    'react-redux',
-    'axios',
-    'redux-observable',
-    'moment',
-    'lodash',
-    'rxjs'
-];
-
 export const jsFilename = development ? 'js/[name].js' : 'js/[name].[chunkhash].js';
 
 export const loaders = {

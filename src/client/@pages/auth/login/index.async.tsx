@@ -1,8 +1,9 @@
 import * as React from 'react';
-import * as pick from 'lodash/pick';
 import { connect } from 'react-redux';
-import { actions } from '@store/modules/auth';
 import { Link } from 'react-router-dom';
+import pick from 'lodash-es/pick'
+
+import { actions } from '@store/modules/auth';
 
 class LoginPage extends React.Component<any, any> {
     state = {
