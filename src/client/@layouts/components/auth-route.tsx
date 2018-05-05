@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createElement } from 'react';
 import { Route, RouteProps, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import pick from 'lodash-es/pick'

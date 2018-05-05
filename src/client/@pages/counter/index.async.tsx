@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createElement } from 'react';
 import { connect } from 'react-redux';
 import { injectModule } from '@store';
 import * as mod from './counter.module';

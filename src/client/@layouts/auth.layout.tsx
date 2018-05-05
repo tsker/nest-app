@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { createElement, Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 
 import { generateAsyncComponent as am } from './components/async.component';
 import * as LoginPage from '@pages/auth/login/index.async';
 
-class AuthLayout extends React.Component<any, any> {
+class AuthLayout extends Component<any, any> {
 	render() {
 		return (
 			<div id="app">

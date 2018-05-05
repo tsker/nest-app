@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createElement } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { combineReducers } from 'redux';
@@ -35,6 +35,7 @@ function bootstrap(Component) {
 }
 
 if (module.hot && process.env.NODE_ENV === 'development') {
+	console.log('env:: development')
 
 	module.hot.accept('./app', () =>
 		import('./app').then((a) => {

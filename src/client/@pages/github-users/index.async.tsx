@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { createElement, Component } from 'react';
 import { connect } from 'react-redux';
 import { injectModule } from '@store';
 import * as githubUsers from './github-users.module';
 
 injectModule('githubUsers', githubUsers);
-class GithubUsersPage extends React.Component<any, any> {
+class GithubUsersPage extends Component<any, any> {
 	handleChange = (e) => {
 		this.props.searchUsers(e.target.value);
 	};

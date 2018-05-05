@@ -1,8 +1,8 @@
-import * as React from 'react';
+import { createElement, Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 
 import { generateAsyncComponent as am } from './components/async.component';
-import AuthRoute from "./components/auth-route";
+import AuthRoute from './components/auth-route';
 
 import HomePage from '@pages/home';
 import * as TestPage from '@pages/test/index.async';
@@ -10,7 +10,7 @@ import * as CounterPage from '@pages/counter/index.async';
 import * as GithubUsersPage from '@pages/github-users/index.async';
 import * as UcenterPage from '@pages/ucenter/index.async';
 
-class MainLayout extends React.Component<any, any> {
+class MainLayout extends Component<any, any> {
 	render() {
 		return (
 			<div id="app">
