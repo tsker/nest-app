@@ -2,10 +2,10 @@ import { createElement, PureComponent } from 'react';
 
 export class AsyncComponent extends PureComponent<any, any> {
 	state = {
-		Mod: () => <span />
+		Mod: () => null
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		this.load();
 	}
 
@@ -15,11 +15,17 @@ export class AsyncComponent extends PureComponent<any, any> {
 		}
 	}
 
+	parseComponent = Mod => {
+		Mod = Mod.default || Mod;
+		this.setState({ Mod });
+	}
+
 	load() {
-		this.props.component((Mod) => {
-			Mod = Mod.default || Mod;
-			this.setState({ Mod });
-		});
+		let {component}=this.props
+		if(component.then){
+			return component.then(this.parseComponent)
+		}
+		component(this.parseComponent);
 	}
 
 	render() {

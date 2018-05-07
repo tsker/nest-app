@@ -1,0 +1,20 @@
+.skin(@type){
+    .skin-@{type}{
+        background: @@type!important;
+        color: #fff;
+    }
+
+    .skin-@{type}-line{
+        border: 1px solid @@type!important;
+        color: @@type!important;
+        background: fade(@@type, 10%)!important;
+    }
+}
+
+.skin(primary);
+.skin(blue);
+.skin(red);
+.skin(green);
+.skin(yellow);
+.skin(purple);
+.skin(dark);

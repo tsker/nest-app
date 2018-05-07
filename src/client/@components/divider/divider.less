@@ -1,0 +1,40 @@
+.divider {
+	@color: #e5e5e5;
+
+	margin: 5px 0;
+	min-height: 28px;
+	display: flex;
+	align-items: center;
+
+	&::before,
+	&::after {
+		content: '';
+		height: 0;
+		display: inline-block;
+		flex: 1;
+		border-bottom: 1px solid @color;
+	}
+
+	@offset: 20px;
+	& > span {
+		padding: 0 @offset;
+	}
+
+	&-dashed {
+		&::before,
+		&::after {
+			border-bottom-style: dashed;
+		}
+	}
+
+	&-align-left {
+		&::after {
+			flex: 16;
+		}
+	}
+	&-align-right {
+		&::before {
+			flex: 16;
+		}
+	}
+}

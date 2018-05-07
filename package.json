@@ -22,7 +22,9 @@
     "server:static": "sh ./scripts/movfile.sh",
     "============================== client =========================": "",
     "client:prod": "yarn &&cross-env NODE_ENV=production  yarn client:build",
-    "client:build": "webpack --config scripts/webpack.client.ts"
+    "client:build": "webpack --config scripts/webpack.client.ts",
+    "============================== other =========================": "",
+    "component": "ts-node scripts/component"
   },
   "dependencies": {
     "@nestjs/common": "^4.2.1",
@@ -43,7 +45,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pug": "^2.0.0-rc.4",
-    "react": "^16.1.1",
+    "react": "^16.3.2",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
@@ -65,7 +67,7 @@
     "@types/passport": "^0.4.1",
     "@types/passport-jwt": "^3.0.0",
     "@types/pug": "^2.0.4",
-    "@types/react": "^16.0.34",
+    "@types/react": "^16.3.13",
     "@types/react-dom": "^16.0.3",
     "@types/react-hot-loader": "^4.1.0",
     "@types/react-redux": "^5.0.14",

@@ -28,7 +28,7 @@ console.log('webpack env::', process.env.NODE_ENV);
 
 const config: any = {
 	mode: process.env.NODE_ENV,
-	// devtool: 'inline-source-map',
+	devtool: 'inline-source-map',
 	entry: { main },
 	output: {
 		path: distPath,
