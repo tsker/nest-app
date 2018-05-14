@@ -5,6 +5,8 @@ export * from './alert'
 export * from './divider'
 export * from './togglable'
 export * from './collapse'
+export * from './badge'
+export * from './countdown'
 
 export * from './flex'
 export * from './input'

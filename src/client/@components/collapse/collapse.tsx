@@ -22,7 +22,7 @@ interface CollapseState {
 export class Collapse extends PureComponent<CollapseProps, CollapseState> {
 	public static defaultProps: Partial<CollapseProps> = {
 		defaultIsOpen: true,
-		onChange:noop,
+		onChange: noop,
 		receiveKey: false
 	};
 	public static getDerivedStateFromProps(nextProps, preState) {
@@ -74,9 +74,7 @@ export class Collapse extends PureComponent<CollapseProps, CollapseState> {
 						{header}
 					</div>
 				)}
-				<div className="collapse-bd">
-					<Togglable isVisable={isOpen} children={children} />
-				</div>
+				<Togglable prefix="collapse-bd" isVisable={isOpen} children={children} />
 			</div>
 		);
 	}

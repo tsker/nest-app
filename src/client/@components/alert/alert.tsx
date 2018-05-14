@@ -52,8 +52,8 @@ export class Alert extends PureComponent<AlertProps, AlertState> {
 				isVisable={isShow}
 				prefix="alert"
 				onDone={this.handleDone}
-				other={closeIcon && <Icon type="close" onClick={this.handleClose} />}
 			>
+				{closeIcon && <Icon type="close" onClick={this.handleClose} />}
 				{this.props.children}
 			</Togglable>
 		);

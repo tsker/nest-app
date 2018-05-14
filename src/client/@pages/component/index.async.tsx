@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { AsyncComponent } from '@layouts/components/async.component';
 
-const coms = [ 'alert', 'collapse', 'icon', 'skin', 'togglable' ];
+const coms = [ 'icon', 'skin', 'togglable', 'alert', 'collapse', 'badge', 'countdown' ];
 const linkStyl = {
 	paddingRight: 8,
 	marginRight: 8,

@@ -7,7 +7,7 @@ import { compose } from 'redux';
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const Uglify = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 import {
@@ -70,25 +70,33 @@ const config: any = {
 			}
 		].filter(Boolean)
 	},
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendor: {
-					test: /node_modules/, // 指定是node_modules下的第三方包
-					chunks: 'initial',
-					name: 'vendor', // 打包后的文件名，任意命名
-					// 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
-					priority: 10
+	optimization: development
+		? {}
+		: {
+				splitChunks: {
+					cacheGroups: {
+						vendor: {
+							test: /node_modules/, // 指定是node_modules下的第三方包
+							chunks: 'initial',
+							name: 'vendor', // 打包后的文件名，任意命名
+							// 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
+							priority: 10
+						},
+						styles: {
+							name: 'styles',
+							test: /\.(le|c)ss$/,
+							chunks: 'all',
+							enforce: true
+						}
+					}
 				}
-			}
-		}
-	},
+			},
 	plugins: [
 		new webpack.EnvironmentPlugin({ NODE_ENV: process.env.NODE_ENV }),
 		new ForkTsCheckerWebpackPlugin({ tsconfig: tsconfigFile }),
 		new Html({
 			template: resolve('index.html'),
-			filename: development ? 'index.html' : 'index.html', //output
+			filename: 'index.html' , //output
 			inject: 'body',
 			__js: injectPackageToWidow.templateJss,
 			minify: {
@@ -119,7 +127,7 @@ const config: any = {
 					// Options similar to the same options in webpackOptions.output
 					// both options are optional
 					filename: 'css/main-[chunkhash:8].css',
-					chunkFilename: '[id].css'
+					// chunkFilename: 'css/[id]-[name]-[chunkhash:8].css'
 				}),
 		development
 			? null

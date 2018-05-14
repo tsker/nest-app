@@ -1,20 +1,26 @@
 .alert {
 	position: relative;
-	.icon-close {
-		position: absolute;
-		font-size: 20px;
-		right: 10px;
-		top: 14px;
-		opacity: .5;
-		cursor: pointer;
-		&:hover {
-			opacity: .8;
-		}
-	}
+	color: #666;
 
 	&-content {
 		background: #f6f6f6;
 		padding: 15px 29px 15px 15px;
 		margin-bottom: 20px;
+	}
+
+	.icon-close:first-child {
+		position: absolute;
+		font-size: 20px;
+		right: 10px;
+		top: 12px;
+		opacity: .8;
+		cursor: pointer;
+		&:hover {
+			opacity: 1;
+		}
+
+		& + * {
+			margin-top: 0;
+		}
 	}
 }

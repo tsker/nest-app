@@ -6,15 +6,28 @@ export default class AlertExample extends Component<any, any> {
 		collapse: false,
 		arrordion: [ 'asdf' ]
 	};
+
 	render() {
+		let content = (
+			<div style={{background:'#eee'}}>
+				<div>content</div>
+				<div>content</div>
+				<div>content</div>
+				<div>content</div>
+				<div>content</div>
+				<div>content</div>
+				<div>content</div>
+				<div>content</div>
+			</div>
+		);
 		return (
 			<section>
 				<Collapse
+					header="collapse"
 					isOpen={this.state.collapse}
 					onChange={(collapse) => this.setState({ collapse })}
 				>
-					<div className="header">collapse</div>
-					<h2>sdfasdf</h2>
+					{content}
 				</Collapse>
 
 				<Divider />
@@ -24,26 +37,26 @@ export default class AlertExample extends Component<any, any> {
 					activeKeys={this.state.arrordion}
 					onChange={(arrordion) => this.setState({ arrordion })}
 				>
-					<Collapse key="asdf">
-						<div className="header">Arrordion0</div>
-						<h2>sdfasdf</h2>
+					<Collapse key="asdf" header="Arrordion0">
+						{content}
 					</Collapse>
-					<Collapse key="11">
-						<div className="header">Arrordion0</div>
-						<h2>sdfasdf</h2>
+					<Collapse key="11" header="Arrordion0">
+						{content}
 					</Collapse>
 				</Arrordion>
 
 				<Divider />
 
 				<Arrordion onChange={console.log}>
-					<Collapse key="asdf">
-						<div className="header">Arrordion1</div>
-						<h2>sdfasdf</h2>
+					<Collapse key="asdf" header='Arrordion1'>
+						{content}
 					</Collapse>
-					<Collapse key="11">
-						<div className="header">Arrordion1</div>
-						<h2>sdfasdf</h2>
+					<Collapse key="11" header='Arrordion1'>
+						{content}
+					</Collapse>
+					<Collapse key="121">
+						<b className="header">custome header Arrordion1</b>
+						{content}
 					</Collapse>
 				</Arrordion>
 			</section>

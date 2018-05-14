@@ -23,7 +23,7 @@ export default class SkinExample extends Component<any, any> {
 			<section>
 				{skins.map((e) => (
 					<div key={e} style={{ padding: 10, margin: 20 }} className={'skin-' + e}>
-						{e}
+						className  <b>.skin-{e}</b>
 					</div>
 				))}
 			</section>

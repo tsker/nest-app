@@ -6,7 +6,6 @@ interface TogglableProps extends HtmlHTMLAttributes<HTMLDivElement> {
 	delay?: number;
 	onDone?: any;
 	prefix?: string;
-	other?: any;
 }
 
 export class Togglable extends PureComponent<TogglableProps> {
@@ -63,12 +62,11 @@ export class Togglable extends PureComponent<TogglableProps> {
 			return null;
 		}
 
-		let { delay, isVisable, prefix, onDone, other, ...props } = this.props;
+		let { delay, isVisable, prefix, onDone, ...props } = this.props;
 		let contentCls = cls(`${prefix}-content`, props.className);
 		return (
 			<div ref={this.rootRef} className={cls(prefix, 'hidden')}>
 				<div {...props} className={contentCls} />
-				{other}
 			</div>
 		);
 	}

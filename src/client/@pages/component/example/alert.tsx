@@ -6,9 +6,12 @@ export default class AlertExample extends Component<any, any> {
 		return (
 			<section>
 				<Alert closeIcon onClose={() => console.log('alert close')} className="skin-blue">
-					asdfasdf
+					<span>asdfasdf</span>
 				</Alert>
-				<Alert>asdfasdf</Alert>
+				<Alert closeIcon>
+					<h3>Alert</h3>
+					<span>asdfasdf</span>
+				</Alert>
 			</section>
 		);
 	}

@@ -1,46 +1,34 @@
-import * as fs from 'fs'
-let path = require('path');
-let comName = process.argv[2]
-let componentName = comName.replace(/^./, s =>s.toUpperCase())
-let componentPath = path.resolve(__dirname, '../src/client/@components', comName)
+import * as fs from 'fs';
+import * as path from 'path';
+import * as tpls from './component-tpl';
 
-var comtpl = `import { createElement, PureComponent, HtmlHTMLAttributes } from 'react';
-import * as cls from 'classnames';
+let argv: string[] = process.argv.slice();
+let nameArr        = argv[2].toLowerCase().split('/');
+let name           = nameArr[nameArr.length-1]
+let componentName  = name.replace(/^./, (s) => s.toUpperCase());
+let componentPath  = path.resolve(__dirname, '../src/client/@components', nameArr[0]);
 
-import './${comName}.less'
+main();
 
-interface ${componentName}Props extends HtmlHTMLAttributes<HTMLDivElement> {}
-interface ${componentName}State {}
-
-export class ${componentName} extends PureComponent<${componentName}Props,${componentName}State> {
-    public static defaultProps: Partial<${componentName}Props> = {};
-
-    render() {
-        return <div />;
-    }
-}
-`
-
-
-function notExist(p){
-    return !fs.existsSync(p)
+function notExist(p) {
+	return !fs.existsSync(p);
 }
 
-function create(file, tpl){
-    file = path.resolve(componentPath, file)
-    if(notExist(file)){
-        fs.writeFileSync(file, tpl, 'utf-8')
-    }
+function create(file, tpl) {
+	file = path.resolve(componentPath, file);
+	if (notExist(file)) {
+		fs.writeFileSync(file, tpl, 'utf-8');
+	}
 }
 
-function main(){
-    if(notExist(componentPath)){
-        fs.mkdirSync(componentPath)
-    }
+function main() {
+	if (notExist(componentPath)) {
+		fs.mkdirSync(componentPath);
+	}
 
-    create('index.ts'       ,   `export * from './${comName}'`   )
-    create(`${comName}.less`,   ``                               )
-    create(`${comName}.tsx` ,   comtpl                           )
+	let tpl = argv.indexOf('--fn') > -1 ? tpls.fnTpl : tpls.classTpl;
+
+	create('index.ts', `export * from './${name}'`);
+	create(`${name}.less`, ``);
+	create(`${name}.tsx`, tpl(name, componentName));
 }
-
-main()
