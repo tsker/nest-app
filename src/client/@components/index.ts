@@ -8,5 +8,8 @@ export * from './collapse'
 export * from './badge'
 export * from './countdown'
 
+export * from "./position";
+export * from "./popover";
+
 export * from './flex'
 export * from './input'

@@ -9,6 +9,7 @@ import './alert.less';
 interface AlertProps extends HtmlHTMLAttributes<HTMLDivElement> {
 	closeIcon?: boolean;
 	onClose?: any;
+	skin?: string;
 }
 interface AlertState {
 	isShow: boolean;
@@ -18,7 +19,8 @@ interface AlertState {
 export class Alert extends PureComponent<AlertProps, AlertState> {
 	public static defaultProps: Partial<AlertProps> = {
 		closeIcon: false,
-		onClose:noop
+		onClose: noop,
+		skin: 'dark-ghost'
 	};
 
 	state = {
@@ -39,7 +41,7 @@ export class Alert extends PureComponent<AlertProps, AlertState> {
 	}
 
 	render() {
-		let { closeIcon, className } = this.props;
+		let { closeIcon, className, skin } = this.props;
 		let { isShow, closed } = this.state;
 
 		if (closed) {
@@ -48,13 +50,12 @@ export class Alert extends PureComponent<AlertProps, AlertState> {
 
 		return (
 			<Togglable
-				className={className}
-				isVisable={isShow}
-				prefix="alert"
+				className={cls('alert', className, 'skin-' + skin)}
+				isVisible={isShow}
 				onDone={this.handleDone}
 			>
 				{closeIcon && <Icon type="close" onClick={this.handleClose} />}
-				{this.props.children}
+				<div className="alert-content">{this.props.children}</div>
 			</Togglable>
 		);
 	}

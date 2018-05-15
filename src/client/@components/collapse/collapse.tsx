@@ -74,7 +74,7 @@ export class Collapse extends PureComponent<CollapseProps, CollapseState> {
 						{header}
 					</div>
 				)}
-				<Togglable prefix="collapse-bd" isVisable={isOpen} children={children} />
+				<Togglable prefix="collapse-bd" isVisible={isOpen} children={children} />
 			</div>
 		);
 	}

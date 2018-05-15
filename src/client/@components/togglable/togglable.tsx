@@ -1,73 +1,80 @@
 import { createElement, PureComponent, HtmlHTMLAttributes } from 'react';
 import * as cls from 'classnames';
+import { noop, TimeQueue, bindAll } from '../util';
 
 interface TogglableProps extends HtmlHTMLAttributes<HTMLDivElement> {
-	isVisable?: boolean;
+	isVisible?: boolean;
 	delay?: number;
 	onDone?: any;
-	prefix?: string;
 }
 
-export class Togglable extends PureComponent<TogglableProps> {
+interface TogglableState {
+	isRender: boolean;
+}
+
+export class Togglable extends PureComponent<TogglableProps, TogglableState> {
 	public static defaultProps: Partial<TogglableProps> = {
-		isVisable: true,
+		isVisible: true,
 		delay: 300,
-		prefix: 'togglable',
-		onDone() {}
+		className: 'togglable',
+		onDone: noop
 	};
 	public static getDerivedStateFromProps(nextProps, preState) {
-		if (nextProps.isVisable && !preState.isRender) {
+		if (nextProps.isVisible && !preState.isRender) {
 			return { isRender: true };
 		}
 		return null;
 	}
-	public state = { isRender: this.props.isVisable };
+	public state = { isRender: this.props.isVisible || false };
 
-	private timer: any;
 	private rootEl: any;
+	private rootElHeight: number = 0;
 	private rootRef = (el) => {
 		if (el) {
 			this.rootEl = el;
 		}
 	};
 
-	componentDidUpdate(preProps) {
-		let { rootEl } = this;
-		let { delay, isVisable, onDone } = this.props;
+	private queue: any;
+	constructor(p) {
+		super(p);
+		bindAll(this, 'animationStart', 'animationActive', 'animationDone');
 
-		if (preProps.isVisable === isVisable) {
-			return;
-		}
+		this.queue = new TimeQueue({
+			onDone: this.animationDone,
+			tasks: [ this.animationStart, this.animationActive ],
+			times: [ 0, p.delay ]
+		});
+	}
+
+	animationStart({ delay, isVisible }) {
+		let { rootEl } = this;
 
 		rootEl.removeAttribute('style');
-		let height = rootEl.offsetHeight;
+		let height = (this.rootElHeight = rootEl.offsetHeight);
 
-		let transitionCss = delay ? `transition: all ease ${delay / 1000}s` : '';
+		let transitionCss = `transition: all ease ${delay / 1000}s`;
+		rootEl.setAttribute('style', `${transitionCss}; height:${isVisible ? 0 : height}px`);
+	}
+	animationActive({ isVisible }) {
+		let height = !isVisible ? 0 : this.rootElHeight;
+		this.rootEl.style.height = height + 'px';
+	}
+	animationDone({ isVisible }) {
+		this.rootEl.setAttribute('style', isVisible ? '' : 'display: none');
+	}
 
-		let start = `height: ${isVisable ? 0 : height}px; ${transitionCss}`;
-		let to = `height: ${!isVisable ? 0 : height}px;${transitionCss}`;
-		let end = isVisable ? '' : 'display:none';
-
-		rootEl.setAttribute('style', start);
-		setTimeout(() => rootEl.setAttribute('style', to), 0);
-
-		clearTimeout(this.timer);
-		this.timer = setTimeout(() => {
-			rootEl.setAttribute('style', end);
-			onDone();
-		}, delay);
+	componentDidUpdate(preProps) {
+		let { props } = this;
+		let diff = preProps.isVisible !== props.isVisible
+		return  diff && this.queue.start(props);
 	}
 	render() {
 		if (!this.state.isRender) {
 			return null;
 		}
 
-		let { delay, isVisable, prefix, onDone, ...props } = this.props;
-		let contentCls = cls(`${prefix}-content`, props.className);
-		return (
-			<div ref={this.rootRef} className={cls(prefix, 'hidden')}>
-				<div {...props} className={contentCls} />
-			</div>
-		);
+		let { delay, isVisible, onDone, ...props } = this.props;
+		return <div ref={this.rootRef} {...props} className={cls(props.className, 'hidden')} />;
 	}
 }

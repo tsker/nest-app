@@ -42,6 +42,7 @@ export class Countdown extends PureComponent<CountdownProps, CountdownState> {
 	private timer: any;
 	componentDidMount() {
 		this.timer = setInterval(this.decrement, 1e3);
+		this.decrement();
 	}
 
 	componentWillUnmount() {
@@ -50,29 +51,27 @@ export class Countdown extends PureComponent<CountdownProps, CountdownState> {
 
 	decrement() {
 		let { endCount } = this.props;
-		let count = this.state.count - 1;
-		this.setState({ count });
+		let { count } = this.state;
 
 		if (count <= endCount!) {
 			clearInterval(this.timer);
 			this.props.onDone();
+		} else {
+			this.setState({ count: count - 1 });
 		}
 	}
 
 	formatSecond(second) {
 		return {
-			seconds: '' + Math.floor(second % 60),
-			minutes: '' + Math.floor((second / 60) % 60),
-			hours: '' + Math.floor((second / 60 / 60) % 24),
-			days: '' + Math.floor(second / 60 / 60 / 24)
+			seconds: '' + Math.max(0, Math.floor(second % 60)),
+			minutes: '' + Math.max(0, Math.floor((second / 60) % 60)),
+			hours: '' + Math.max(0, Math.floor((second / 60 / 60) % 24)),
+			days: '' + Math.max(0, Math.floor(second / 60 / 60 / 24))
 		};
 	}
 
-	renderTimeCol(value, separate?) {
-		return [
-			<span>{value.padStart(2, 0)}</span>,
-			separate && <span className="countdown-separate">:</span>
-		];
+	renderTimeCol(value) {
+		return <span>{value.padStart(2, 0)}</span>;
 	}
 
 	render() {
@@ -82,9 +81,12 @@ export class Countdown extends PureComponent<CountdownProps, CountdownState> {
 			let time = this.formatSecond(count);
 			return (
 				<span className="countdown-time">
-					{this.renderTimeCol(time.days, true)}
-					{this.renderTimeCol(time.hours, true)}
-					{this.renderTimeCol(time.minutes, true)}
+					{this.renderTimeCol(time.days)}
+					<span className="countdown-separate">:</span>
+					{this.renderTimeCol(time.hours)}
+					<span className="countdown-separate">:</span>
+					{this.renderTimeCol(time.minutes)}
+					<span className="countdown-separate">:</span>
 					{this.renderTimeCol(time.seconds)}
 				</span>
 			);

@@ -9,7 +9,7 @@ export default class AlertExample extends Component<any, any> {
 		return (
 			<section>
 				<div onClick={() => this.setState({ show: !this.state.show })}>toggle</div>
-				<Togglable isVisable={this.state.show}>
+				<Togglable isVisible={this.state.show}>
 					<h2>asdfasdf</h2>
 					<h2>asdfasdf</h2>
 				</Togglable>
