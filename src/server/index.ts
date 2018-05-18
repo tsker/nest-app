@@ -4,6 +4,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as multiparty from 'connect-multiparty';
 
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+import { schema } from './apollo-schema';
+
 import { port } from './utils/config';
 
 import { ApplicationModule } from './app.module';
@@ -18,6 +21,8 @@ export async function bootstrap(cb = bootstrapBackcall) {
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'pug');
 	app.use(express.static(path.resolve(__dirname, 'static')));
+	app.use('/gql', bodyParser.json(), graphqlExpress({ schema }));
+	app.use('/gql-query', graphiqlExpress({ endpointURL: '/gql' }));
 
 	// 映射prod版前端react目录
 	const clientDistRelativePath = NODE_ENV.match('development')
