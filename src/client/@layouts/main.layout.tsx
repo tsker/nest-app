@@ -9,8 +9,9 @@ import * as ComponentPage from '@pages/component/index.async';
 import * as CounterPage from '@pages/counter/index.async';
 import * as GithubUsersPage from '@pages/github-users/index.async';
 import * as UcenterPage from '@pages/ucenter/index.async';
+import * as ApolloPage from '@pages/apollo/index.async';
 
-const menus = [ 'home', 'component', 'counter', 'github-users', 'ucenter' ];
+const menus = [ 'home', 'component', 'counter', 'github-users', 'ucenter','','apollo' ];
 const navStyl={
 	borderBottom:'1px solid #ccc',
 	paddingBottom: 10,
@@ -42,6 +43,7 @@ class MainLayout extends Component<any, any> {
 					<Route path="/counter" component={am(CounterPage)} />
 					<Route path="/github-users" component={am(GithubUsersPage)} />
 					<AuthRoute path="/ucenter" component={am(UcenterPage)} />
+					<Route path="/apollo" component={am(ApolloPage)} />
 				</div>
 			</div>
 		);
