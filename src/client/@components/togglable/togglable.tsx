@@ -1,80 +1,175 @@
-import { createElement, PureComponent, HtmlHTMLAttributes } from 'react';
+import { createElement, PureComponent, HtmlHTMLAttributes, createRef } from 'react';
 import * as cls from 'classnames';
-import { noop, TimeQueue, bindAll } from '../util';
+
+import { Transition, EnterStatus, OutStatus } from '../transition';
+import { noop, bindAll } from '../util';
 
 interface TogglableProps extends HtmlHTMLAttributes<HTMLDivElement> {
-	isVisible?: boolean;
-	delay?: number;
-	onDone?: any;
+    /**
+     * 是否显示组件
+     */
+    isVisible?: boolean;
+    /**
+     * 组件从显示到完全隐藏时，此为一个周期
+     * 每一次的周期完成，都会调用done事件一次
+     * 也就是组件每到达一次 OutStatus.END 的状态，都会调用done
+     */
+    onDone?: any;
+    /**
+     * 在组件初次挂载后执行一次enter状态
+     */
+    isEnterWithMounted?: boolean;
+    /**
+     * 动画时间
+     */
+    delay?: number;
+    /**
+     * 启用的动画
+     */
+    animation?: string;
+    /**
+     * 在组件隐藏后，是否保留dom结构
+     */
+    isKeepDom?: boolean;
 }
 
 interface TogglableState {
-	isRender: boolean;
+    /**
+     * 如果组件的isVisible默认为false;
+     * 初次挂载组件将不会执行任何逻辑
+     * 将下一次显示做为初态
+     * 此状态的改变，只有一次
+     */
+    isRender: boolean;
 }
 
 export class Togglable extends PureComponent<TogglableProps, TogglableState> {
-	public static defaultProps: Partial<TogglableProps> = {
-		isVisible: true,
-		delay: 300,
-		className: 'togglable',
-		onDone: noop
-	};
-	public static getDerivedStateFromProps(nextProps, preState) {
-		if (nextProps.isVisible && !preState.isRender) {
-			return { isRender: true };
-		}
-		return null;
-	}
-	public state = { isRender: this.props.isVisible || false };
+    static defaultProps: Partial<TogglableProps> = {
+        isVisible: true,
+        className: 'togglable',
+        onDone: noop,
+        isEnterWithMounted: true,
 
-	private rootEl: any;
-	private rootElHeight: number = 0;
-	private rootRef = (el) => {
-		if (el) {
-			this.rootEl = el;
-		}
-	};
+        animation: 'autoHeight',
+        delay: 400,
 
-	private queue: any;
-	constructor(p) {
-		super(p);
-		bindAll(this, 'animationStart', 'animationActive', 'animationDone');
+        isKeepDom: true
+    };
 
-		this.queue = new TimeQueue({
-			onDone: this.animationDone,
-			tasks: [ this.animationStart, this.animationActive ],
-			times: [ 0, p.delay ]
-		});
-	}
+    static getDerivedStateFromProps (nextProps, preState) {
+        if (nextProps.isVisible && !preState.isRender) {
+            return { isRender: true };
+        }
 
-	animationStart({ delay, isVisible }) {
-		let { rootEl } = this;
+        return null;
+    }
 
-		rootEl.removeAttribute('style');
-		let height = (this.rootElHeight = rootEl.offsetHeight);
+    private rootEl: React.RefObject<HTMLDivElement>;
+    private rootElHeight: number = 0;
+    constructor (p) {
+        super(p);
 
-		let transitionCss = `transition: all ease ${delay / 1000}s`;
-		rootEl.setAttribute('style', `${transitionCss}; height:${isVisible ? 0 : height}px`);
-	}
-	animationActive({ isVisible }) {
-		let height = !isVisible ? 0 : this.rootElHeight;
-		this.rootEl.style.height = height + 'px';
-	}
-	animationDone({ isVisible }) {
-		this.rootEl.setAttribute('style', isVisible ? '' : 'display: none');
-	}
+        this.state = { isRender: p.isVisible };
+        this.rootEl = createRef();
 
-	componentDidUpdate(preProps) {
-		let { props } = this;
-		let diff = preProps.isVisible !== props.isVisible
-		return  diff && this.queue.start(props);
-	}
-	render() {
-		if (!this.state.isRender) {
-			return null;
-		}
+        bindAll(this, 'handleEnd');
+    }
 
-		let { delay, isVisible, onDone, ...props } = this.props;
-		return <div ref={this.rootRef} {...props} className={cls(props.className, 'hidden')} />;
-	}
+    handleEnd (status) {
+        if (this.props.animation === 'autoHeight') {
+            let { current } = this.rootEl;
+            if (current && current.offsetHeight > 0) {
+                this.rootElHeight = current.offsetHeight;
+            }
+        }
+
+        if (status === OutStatus.END) {
+            this.props.onDone();
+        }
+    }
+
+    getAutoHeightAnimationStyle (status, delay) {
+        let style: any = {
+            transition: `all ease ${delay! / 1000}s`,
+            overflow: 'hidden'
+        };
+        switch (status) {
+            case EnterStatus.START:
+            case OutStatus.ACTIVE:
+                style.height = 0;
+                break;
+            case EnterStatus.ACTIVE:
+            case OutStatus.START:
+                style.height = this.rootElHeight + 'px';
+                break;
+            case EnterStatus.END:
+                style.height = 'auto';
+                break;
+            case OutStatus.END:
+                style.display = 'none';
+                break;
+        }
+
+        return style;
+    }
+
+    getTransitionProps (status, className) {
+        let { animation, delay } = this.props;
+        let style;
+
+        if (animation === 'autoHeight') {
+            style = this.getAutoHeightAnimationStyle(status, delay);
+        } else {
+            let isEnter = status.match(/^enter-/);
+            if (!isEnter) {
+                animation = animation!.replace('In', 'Out');
+            }
+
+            style = delay && { animationDuration: `${delay / 1000}s` };
+            className = cls(className, 'animated', animation);
+        }
+
+        return { className, style };
+    }
+
+    render () {
+        if (!this.state.isRender) {
+            return null;
+        }
+
+        let {
+            isVisible,
+            onDone,
+            className,
+            isEnterWithMounted,
+            delay,
+            isKeepDom,
+            ...props
+        } = this.props;
+
+        return (
+            <Transition
+                enter={isVisible}
+                onEnd={this.handleEnd}
+                isEnterWithMounted={isEnterWithMounted}
+                delay={delay}
+            >
+                {(status) => {
+                    console.log(status);
+
+                    if (!isKeepDom && status === OutStatus.END) {
+                        return null;
+                    }
+
+                    return (
+                        <div
+                            ref={this.rootEl}
+                            {...props}
+                            {...this.getTransitionProps(status, className)}
+                        />
+                    );
+                }}
+            </Transition>
+        );
+    }
 }

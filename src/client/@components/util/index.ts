@@ -1,5 +1,7 @@
 export * from './time-queue';
 
+export function noop() {}
+
 export function bindAll(context, ...fns) {
 	function bind(fn) {
 		context[fn] = context[fn].bind(context);
@@ -7,8 +9,6 @@ export function bindAll(context, ...fns) {
 
 	fns.forEach(bind);
 }
-
-export function noop() {}
 
 export function pull(array, ...rest) {
 	let values = new Set(rest);
@@ -54,4 +54,8 @@ export function queue(...fns) {
 	let last = fns.pop();
 
 	return (arg) => fns.reduceRight((next, fn) => () => fn(arg, next), last)();
+}
+
+export function upperFirst(str: string){
+    return str.replace(/^./, s => s.toUpperCase())
 }

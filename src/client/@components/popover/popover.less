@@ -1,0 +1,111 @@
+.popover {
+    @offset-width: 10px;
+
+    & {
+        transition: all ease .3s;
+    }
+
+    &-inner {
+        position: relative;
+        background: #aaa;
+        &::before {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            position: absolute;
+            border: 6px solid transparent;
+        }
+    }
+
+    &-arrow[data-placement^=top] &-inner {
+        margin-bottom: @offset-width;
+        &::before {
+            border-top-color: #f00;
+            bottom: 0;
+            transform: translateY(100%);
+        }
+    }
+    &-arrow[data-placement^=bottom] &-inner {
+        margin-top: @offset-width;
+        &::before {
+            border-bottom-color: #f00;
+            top: 0;
+            transform: translateY(-100%);
+        }
+    }
+
+    &-arrow[data-placement=top] &-inner {
+        &::before {
+            left: 50%;
+            transform: translate(-50%, 100%);
+        }
+    }
+    &-arrow[data-placement=bottom] &-inner {
+        &::before {
+            left: 50%;
+            transform: translate(-50%, -100%);
+        }
+    }
+
+    &-arrow[data-placement=top-start] &-inner,
+    &-arrow[data-placement=bottom-start] &-inner {
+        &::before {
+            left: 0;
+            margin-left: 5px;
+        }
+    }
+
+    &-arrow[data-placement=top-end] &-inner,
+    &-arrow[data-placement=bottom-end] &-inner {
+        &::before {
+            right: 0;
+            margin-right: 5px;
+        }
+    }
+
+    &-arrow[data-placement^=left] &-inner {
+        margin-right: @offset-width;
+        &::before {
+            border-left-color: #f00;
+            right: 0;
+            transform: translateX(100%);
+        }
+    }
+    &-arrow[data-placement^=right] &-inner {
+        margin-left: @offset-width;
+        &::before {
+            border-right-color: #f00;
+            left: 0;
+            transform: translateX(-100%);
+        }
+    }
+    &-arrow[data-placement=left] &-inner {
+        &::before {
+            top: 50%;
+            transform: translate(100%, -50%);
+        }
+    }
+    &-arrow[data-placement=right] &-inner {
+        &::before {
+            top: 50%;
+            transform: translate(-100%, -50%);
+        }
+    }
+
+    &-arrow[data-placement=left-start] &-inner,
+    &-arrow[data-placement=right-start] &-inner {
+        &::before {
+            top: 0;
+            margin-top: 5px;
+        }
+    }
+
+    &-arrow[data-placement=left-end] &-inner,
+    &-arrow[data-placement=right-end] &-inner {
+        &::before {
+            bottom: 0;
+            margin-bottom: 5px;
+        }
+    }
+}

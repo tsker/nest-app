@@ -1,81 +1,109 @@
 import { createElement, cloneElement, PureComponent, Children, HtmlHTMLAttributes } from 'react';
 import * as cls from 'classnames';
 
+import { Position, PositionPopperProps } from '../position';
 import { bindAll } from '../util';
 import './popover.less';
 
-interface PopoverProps extends HtmlHTMLAttributes<HTMLDivElement> {
-	target?: any;
-	inner?: any;
-	arrow?: boolean;
+interface PopoverProps extends HtmlHTMLAttributes<HTMLDivElement>, PositionPopperProps {
+    target?: any;
+    inner?: any;
 
-	trigger?: 'hover' | 'click' | 'focus';
-	triggerPopover?: boolean;
-	delay?: number;
+    arrow?: boolean;
+    isShow?: boolean;
+
+    trigger?: 'hover' | 'click';
+    triggerPopover?: boolean;
+    delay?: number;
 }
 interface PopoverState {
-	isShow: boolean;
-	isInitPosition: boolean;
+    isShow: boolean;
 }
 
 export class Popover extends PureComponent<PopoverProps, PopoverState> {
-	public static defaultProps: Partial<PopoverProps> = {
-		trigger: 'hover',
-		triggerPopover: true,
-		delay: 200
-	};
-	state = {
-		isShow: false,
-		isInitPosition: false
-	};
+    public static defaultProps: Partial<PopoverProps> = {
+        trigger: 'hover',
+        triggerPopover: true,
+        delay: 200
+    };
 
-	private events: any;
-	constructor(p) {
-		super(p);
-		bindAll(this, 'fireHide', 'fireShow', 'initPosition');
-		this.events = {
-			hover: {
-				onMouseEnter: this.fireShow,
-				onMouseLeave: this.fireHide
-			},
-			click: {
-				tabIndex: '999',
-				onFocus: this.fireShow,
-				onBlur: this.fireHide
-			}
-		};
-	}
+    public static getDerivedStateFromProps ({ isShow }, preState) {
+        if (isShow !== preState.isShow) {
+            return { isShow };
+        }
+        return null;
+    }
 
-	private initPosition() {
-		this.setState({ isInitPosition: true });
-	}
+    state = {
+        isShow: this.props.isShow || false
+    };
 
-	private timer: any;
-	private fire(isShow, delay?) {
-		clearTimeout(this.timer);
-		this.timer = setTimeout(() => {
-			if (isShow !== this.state.isShow) {
-				this.setState({ isShow });
-			}
-		}, delay || this.props.delay);
-	}
-	private fireShow() {
-		this.fire(true, 20);
-	}
-	private fireHide() {
-		this.fire(false);
-	}
+    private events: any;
+    constructor (p) {
+        super(p);
+        bindAll(this, 'fireHide', 'fireShow');
 
-	render() {
-		let { target, inner, children, trigger, triggerPopover } = this.props;
-		let { isInitPosition, isShow } = this.state;
-		let { events } = this;
+        let hover = {
+            onMouseEnter: this.fireShow,
+            onMouseLeave: this.fireHide
+        };
+        let focus = {
+            tabIndex: '999',
+            onFocus: this.fireShow,
+            onBlur: this.fireHide
+        };
 
-		let [ pTarget = target, pInner = inner ] = Children.toArray(children);
-		let innerCls = cls('popover-inner', isInitPosition && !isShow && 'hide');
+        this.events =
+            'isShow' in p
+                ? {}
+                : {
+                      hover: hover,
+                      focus: focus,
+                      click: focus
+                  };
+    }
 
-		return (
-			<div></div>
-		);
-	}
+    private timer: any;
+    private fire (isShow, delay?) {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            if (isShow !== this.state.isShow) {
+                this.setState({ isShow });
+            }
+        }, delay || this.props.delay);
+    }
+    private fireShow () {
+        this.fire(true, 20);
+    }
+    private fireHide () {
+        this.fire(false);
+    }
+
+    render () {
+        let { target, inner, children, trigger, triggerPopover, placement, arrow } = this.props;
+        let { isShow } = this.state;
+
+        let [ pTarget = target, pInner = inner ] = Children.toArray(children);
+        let innerCls = cls('popover', arrow && 'popover-arrow', !isShow && 'hide');
+        let events = this.events[trigger!];
+
+        return (
+            <Position>
+                <Position.Reference>
+                    {({ getReferenceRef }) =>
+                        cloneElement(pTarget, {
+                            ref: getReferenceRef,
+                            ...events
+                        })}
+                </Position.Reference>
+                <Position.Popper placement={placement}>
+                    {({ getPopperRef }) => (
+                        <div ref={getPopperRef} className={innerCls} {...triggerPopover && events}>
+                            <div className='popover-inner'>{pInner}</div>
+                        </div>
+                    )}
+                </Position.Popper>
+            </Position>
+        );
+    }
 }

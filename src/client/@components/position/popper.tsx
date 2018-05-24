@@ -1,15 +1,15 @@
 import { createElement, Component, ReactNode } from 'react';
 
-import { PositionNativeJS,PositionNativeJSOpts } from './package/position';
+import { PositionNativeJS, PositionNativeJSOpts } from './package/position';
 import { Consumer, getRefFn } from './context';
 import { bindAll, delayFn, pick } from '../util';
 
-interface PositionPopperWrapperChildProps {
+interface PositionPopperChildProps {
 	getPopperRef: getRefFn;
 }
 
 interface PositionPopperWrapperProps extends PositionNativeJSOpts {
-	children: (x: PositionPopperWrapperChildProps) => ReactNode;
+	children: (x: PositionPopperChildProps) => ReactNode;
 }
 
 interface PositionPopperProps extends PositionPopperWrapperProps {
@@ -20,9 +20,9 @@ interface PositionPopperState {
 }
 
 class PositionPopper extends Component<PositionPopperProps, PositionPopperState> {
-	private popperInstance: PositionNativeJS | undefined;
+	private popperInstance?: PositionNativeJS;
 
-	public static defaultProps: Partial<PositionPopperProps> = {};
+	public static defaultProps: Partial<PositionPopperProps> = PositionNativeJS.defaultOpts
 
 	constructor(p) {
 		super(p);
@@ -35,31 +35,45 @@ class PositionPopper extends Component<PositionPopperProps, PositionPopperState>
 	}
 
 	initPopper() {
-		let { reference, placement } = this.props;
+		let { reference, ...opts } = this.props;
 		let { popper } = this.state;
 		if (!this.popperInstance && reference && popper) {
-			this.popperInstance = new PositionNativeJS(reference, popper, { placement });
+			this.popperInstance = new PositionNativeJS(reference, popper, opts);
 			return true;
 		}
 		return false;
 	}
-	componentDidUpdate() {
-		this.initPopper();
+	destoryPopper(){
+		if(!this.popperInstance){
+			return
+		}
+
+		this.popperInstance.destory()
+		this.popperInstance = undefined
 	}
 
-	componentWillUnmount() {
-		if (this.popperInstance) {
-			this.popperInstance.destory();
+	componentDidUpdate(preProps) {
+		if (!this.initPopper()) {
+			if (
+				this.props.placement !== preProps.placement
+				|| this.props.flip !== preProps.flip
+				|| this.props.reference !== preProps.reference
+			) {
+				this.destoryPopper()
+				this.initPopper()
+			}
 		}
+	}
+	componentWillUnmount() {
+		this.destoryPopper()
 	}
 
 	render() {
-		return this.props.children({
-			getPopperRef: this.getPopperRef
-		});
+		return this.props.children({ getPopperRef: this.getPopperRef });
 	}
 }
 
+export {PositionNativeJSOpts as PositionPopperProps}
 export function PositionPopperWrapper(props: PositionPopperWrapperProps) {
 	return (
 		<Consumer>
