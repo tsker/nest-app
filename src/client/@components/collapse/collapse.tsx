@@ -6,76 +6,76 @@ import { Togglable } from '../togglable';
 import './collapse.less';
 
 export interface CollapseProps extends HtmlHTMLAttributes<HTMLDivElement> {
-	$key?: string | number;
-	receiveKey?: any;
+    $key?: string | number;
+    receiveKey?: any;
 
-	header?: ReactNode;
-	defaultIsOpen?: boolean;
-	isOpen?: boolean;
-	onChange?: any;
+    header?: ReactNode;
+    defaultIsOpen?: boolean;
+    isOpen?: boolean;
+    onChange?: any;
 }
 
 interface CollapseState {
-	isOpen: boolean;
+    isOpen: boolean;
 }
 
 export class Collapse extends PureComponent<CollapseProps, CollapseState> {
-	public static defaultProps: Partial<CollapseProps> = {
-		defaultIsOpen: true,
-		onChange: noop,
-		receiveKey: false
-	};
-	public static getDerivedStateFromProps(nextProps, preState) {
-		if ('isOpen' in nextProps && nextProps.isOpen !== preState.isOpen) {
-			return { isOpen: nextProps.isOpen };
-		}
-		return null;
-	}
-	public state = {
-		isOpen: this.props.defaultIsOpen as boolean
-	};
+    public static defaultProps: Partial<CollapseProps> = {
+        defaultIsOpen: true,
+        onChange: noop,
+        receiveKey: false
+    };
+    public static getDerivedStateFromProps (nextProps, preState) {
+        if ('isOpen' in nextProps && nextProps.isOpen !== preState.isOpen) {
+            return { isOpen: nextProps.isOpen };
+        }
+        return null;
+    }
+    public state = {
+        isOpen: this.props.defaultIsOpen as boolean
+    };
 
-	constructor(p) {
-		super(p);
-		bindAll(this, 'handleClick');
-	}
+    constructor (p) {
+        super(p);
+        bindAll(this, 'handleClick');
+    }
 
-	handleClick() {
-		let isOpen = !this.state.isOpen;
+    handleClick () {
+        let isOpen = !this.state.isOpen;
 
-		if (!('isOpen' in this.props)) {
-			this.setState({ isOpen });
-		}
+        if (!('isOpen' in this.props)) {
+            this.setState({ isOpen });
+        }
 
-		let { $key, receiveKey, onChange } = this.props;
-		if (receiveKey) {
-			receiveKey($key);
-		} else {
-			onChange(isOpen);
-		}
-	}
+        let { $key, receiveKey, onChange } = this.props;
+        if (receiveKey) {
+            receiveKey($key);
+        } else {
+            onChange(isOpen);
+        }
+    }
 
-	render() {
-		let { isOpen } = this.state;
-		let { className, header, children, ...props } = this.props;
+    render () {
+        let { isOpen } = this.state;
+        let { className, header, children, ...props } = this.props;
 
-		if (header) {
-			header = <div className="collapse-header">{header}</div>;
-		} else if (Array.isArray(children) && children.length > 1) {
-			[ header, ...children ] = children as any[];
-		}
+        if (header) {
+            header = <div className='collapse-header'>{header}</div>;
+        } else if (Array.isArray(children) && children.length > 1) {
+            [ header, ...children ] = children as any[];
+        }
 
-		let rootCLs = cls('collapse', className, { 'collapse-open': isOpen });
+        let rootCLs = cls('collapse', className, { 'collapse-open': isOpen });
 
-		return (
-			<div className={rootCLs}>
-				{header && (
-					<div className="collapse-hd" onClick={this.handleClick}>
-						{header}
-					</div>
-				)}
-				<Togglable prefix="collapse-bd" isVisible={isOpen} children={children} />
-			</div>
-		);
-	}
+        return (
+            <div className={rootCLs}>
+                {header && (
+                    <div className='collapse-hd' onClick={this.handleClick}>
+                        {header}
+                    </div>
+                )}
+                <Togglable className='collapse-bd' isVisible={isOpen} children={children} />
+            </div>
+        );
+    }
 }

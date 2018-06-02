@@ -76,11 +76,8 @@ export class Togglable extends PureComponent<TogglableProps, TogglableState> {
     }
 
     handleEnd (status) {
-        if (this.props.animation === 'autoHeight') {
-            let { current } = this.rootEl;
-            if (current && current.offsetHeight > 0) {
-                this.rootElHeight = current.offsetHeight;
-            }
+        if (status === 'mounting' && this.props.animation === 'autoHeight') {
+            this.updateElHeight();
         }
 
         if (status === OutStatus.END) {
@@ -88,7 +85,20 @@ export class Togglable extends PureComponent<TogglableProps, TogglableState> {
         }
     }
 
+    updateElHeight () {
+        let { current } = this.rootEl;
+        if (current && current.offsetHeight > 0) {
+            this.rootElHeight = current.offsetHeight;
+        }
+    }
+
     getAutoHeightAnimationStyle (status, delay) {
+        // 修正 显示后高度变化检测不到
+        // 在显示后如果高度有变化，在状态改变的一瞬间，为渲染一次上一结束状态，此时更新高度
+        if (status.match(/-end$/)) {
+            this.updateElHeight();
+        }
+
         let style: any = {
             transition: `all ease ${delay! / 1000}s`,
             overflow: 'hidden'
@@ -155,8 +165,6 @@ export class Togglable extends PureComponent<TogglableProps, TogglableState> {
                 delay={delay}
             >
                 {(status) => {
-                    console.log(status);
-
                     if (!isKeepDom && status === OutStatus.END) {
                         return null;
                     }
