@@ -23,10 +23,8 @@ export default class PositionExample extends Component<any, any> {
 	render() {
 		return (
 			<section>
-				<div style={{ height: 1000, background: '#eee' }} />
 				<div style={{ margin: 100 }}>
 					<select
-						style={{ margin: 50 }}
 						onChange={(e) => this.setState({ placement: e.target.value })}
 						value={this.state.placement}
 					>
@@ -45,7 +43,7 @@ export default class PositionExample extends Component<any, any> {
 								</button>
 							)}
 						</Position.Reference>
-						<Position.Popper placement="bottom">
+						<Position.Popper placement={this.state.placement as any}>
 							{({ getPopperRef }) => (
 								<div ref={getPopperRef}>
 									<div style={{ background: '#aaa' }}>
@@ -59,10 +57,7 @@ export default class PositionExample extends Component<any, any> {
 						</Position.Popper>
 					</Position>
 				</div>
-				<div style={{ height: 3000, background: '#eee' }} />
-				<div>
-					ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-				</div>
+				<div style={{ height: 1200, background: '#eee' }} />
 			</section>
 		);
 	}

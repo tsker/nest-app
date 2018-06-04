@@ -21,7 +21,7 @@ import * as cls from 'classnames';
 
 import './${fileName}.less';
 
-interface ${componentName}Props extends HtmlHTMLAttributes<HTMLSpanElement> {
+interface ${componentName}Props extends HtmlHTMLAttributes<HTMLDivElement> {
 }
 
 export function ${componentName}(props: ${componentName}Props) {

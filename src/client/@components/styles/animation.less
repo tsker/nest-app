@@ -1,0 +1,147 @@
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both
+}
+
+.animated.infinite {
+    animation-iteration-count: infinite
+}
+
+@animation-offset:12px;
+
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(@animation-offset);
+        pointer-events: none
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fadeInDown,
+div[data-placement^=bottom] .fadeIn {
+    animation-name: fadeInDown
+}
+
+@keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        transform: none;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(@animation-offset);
+        pointer-events: none
+    }
+}
+
+.fadeOutDown,
+div[data-placement^=bottom] .fadeOut {
+    animation-name: fadeOutDown
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(-@animation-offset);
+        pointer-events: none
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fadeInUp,
+div[data-placement^=top] .fadeIn {
+    animation-name: fadeInUp
+}
+
+@keyframes fadeOutUp {
+    0% {
+        opacity: 1;
+        transform: none;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-@animation-offset);
+        pointer-events: none
+    }
+}
+
+.fadeOutUp,
+div[data-placement^=top] .fadeOut {
+    animation-name: fadeOutUp
+}
+
+@keyframes fadeInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-@animation-offset);
+        pointer-events: none
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fadeInLeft,
+div[data-placement^=left] .fadeIn {
+    animation-name: fadeInLeft
+}
+
+@keyframes fadeOutLeft {
+    0% {
+        opacity: 1;
+        transform: none;
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-@animation-offset);
+        pointer-events: none
+    }
+}
+
+.fadeOutLeft,
+div[data-placement^=left] .fadeOut {
+    animation-name: fadeOutLeft
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(@animation-offset);
+        pointer-events: none
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fadeInRight,
+div[data-placement^=right] .fadeIn {
+    animation-name: fadeInRight
+}
+
+@keyframes fadeOutRight {
+    0% {
+        opacity: 1;
+        transform: none;
+    }
+    to {
+        opacity: 0;
+        transform: translateX(@animation-offset);
+        pointer-events: none
+    }
+}
+
+.fadeOutRight,
+div[data-placement^=right] .fadeOut {
+    animation-name: fadeOutRight
+}

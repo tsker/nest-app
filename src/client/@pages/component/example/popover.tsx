@@ -57,8 +57,8 @@ export default class PopoverExample extends Component<any, any> {
         return (
             <section>
                 <div style={{ padding: 100 }}>
-                    <button onClick={() => this.setState({show: true})}>show</button>
-                    <button onClick={() => this.setState({show: false})}>hide</button>
+                    <button onClick={() => this.setState({ show: true })}>show</button>
+                    <button onClick={() => this.setState({ show: false })}>hide</button>
                     <Popover arrow isShow={this.state.show} placement={this.state.p1}>
                         {this.renderSelect('p1')}
                         <div style={{ padding: 10 }}>p1p1p1p1p1p</div>
@@ -66,8 +66,16 @@ export default class PopoverExample extends Component<any, any> {
 
                     <Popover arrow placement={this.state.p2} trigger='hover'>
                         {this.renderSelect('p2')}
-                        <div style={{ padding: 10 }}>p1p1p1p1p1p</div>
+                        <div style={{ padding: 10 }}>p2p2p2p2p2p2p2p</div>
                     </Popover>
+
+                    <Popover placement='bottom-start' trigger='click'triggerPopover={false}>
+                        <input />
+                        <div style={{ padding: 10 }}>
+                            <input />
+                        </div>
+                    </Popover>
+                    <div style={{height:1000}}></div>
                 </div>
             </section>
         );

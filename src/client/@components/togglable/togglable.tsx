@@ -115,9 +115,6 @@ export class Togglable extends PureComponent<TogglableProps, TogglableState> {
             case EnterStatus.END:
                 style.height = 'auto';
                 break;
-            case OutStatus.END:
-                style.display = 'none';
-                break;
         }
 
         return style;
@@ -137,6 +134,10 @@ export class Togglable extends PureComponent<TogglableProps, TogglableState> {
 
             style = delay && { animationDuration: `${delay / 1000}s` };
             className = cls(className, 'animated', animation);
+        }
+
+        if (status === OutStatus.END) {
+            style.display = 'none';
         }
 
         return { className, style };

@@ -2,6 +2,7 @@ import { createElement, cloneElement, PureComponent, Children, HtmlHTMLAttribute
 import * as cls from 'classnames';
 
 import { Position, PositionPopperProps } from '../position';
+import { Togglable } from '../togglable';
 import { bindAll } from '../util';
 import './popover.less';
 
@@ -21,6 +22,7 @@ interface PopoverState {
 }
 
 export class Popover extends PureComponent<PopoverProps, PopoverState> {
+    update: any;
     public static defaultProps: Partial<PopoverProps> = {
         trigger: 'hover',
         triggerPopover: true,
@@ -28,7 +30,7 @@ export class Popover extends PureComponent<PopoverProps, PopoverState> {
     };
 
     public static getDerivedStateFromProps ({ isShow }, preState) {
-        if (isShow !== preState.isShow) {
+        if (isShow !== undefined && isShow !== preState.isShow) {
             return { isShow };
         }
         return null;
@@ -39,6 +41,7 @@ export class Popover extends PureComponent<PopoverProps, PopoverState> {
     };
 
     private events: any;
+    private positionInstance: any;
     constructor (p) {
         super(p);
         bindAll(this, 'fireHide', 'fireShow');
@@ -64,19 +67,15 @@ export class Popover extends PureComponent<PopoverProps, PopoverState> {
     }
 
     private timer: any;
-    private fire (isShow, delay?) {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-            if (isShow !== this.state.isShow) {
-                this.setState({ isShow });
-            }
-        }, delay || this.props.delay);
-    }
     private fireShow () {
-        this.fire(true, 20);
+        clearTimeout(this.timer);
+        let { delay } = this.props;
+        this.timer = setTimeout(() => this.setState({ isShow: true }, this.update), delay);
     }
     private fireHide () {
-        this.fire(false);
+        clearTimeout(this.timer);
+        let { delay } = this.props;
+        this.timer = setTimeout(() => this.setState({ isShow: false }), delay);
     }
 
     render () {
@@ -84,7 +83,7 @@ export class Popover extends PureComponent<PopoverProps, PopoverState> {
         let { isShow } = this.state;
 
         let [ pTarget = target, pInner = inner ] = Children.toArray(children);
-        let innerCls = cls('popover', arrow && 'popover-arrow', !isShow && 'hide');
+        let innerCls = cls('popover', arrow && 'popover-arrow');
         let events = this.events[trigger!];
 
         return (
@@ -97,11 +96,25 @@ export class Popover extends PureComponent<PopoverProps, PopoverState> {
                         })}
                 </Position.Reference>
                 <Position.Popper placement={placement}>
-                    {({ getPopperRef }) => (
-                        <div ref={getPopperRef} className={innerCls} {...triggerPopover && events}>
-                            <div className='popover-inner'>{pInner}</div>
-                        </div>
-                    )}
+                    {({ getPopperRef, update }) => {
+                        this.update = update;
+                        return (
+                            <div
+                                ref={getPopperRef}
+                                className={innerCls}
+                                {...triggerPopover && events}
+                            >
+                                <Togglable
+                                    isVisible={isShow}
+                                    className='popover-inner'
+                                    animation='fadeIn'
+                                    delay={300}
+                                >
+                                    {pInner}
+                                </Togglable>
+                            </div>
+                        );
+                    }}
                 </Position.Popper>
             </Position>
         );

@@ -36,15 +36,15 @@ export class PositionNativeJS {
         scrollParent: Element;
     };
 
-    private data: any = {
+    private created: boolean = false;
+    private eventEls: (Window | Element)[];
+
+    public data: any = {
         placement: 'bottom',
         referenceOffsets: undefined,
         positionElementOffsets: undefined,
         style: ''
     };
-
-    private created: boolean = false;
-    private eventEls: (Window | Element)[];
 
     constructor (reference: Element, positionElement: HTMLElement, opts?: PositionNativeJSOpts) {
         this.opts = { ...PositionNativeJS.defaultOpts, ...opts };
@@ -68,7 +68,6 @@ export class PositionNativeJS {
         ];
         this.applyListen('add');
 
-        this.computedDataStyle();
         this.applyPlacement()
         this.applyStyle();
         this.update();
@@ -97,7 +96,6 @@ export class PositionNativeJS {
             data.placement
         );
 
-        this.computedDataStyle();
         this.applyStyle();
 
         if (this.created) {
@@ -108,27 +106,19 @@ export class PositionNativeJS {
         }
     }
 
-    computedDataStyle () {
-        let { positionElementOffsets } = this.data;
-        let style = 'position:absolute; left:0; top:0; z-index:99;';
-
-        if (positionElementOffsets) {
-            style += `transform: translate(${positionElementOffsets.left}px, ${positionElementOffsets.top}px);`;
-        } else {
-            style += 'pointer-events:none; opacity: 0';
-        }
-
-        this.data.style = style;
-    }
-
     applyPlacement(){
         let { nodes: { positionElement }, data, opts } = this;
         positionElement.setAttribute('data-placement', data.placement || opts.placement)
     }
 
     applyStyle () {
-        let { nodes: { positionElement }, data} = this;
-        positionElement.setAttribute('style', data.style);
+        let { nodes: { positionElement }, data:{positionElementOffsets}} = this;
+        let style = 'position:absolute; left:0; top:0; z-index:99;';
+        if(positionElementOffsets){
+            positionElement.style.cssText = style + `transform: translate(${positionElementOffsets.left}px, ${positionElementOffsets.top}px);`
+        }else{
+            positionElement.style.cssText = style + 'pointer-events:none; opacity: 0'
+        }
     }
 
     scheduleUpdate = () => requestAnimationFrame(this.update);
@@ -136,7 +126,7 @@ export class PositionNativeJS {
     applyListen (fn) {
         this.eventEls.forEach((el) => {
             el[fn + 'EventListener']('scroll', this.update);
-            el[fn + 'EventListener']('resize', this.update);
+            // el[fn + 'EventListener']('resize', this.update);
         });
     }
 
