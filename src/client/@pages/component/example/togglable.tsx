@@ -15,9 +15,13 @@ export default class TogglableExample extends Component<any, any> {
                 >
                     toggle
                 </div>
-                <Togglable isVisible={this.state.show} animation='fadeInDown'>
-                    <h2>asdfasdf</h2>
-                    <h2>asdfasdf</h2>
+                <Togglable isVisible={this.state.show}>
+                    <div className='tst' style={{background:'#eee'}}>
+                        <h2>asdfasdf</h2>
+                        <h2>asdfasdf</h2>
+                        <h2>asdfasdf</h2>
+                        <h2>asdfasdf</h2>
+                    </div>
                 </Togglable>
             </section>
         );

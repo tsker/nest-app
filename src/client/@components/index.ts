@@ -8,9 +8,9 @@ export * from './togglable'
 export * from './collapse'
 export * from './badge'
 export * from './countdown'
-
 export * from "./position";
 export * from "./popover";
+export * from "./sortable";
 
 export * from './flex'
 export * from './input'

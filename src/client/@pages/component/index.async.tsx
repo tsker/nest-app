@@ -2,6 +2,7 @@ import { createElement, Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AsyncComponent } from '@layouts/components/async.component';
+import './content.less'
 
 const coms = [
     'icon',
@@ -12,7 +13,8 @@ const coms = [
     'badge',
     'countdown',
     'position',
-    'popover'
+    'popover',
+    'sortable'
 ];
 const linkStyl = {
     paddingRight: 8,

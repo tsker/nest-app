@@ -64,13 +64,12 @@ export class Togglable extends PureComponent<TogglableProps, TogglableState> {
         return null;
     }
 
-    private rootEl: React.RefObject<HTMLDivElement>;
+    private rootEl: React.RefObject<HTMLDivElement> = createRef();
     private rootElHeight: number = 0;
     constructor (p) {
         super(p);
 
         this.state = { isRender: p.isVisible };
-        this.rootEl = createRef();
 
         bindAll(this, 'handleEnd');
     }
