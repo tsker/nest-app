@@ -1,4 +1,4 @@
-import { createElement, PureComponent, HtmlHTMLAttributes, createRef } from 'react';
+import { createElement, Component, HtmlHTMLAttributes, createRef } from 'react';
 import * as cls from 'classnames';
 
 import { bindAll, noop } from '../util';
@@ -9,7 +9,7 @@ interface SortableProps extends HtmlHTMLAttributes<HTMLDivElement> {
 }
 interface SortableState {}
 
-export class Sortable extends PureComponent<SortableProps, SortableState> {
+export class Sortable extends Component<SortableProps, SortableState> {
     public static defaultProps: Partial<SortableProps> = {
         onDone: noop
     };

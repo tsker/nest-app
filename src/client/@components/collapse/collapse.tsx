@@ -1,4 +1,4 @@
-import { createElement, PureComponent, HtmlHTMLAttributes, ReactNode } from 'react';
+import { createElement, Component, HtmlHTMLAttributes, ReactNode } from 'react';
 import * as cls from 'classnames';
 
 import { bindAll, noop } from '../util';
@@ -19,7 +19,7 @@ interface CollapseState {
     isOpen: boolean;
 }
 
-export class Collapse extends PureComponent<CollapseProps, CollapseState> {
+export class Collapse extends Component<CollapseProps, CollapseState> {
     public static defaultProps: Partial<CollapseProps> = {
         defaultIsOpen: true,
         onChange: noop,

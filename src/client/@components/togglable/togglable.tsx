@@ -1,4 +1,4 @@
-import { createElement, PureComponent, HtmlHTMLAttributes, createRef } from 'react';
+import { createElement, Component, HtmlHTMLAttributes, createRef } from 'react';
 import * as cls from 'classnames';
 
 import { Transition, EnterStatus, OutStatus } from '../transition';
@@ -43,7 +43,7 @@ interface TogglableState {
     isRender: boolean;
 }
 
-export class Togglable extends PureComponent<TogglableProps, TogglableState> {
+export class Togglable extends Component<TogglableProps, TogglableState> {
     static defaultProps: Partial<TogglableProps> = {
         isVisible: true,
         className: 'togglable',

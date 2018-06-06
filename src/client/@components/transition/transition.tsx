@@ -1,4 +1,4 @@
-import { createElement, PureComponent, HtmlHTMLAttributes, Children, ReactNode } from 'react';
+import { createElement, Component, HtmlHTMLAttributes, Children, ReactNode } from 'react';
 import * as cls from 'classnames';
 
 import { noop, bindAll, TimeQueue, upperFirst } from '../util';
@@ -31,7 +31,7 @@ interface TransitionState {
     statusLife: typeof EnterStatus | typeof OutStatus;
 }
 
-export class Transition extends PureComponent<TransitionProps, TransitionState> {
+export class Transition extends Component<TransitionProps, TransitionState> {
     public static defaultProps: Partial<TransitionProps> = {
         enter: false,
         delay: 1000,

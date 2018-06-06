@@ -1,4 +1,4 @@
-import { createElement, PureComponent, HtmlHTMLAttributes } from 'react';
+import { createElement, Component, HtmlHTMLAttributes } from 'react';
 import * as cls from 'classnames';
 
 import { bindAll, noop } from '../util';
@@ -16,7 +16,7 @@ interface AlertState {
     closed: boolean;
 }
 
-export class Alert extends PureComponent<AlertProps, AlertState> {
+export class Alert extends Component<AlertProps, AlertState> {
     public static defaultProps: Partial<AlertProps> = {
         closeIcon: false,
         onClose: noop,

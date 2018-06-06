@@ -1,4 +1,4 @@
-import { createElement, cloneElement, PureComponent, Children, HtmlHTMLAttributes } from 'react';
+import { createElement, cloneElement, Component, Children, HtmlHTMLAttributes } from 'react';
 import * as cls from 'classnames';
 
 import { Position, PositionPopperProps } from '../position';
@@ -21,7 +21,7 @@ interface PopoverState {
     isShow: boolean;
 }
 
-export class Popover extends PureComponent<PopoverProps, PopoverState> {
+export class Popover extends Component<PopoverProps, PopoverState> {
     update: any;
     public static defaultProps: Partial<PopoverProps> = {
         trigger: 'hover',

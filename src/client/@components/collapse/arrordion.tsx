@@ -1,4 +1,4 @@
-import { createElement, PureComponent, ReactElement, Children, HtmlHTMLAttributes } from 'react';
+import { createElement, Component, ReactElement, Children, HtmlHTMLAttributes } from 'react';
 import * as cls from 'classnames';
 
 import { pull,  noop } from "../util";
@@ -16,7 +16,7 @@ interface ArrordionState {
 	activeKeys: any[];
 }
 
-export class Arrordion extends PureComponent<ArrordionProps, ArrordionState> {
+export class Arrordion extends Component<ArrordionProps, ArrordionState> {
 	public static defaultProps: Partial<ArrordionProps> = {
 		mode: 'arrordion',
 		onChange:noop
