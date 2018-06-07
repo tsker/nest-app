@@ -41,7 +41,7 @@ export class Transition extends Component<TransitionProps, TransitionState> {
         onEnd: noop
     };
 
-    public static getDerivedStateFromProps (nextProps, preState) {
+    public static getDerivedStateFromProps (nextProps) {
         let statusLife = nextProps.enter ? EnterStatus : OutStatus;
         return { statusLife };
     }

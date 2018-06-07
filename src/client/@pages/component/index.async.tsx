@@ -14,7 +14,8 @@ const coms = [
     'countdown',
     'position',
     'popover',
-    'sortable'
+    'sortable',
+    'form'
 ];
 const linkStyl = {
     paddingRight: 8,
