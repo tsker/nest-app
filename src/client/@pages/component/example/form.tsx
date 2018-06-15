@@ -81,9 +81,15 @@ class Form2 extends Component<any, any> {
         v1: 'v1',
         v2: 'v2'
     };
+
+    componentDidMount(){
+        setTimeout(() => {
+            this.refs.a['fireSubmit']()
+        }, 3e3);
+    }
     render () {
         return (
-            <Form onSubmit={console.log}>
+            <Form onSubmit={console.log} ref='a'>
                 {this.state.v1}
                 <Form.Item
                     name='v1'

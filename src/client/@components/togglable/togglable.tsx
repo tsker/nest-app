@@ -10,21 +10,26 @@ interface TogglableProps extends HtmlHTMLAttributes<HTMLDivElement> {
      */
     isVisible?: boolean;
     /**
+     * 组件完成下一状态时触发
+     */
+    onEnd?: any;
+    /**
      * 组件从显示到完全隐藏时，此为一个周期
      * 每一次的周期完成，都会调用done事件一次
-     * 也就是组件每到达一次 OutStatus.END 的状态，都会调用done
+     * 也就是组件每到达一次 OutStatus.END 的状态，都会触发
      */
     onDone?: any;
     /**
      * 在组件初次挂载后执行一次enter状态
      */
-    isEnterWithMounted?: boolean;
+    enterWithMounted?: boolean;
     /**
      * 动画时间
      */
     delay?: number;
     /**
      * 启用的动画
+     * 不启用则为none
      */
     animation?: string;
     /**
@@ -45,10 +50,11 @@ interface TogglableState {
 
 export class Togglable extends Component<TogglableProps, TogglableState> {
     static defaultProps: Partial<TogglableProps> = {
-        isVisible: true,
+        isVisible: false,
         className: 'togglable',
         onDone: noop,
-        isEnterWithMounted: true,
+        onEnd: noop,
+        enterWithMounted: true,
 
         animation: 'autoHeight',
         delay: 400,
@@ -75,12 +81,16 @@ export class Togglable extends Component<TogglableProps, TogglableState> {
     }
 
     handleEnd (status) {
-        if (status === 'mounting' && this.props.animation === 'autoHeight') {
+        let { props } = this;
+
+        this.props.onEnd(status)
+
+        if (status === 'mounting' && props.animation === 'autoHeight') {
             this.updateElHeight();
         }
 
         if (status === OutStatus.END) {
-            this.props.onDone();
+            props.onDone();
         }
     }
 
@@ -142,18 +152,15 @@ export class Togglable extends Component<TogglableProps, TogglableState> {
         return { className, style };
     }
 
-    render () {
-        if (!this.state.isRender) {
-            return null;
-        }
-
+    renderTransition () {
         let {
             isVisible,
-            onDone,
-            className,
-            isEnterWithMounted,
-            delay,
             isKeepDom,
+            onDone,
+            onEnd,
+            className,
+            enterWithMounted,
+            delay,
             ...props
         } = this.props;
 
@@ -161,7 +168,7 @@ export class Togglable extends Component<TogglableProps, TogglableState> {
             <Transition
                 enter={isVisible}
                 onEnd={this.handleEnd}
-                isEnterWithMounted={isEnterWithMounted}
+                enterWithMounted={enterWithMounted}
                 delay={delay}
             >
                 {(status) => {
@@ -179,5 +186,25 @@ export class Togglable extends Component<TogglableProps, TogglableState> {
                 }}
             </Transition>
         );
+    }
+
+    renderToggle () {
+        let { isVisible, className, children, isKeepDom } = this.props;
+
+        if (isVisible) {
+            return <div className={cls(className, className + '-visible')} children={children} />;
+        } else {
+            if (!isKeepDom) return null;
+
+            return <div className={className} children={children} style={{ display: 'none' }} />;
+        }
+    }
+
+    render () {
+        if (!this.state.isRender) {
+            return null;
+        }
+
+        return this.props.animation === 'none' ? this.renderToggle() : this.renderTransition();
     }
 }

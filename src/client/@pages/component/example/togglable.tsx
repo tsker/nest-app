@@ -15,7 +15,7 @@ export default class TogglableExample extends Component<any, any> {
                 >
                     toggle
                 </div>
-                <Togglable isVisible={this.state.show}>
+                <Togglable isVisible={this.state.show} animation='none'>
                     <div className='skin-dark-ghost'>
                         <h2>asdfasdf</h2>
                         <h2>asdfasdf</h2>

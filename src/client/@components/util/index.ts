@@ -1,6 +1,8 @@
 export * from './time-queue';
+export * from './create-portal-el'
+export * from './toggle-body-hidden'
 
-export function noop () {}
+export function noop (...args) {}
 
 export function bindAll (context, ...fns) {
     function bind (fn) {

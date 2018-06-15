@@ -8,6 +8,7 @@ const coms = [
     'icon',
     'skin',
     'togglable',
+    'modal',
     'alert',
     'collapse',
     'badge',

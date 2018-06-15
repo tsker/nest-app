@@ -24,7 +24,7 @@ export class Form extends Component<FormProps, FormState> {
     constructor (p) {
         super(p);
 
-        bindAll(this, 'registry', 'handleSubmit', 'unsafe_updateFieldValue');
+        bindAll(this, 'registry', 'fireSubmit', 'unsafe_updateFieldValue');
 
         this.state = {
             context: {
@@ -77,8 +77,8 @@ export class Form extends Component<FormProps, FormState> {
         field.value = value;
     }
 
-    handleSubmit (e) {
-        e.preventDefault();
+    fireSubmit (e?) {
+        e && e.preventDefault();
         let { fields } = this.state.context;
         let result = {};
         let errors;
@@ -107,7 +107,7 @@ export class Form extends Component<FormProps, FormState> {
         let { className } = this.props;
         return (
             <Provider value={this.state.context}>
-                <form onSubmit={this.handleSubmit} className={cls('form', className)}>
+                <form onSubmit={this.fireSubmit} className={cls('form', className)}>
                     {this.props.children}
                 </form>
             </Provider>
