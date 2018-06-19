@@ -1,8 +1,8 @@
 import { createElement, ReactNode } from 'react';
-import { Consumer, IContent } from './context';
+import { Consumer, IContext } from './context';
 
 interface PositionReferenceProps {
-	children: (x: IContent) => ReactNode;
+	children: (x: IContext) => ReactNode;
 }
 
 export function PositionReference({ children }: PositionReferenceProps) {

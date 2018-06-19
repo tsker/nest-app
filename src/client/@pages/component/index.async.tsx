@@ -8,13 +8,15 @@ const coms = [
     'icon',
     'skin',
     'togglable',
+    'modal',
     'alert',
     'collapse',
     'badge',
     'countdown',
     'position',
     'popover',
-    'sortable'
+    'sortable',
+    'form'
 ];
 const linkStyl = {
     paddingRight: 8,

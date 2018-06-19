@@ -1,46 +1,48 @@
-.skin(@color, @degree: 12%) {
-	background: @color;
-	color: #fff;
+.skin(@color, @degree: 92%) {
+    background: @color;
+    color: #fff;
 
-	&-ghost {
-		color: @color;
-		background: fade(@color, @degree) ;
-		&.skin-border {
-			border: 1px solid @color;
-		}
-	}
+    &-ghost {
+        color: @color;
+        background: tint(@color, @degree);
+        &.skin-border {
+            border: 1px solid @color;
+        }
+    }
 }
 
-
 .skin-primary {
-	.skin(@primary);
+    .skin(@primary);
 }
 
 .skin-red,
 .skin-error,
 .skin-danger {
-	.skin(@red);
+    .skin(@red);
 }
 
-.skin-orange,.skin-warning {
-	.skin(@orange);
+.skin-orange,
+.skin-warning {
+    .skin(@orange);
 }
 .skin-yellow {
-	.skin(@yellow);
+    .skin(@yellow);
 }
-.skin-green,.skin-success {
-	.skin(@green);
+.skin-green,
+.skin-success {
+    .skin(@green);
 }
-.skin-blue,.skin-info {
-	.skin(@blue);
+.skin-blue,
+.skin-info {
+    .skin(@blue);
 }
 .skin-blue {
-	.skin(@blue);
+    .skin(@blue);
 }
 .skin-purple {
-	.skin(@purple);
+    .skin(@purple);
 }
 
 .skin-dark {
-	.skin(@dark, 5%);
+    .skin(@dark, 96%);
 }

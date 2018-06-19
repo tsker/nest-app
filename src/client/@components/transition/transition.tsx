@@ -17,7 +17,7 @@ export enum OutStatus {
 type TransitionStatus = EnterStatus | OutStatus | 'mounting';
 interface TransitionProps {
     enter?: boolean;
-    isEnterWithMounted?: boolean;
+    enterWithMounted?: boolean;
     delay?: number;
     children: (x: TransitionStatus) => ReactNode;
 
@@ -35,13 +35,13 @@ export class Transition extends Component<TransitionProps, TransitionState> {
     public static defaultProps: Partial<TransitionProps> = {
         enter: false,
         delay: 1000,
-        isEnterWithMounted: false,
+        enterWithMounted: false,
         onStart: noop,
         onActive: noop,
         onEnd: noop
     };
 
-    public static getDerivedStateFromProps (nextProps, preState) {
+    public static getDerivedStateFromProps (nextProps) {
         let statusLife = nextProps.enter ? EnterStatus : OutStatus;
         return { statusLife };
     }
@@ -82,7 +82,7 @@ export class Transition extends Component<TransitionProps, TransitionState> {
         this.setState({ isMount: true });
         props.onEnd!('mounting');
 
-        if (props.enter && props.isEnterWithMounted) {
+        if (props.enter && props.enterWithMounted) {
             this.queue.start();
         }
     }

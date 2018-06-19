@@ -2,8 +2,7 @@ import { createElement, Component, HtmlHTMLAttributes } from 'react';
 import * as cls from 'classnames';
 
 import { bindAll, noop } from '../util';
-import { Togglable } from '../togglable';
-import { Icon } from '../icon';
+import { Togglable, CloseButton } from '../';
 import './alert.less';
 
 interface AlertProps extends HtmlHTMLAttributes<HTMLDivElement> {
@@ -53,9 +52,9 @@ export class Alert extends Component<AlertProps, AlertState> {
                 className={cls('alert', className, 'skin-' + skin)}
                 isVisible={isShow}
                 onDone={this.handleDone}
-                isEnterWithMounted={false}
+                enterWithMounted={false}
             >
-                {closeIcon && <Icon type='close' onClick={this.handleClose} />}
+                {closeIcon && <CloseButton onClick={this.handleClose} />}
                 <div className='alert-content'>{this.props.children}</div>
             </Togglable>
         );

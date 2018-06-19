@@ -9,6 +9,7 @@ import './popover.less';
 interface PopoverProps extends HtmlHTMLAttributes<HTMLDivElement>, PositionPopperProps {
     target?: any;
     inner?: any;
+    innerClassName?: string;
 
     arrow?: boolean;
     isShow?: boolean;
@@ -26,6 +27,7 @@ export class Popover extends Component<PopoverProps, PopoverState> {
     public static defaultProps: Partial<PopoverProps> = {
         trigger: 'hover',
         triggerPopover: true,
+        innerClassName: 'skin-dark-ghost',
         delay: 200
     };
 
@@ -41,7 +43,6 @@ export class Popover extends Component<PopoverProps, PopoverState> {
     };
 
     private events: any;
-    private positionInstance: any;
     constructor (p) {
         super(p);
         bindAll(this, 'fireHide', 'fireShow');
@@ -79,7 +80,7 @@ export class Popover extends Component<PopoverProps, PopoverState> {
     }
 
     render () {
-        let { target, inner, children, trigger, triggerPopover, placement, arrow } = this.props;
+        let { target, inner, children, trigger, arrow, placement, ...props } = this.props;
         let { isShow } = this.state;
 
         let [ pTarget = target, pInner = inner ] = Children.toArray(children);
@@ -102,14 +103,15 @@ export class Popover extends Component<PopoverProps, PopoverState> {
                             <div
                                 ref={getPopperRef}
                                 className={innerCls}
-                                {...triggerPopover && events}
+                                {...props.triggerPopover && events}
                             >
                                 <Togglable
                                     isVisible={isShow}
-                                    className='popover-inner'
+                                    className={cls('popover-inner', props.innerClassName)}
                                     animation='fadeIn'
                                     delay={300}
                                 >
+                                    {arrow && <div className="popover-inner-arrow"></div>}
                                     {pInner}
                                 </Togglable>
                             </div>

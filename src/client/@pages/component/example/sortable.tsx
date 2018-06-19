@@ -16,7 +16,7 @@ export default class SortableExample extends Component<any, any> {
         return (
             <section>
                 <div className='sortable-wrap'>
-                    <Sortable className='sortable'>
+                    <Sortable className='sortable' onDone={console.log.bind(null,'exchangeIndex')}>
                         {this.state.list.map((content, index) => (
                             <li draggable key={content.id + index}>
                                 2 -- {content.id} -- {content.text}
@@ -24,7 +24,7 @@ export default class SortableExample extends Component<any, any> {
                         ))}
                     </Sortable>
 
-                    <Sortable className='sortable2'>
+                    <Sortable className='sortable2' onDone={console.log.bind(null,'exchangeIndex')}>
                         {this.state.list.map((content, index) => (
                             <li draggable key={content.id + index}>
                                 2 -- {content.id} -- {content.text}

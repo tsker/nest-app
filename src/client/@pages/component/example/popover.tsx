@@ -61,7 +61,7 @@ export default class PopoverExample extends Component<any, any> {
                     <button onClick={() => this.setState({ show: false })}>hide</button>
                     <Popover arrow isShow={this.state.show} placement={this.state.p1}>
                         {this.renderSelect('p1')}
-                        <div style={{ padding: 10 }}>p1p1p1p1p1p</div>
+                        <div style={{ padding: 10 }}>XXXXXXXXX</div>
                     </Popover>
 
                     <Popover arrow placement={this.state.p2} trigger='hover'>

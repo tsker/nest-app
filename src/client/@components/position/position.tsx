@@ -2,12 +2,12 @@ import { createElement, PureComponent, HtmlHTMLAttributes } from 'react';
 import { findDOMNode } from 'react-dom';
 import * as cls from 'classnames';
 
-import { Provider, IContent } from './context';
+import { Provider, IContext } from './context';
 import { PositionReference } from './reference';
 import { PositionPopperWrapper } from './popper';
 
 interface PositionState {
-    context: IContent;
+    context: IContext;
 }
 
 export class Position extends PureComponent<{}, PositionState> {
