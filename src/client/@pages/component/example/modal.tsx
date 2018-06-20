@@ -37,7 +37,8 @@ export default class TogglableExample extends Component<any, any> {
                     alert
                 </button>
                 <button
-                    onClick={() => console.log(Modal.prompt('prompt'))}
+                    onClick={() => Modal.prompt('prompt').then(console.log)
+                }
                 >
                     prompt
                 </button>

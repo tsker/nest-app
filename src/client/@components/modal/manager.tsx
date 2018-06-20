@@ -1,4 +1,4 @@
-import { createElement, Component } from 'react';
+import { createElement } from 'react';
 import { Modal, ModalProps } from './modal';
 import { CreatePortal, noop } from '../util';
 
@@ -24,33 +24,31 @@ class ModalManager {
 const manager = new ModalManager();
 
 export function open ({ onOk = noop, onClose = noop, ...props }: ModalProps) {
-    let key = Math.random();
+    let id = Math.random();
+
+    function ok () {
+        onOk();
+        manager.removeModal(id);
+    }
+    function close () {
+        onClose();
+        manager.removeModal(id);
+    }
+
     let config = {
         ...props,
         isVisible: true,
         isKeepDom: false,
-        onOk () {
-            onOk();
-            manager.removeModal(key);
-            return key;
-        },
-        onClose () {
-            onClose();
-            manager.removeModal(key);
-        }
+        onOk: ok,
+        onClose: close
     };
 
-    manager.addModal(key, config);
+    manager.addModal(id, config);
 
-    return {
-        id: key,
-        close () {
-            manager.removeModal(key);
-        }
-    };
+    return { id, close, ok };
 }
 
-export function confirm (title: string | object, children?, onOk?, onClose?) {
+export function confirm (title: string | ModalProps, children?, onOk?, onClose?) {
     let config = typeof title === 'string' ? { title, children, onOk, onClose } : title;
 
     return open({
@@ -60,7 +58,7 @@ export function confirm (title: string | object, children?, onOk?, onClose?) {
     });
 }
 
-export function alert (title: string | object, children?, onOk?) {
+export function alert (title: string | ModalProps, children?, onOk?) {
     return confirm({
         title,
         children,
@@ -69,19 +67,48 @@ export function alert (title: string | object, children?, onOk?) {
     });
 }
 
-export function prompt (title: string | object, onOk = noop, onClose?) {
+interface PromptPromise<T> extends Promise<T> {
+    id: any;
+    ok: any;
+    close: any;
+}
+
+export function prompt (
+    title: string | ModalProps,
+    onOk = noop,
+    onClose = noop
+): PromptPromise<string> {
     let value = '';
-    let modalPointer = confirm({
+    let __resolve, __reject;
+
+    let modal = confirm({
         title,
-        children: <input onChange={(e) => (value = e.target.value)} />,
-        onOk () {
-            onOk(value);
+        onClose: () => {
+            onClose();
+            __reject('prompt cancel');
         },
-        onClose
+        onOk: () => {
+            onOk(value);
+            __resolve(value);
+        },
+        children: (
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    modal.ok();
+                }}
+            >
+                <input type='text' onChange={(e) => (value = e.target.value)} />
+            </form>
+        )
     });
 
-    return {
-        ...modalPointer,
-        getValue: () => value
-    };
+    let promise: any = new Promise(function (resolve, reject) {
+        __resolve = resolve;
+        __reject = reject;
+    });
+
+    Object.assign(promise, modal);
+
+    return promise;
 }
