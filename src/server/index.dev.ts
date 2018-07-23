@@ -5,9 +5,9 @@ import * as hotMiddleware from 'webpack-hot-middleware';
 import * as webpack from 'webpack';
 import webpackConfig from '../../scripts/webpack.client';
 
-const compile = webpack(webpackConfig);
+async function dev (app, nest) {
+    const compile = webpack(webpackConfig);
 
-async function dev(app, nest) {
     app.use(devMiddleware(compile));
     app.use(hotMiddleware(compile));
 }

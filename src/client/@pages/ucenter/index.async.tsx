@@ -1,6 +1,7 @@
 import { createElement, Component } from 'react';
 import { connect } from 'react-redux';
-import pick from 'lodash-es/pick';
+// import pick from 'lodash-es/pick'
+const pick = require('lodash/pick');
 
 import { actions } from '@store/modules/auth';
 import { alway } from '@util';
