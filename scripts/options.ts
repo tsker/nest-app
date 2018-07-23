@@ -36,24 +36,31 @@ export const loaders = {
 let packageDep = {
     // moment: { map: 'window.moment', url: 'https://unpkg.com/moment@2.20.1/min/moment.min.js' },
     // momentlocale: { map: 'window.momentlocale', url: 'https://unpkg.com/moment@2.20.1/locale/zh-cn.js' },
-    react: { map: 'window.React', url: 'https://unpkg.com/react@16.1.1/umd/react.production.min.js' },
-    redux: { map: 'window.Redux', url: 'https://unpkg.com/redux@3.7.2/dist/redux.min.js' },
-    'react-dom': { map: 'window.ReactDOM', url: 'https://unpkg.com/react-dom@16.1.1/umd/react-dom.production.min.js' },
-    'react-redux': { map: 'window.ReactRedux', url: 'https://unpkg.com/react-redux@5.0.6/dist/react-redux.min.js' },
+    react: { map: 'window.React', url: 'https://unpkg.com/react@${version}/umd/react.production.min.js' },
+    redux: { map: 'window.Redux', url: 'https://unpkg.com/redux@${version}/dist/redux.min.js' },
+    'react-dom': { map: 'window.ReactDOM', url: 'https://unpkg.com/react-dom@${version}/umd/react-dom.production.min.js' },
+    'react-redux': { map: 'window.ReactRedux', url: 'https://unpkg.com/react-redux@${version}/dist/react-redux.min.js' },
     'react-router-dom': {
         map: 'window.ReactRouterDOM',
-        url: 'https://unpkg.com/react-router-dom@4.2.2/umd/react-router-dom.min.js'
+        url: 'https://unpkg.com/react-router-dom@${version}/umd/react-router-dom.min.js'
     }
 };
 
+
+const packageJson = require('../package.json')
 export const injectPackageToWidow = (function() {
     let inject = { externals: {}, templateJss: '' };
     if (development) return inject;
 
     return Object.keys(packageDep).reduce((packages, key) => {
         let { map, url } = packageDep[key];
+        let version = packageJson.dependencies[key].replace(/\^/, '')
+        url = url.replace('${version}', version)
+        console.log(`${key}:: '${version}'`)
+
         packages.externals[key] = map;
         packages.templateJss += `<script src='${url}'></script>`;
         return packages;
     }, inject);
 })();
+

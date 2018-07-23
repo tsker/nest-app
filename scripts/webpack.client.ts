@@ -9,6 +9,7 @@ const Uglify = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const Manifest = require('webpack-manifest-plugin');
 
 import {
 	development,
@@ -114,6 +115,7 @@ const config: any = {
 		development ? new webpack.HotModuleReplacementPlugin() : null,
 		development ? new webpack.NoEmitOnErrorsPlugin() : null,
 
+		development ? null : new Manifest(),
 		development ? null : new webpack.HashedModuleIdsPlugin(),
 		development ? null : new webpack.optimize.OccurrenceOrderPlugin(false),
 		// development ? null : new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }), // webpack 4 delete
